@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct s_list
 {
@@ -44,5 +45,11 @@ int		ft_isdigit(int c);
 char	*ft_substr(char *s, int start, int	len);
 char	*ft_strdup(char *s1);
 int		ft_isspace(int c);
+int		ft_issep(int c);
+void	ft_lstfree(t_list **comm);
+int		ft_isquotes(int c);
+int		ft_isdouble(char *read, int *i);
+int		ft_issingle(char *read, int *i);
+int		even_odd(char *read, bool what);
 
 #endif
