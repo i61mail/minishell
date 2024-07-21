@@ -8,26 +8,33 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+typedef struct s_vars
+{
+	char *read;
+	int	catsh;
+}	t_vars;
+
 typedef struct s_list
 {
 	void			*content;
+	int				type;
 	struct s_list	*next;
 }   t_list;
 
 typedef enum s_token
 {
-	TK_COMMAND,
-	TK_SPACE,
-	TK_REDIR_IN,
-	TK_REDIR_OUT,
-	TK_REDIR_APPEND,
-	TK_REDIR_FILE,
-	TK_PIPE
+	COMM,
+	SPACE,
+	RED_IN,
+	RED_OUT,
+	RED_APPEND,
+	HEREDOC,
+	PIP
 }	t_token;
 
 /*              utils  linked list       */
 
-t_list	*ft_lstnew(void *content);
+t_list	*ft_lstnew(void *content, int type);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
@@ -51,5 +58,6 @@ int		ft_isquotes(int c);
 int		ft_isdouble(char *read, int *i);
 int		ft_issingle(char *read, int *i);
 int		even_odd(char *read, bool what);
+int		ft_redircmp(char *s1, char *s2, int *i);
 
 #endif
