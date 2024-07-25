@@ -1,22 +1,5 @@
 #include "../minishell.h"
 
-void	ft_check_type(char *read, int *i, int *type)
-{
-	int	c;
-
-	c = *i - 1;
-	if (read[c] == '|')
-		*type = PIP;
-	else if (ft_redircmp(read, ">>", i) == 1)
-		*type = RED_APPEND;
-	else if (ft_redircmp(read, "<<", i) == 1)
-		*type = HEREDOC;
-	else if (read[c] == '<')
-		*type = RED_IN;
-	else if (read[c] == '>')
-		*type = RED_OUT;
-}
-
 int	ft_tocken(t_vars *vars, int i, t_list **comm, int type)
 {
 	char *tocken;
@@ -27,7 +10,7 @@ int	ft_tocken(t_vars *vars, int i, t_list **comm, int type)
 		return (-1);
 	current = ft_lstnew(tocken, type);
 	ft_lstadd_back(comm, current);
-	printf("%s    &&     %d\n", current->content, current->type);
+	// printf("%s    &&     %d\n", current->content, current->type);
 	if (!*comm)
 	{
 		free(tocken);
@@ -63,34 +46,99 @@ int ft_arespace(char *read, int *i)
 	return (0);
 }
 
+// int ft_aresep(t_vars *vars, int *i, t_list **comm)
+// {
+// 	int	type;
+// 	int	check;
+
+// 	check = 0;
+// 	vars->catsh = *i;
+// 	if ((vars->read[*i] == '|' && *i == 0) || (vars->read[*i] == '|' && ft_issep(vars->read[*i + 1]))
+// 	|| (ft_issep(vars->read[*i]) && ((vars->read[*i + 1] == '\0' && vars->read[*i] != '|'))))
+// 	{
+// 		while (ft_isspace(vars->read[*i + 1]))
+// 			(*i)++;
+// 		if (!ft_isalpha(vars->read[*i + 1]))
+// 		{
+// 			printf("ismail: 1syntax error near unexpected token `|'\n");
+// 			return (-1);
+// 		}
+// 	}
+// 	//ft_issep(vars->read[*i]) && ft_issep(vars->read[*i + 2])
+// 	while (vars->read[*i])
+// 	{
+// 		if (ft_issep(vars->read[*i]))
+// 		{
+// 			check += 1;
+// 			(*i)++;
+// 		}
+// 		if (check >= 2 && ft_issep(vars->read[*i]))
+// 		{
+// 			printf("ismail: 2syntax error near unexpected token `|'\n");
+// 			return (-1);
+// 		}
+// 		else
+// 			break ;
+// 	}
+// 		printf("--%d\n", *i);
+// 	ft_check_type(vars->read, i, &type);
+// 		printf("++%d\n", *i);
+// 	if (type == 5 || type == 4)
+// 	{
+// 		printf("**%d\n", *i);
+// 		while (ft_isspace(vars->read[*i + 1]))
+// 			(*i)++;
+// 		if (ft_issep(vars->read[*i + 1]))
+// 		{
+// 			printf("ismail: 3syntax error near unexpected token `|'\n");
+// 			return (-1);
+// 		}
+// 		else if (!ft_issep(vars->read[*i + 1]) && )
+// 	}
+// 	printf("//%d\n", *i);
+// 	// if (vars->read[*i] == '\0')
+// 	// {
+// 	// 	printf("ismail : 3syntax error near unexpected token `|'\n");
+// 	// 	ft_lstfree(comm);
+// 	// 	return (comm = NULL, -1);
+// 	// }
+// 	if (ft_tocken(vars, *i, comm, type) == -1)
+// 		return (-1);
+// 	return (0);
+// }
 
 
 int ft_aresep(t_vars *vars, int *i, t_list **comm)
 {
 	int	type;
 
-	vars->catsh = *i;
-	if ((vars->read[*i] == '|' && *i == 0) || (vars->read[*i] == '|' && ft_issep(vars->read[*i + 1])) 
-		|| (ft_issep(vars->read[*i]) && ft_issep(vars->read[*i + 2])))
-	{
-		printf("ismail: syntax error near unexpected token `|'\n");
-		return (-1);
-	}
-	while (vars->read[*i])
-	{
-		if (ft_issep(vars->read[*i]))
-			(*i)++;
-		else
-			break ;
-	}
-	if (vars->read[*i] == '\0')
-	{
-		printf("ismail : syntax error near unexpected token `|'\n");
-		return (-1);
-	}
+	type = 0;
+	(void)comm;
 	ft_check_type(vars->read, i, &type);
-	if (ft_tocken(vars, *i, comm, type) == -1)
-		return (-1);
+	// printf("type == %d\n", type);
+	if (type == 6) //pipe
+	{
+		vars->catsh = *i;
+		if (ft_pipe(vars, i) == -1)
+			return (-1);
+	}
+	else if (type == 4) //append >>
+	{
+		printf("----%d\n", *i);
+		vars->catsh = *i;
+		if (ft_append(vars, i, true) == -1)
+			return (-1);
+	}
+	// else if (type == 4) // heredoc <<
+	// {
+
+	// }
+	// else if (type == 2 || type == 1) //redirection '<' && '>'
+	// {
+
+	// }
+	printf("++++%d\n", *i);
+	ft_tocken(vars, *i, comm, type);
 	return (0);
 }
 
@@ -139,12 +187,12 @@ int    ft_pars_comm(t_vars *vars, t_list **comm)
 		// 	return (-1);
 		// }
 	}
-	// while (*comm)
-	// {
-	// 	printf("%s      &&    %d\n", (*comm)->content, (*comm)->type);
-	// 	// printf("%d\n", (*comm)->type);
-	// 	*comm = (*comm)->next;
-	// }
+	while (*comm)
+	{
+		printf("%s      &&    %d\n", (*comm)->content, (*comm)->type);
+		// printf("%d\n", (*comm)->type);
+		*comm = (*comm)->next;
+	}
 	return (0);
 }
 
