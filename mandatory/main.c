@@ -1,90 +1,19 @@
 #include "../minishell.h"
 
-int	ft_tocken(t_vars *vars, int i, t_list **comm, int type)
+int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 {
-	char *tocken;
+	char *token;
 	t_list *current;
 
-	tocken = ft_substr(vars->read, vars->catsh, i - vars->catsh);
-	  if (!tocken)
+	token = ft_substr(vars->read, vars->catsh, i - vars->catsh);
+	  if (!token)
 		return (-1);
-	current = ft_lstnew(tocken, type);
+	current = ft_lstnew(token, type);
+	if (!current)
+		return (free(token), free(current), -1);
 	ft_lstadd_back(comm, current);
-	// printf("%s    &&     %d\n", current->content, current->type);
 	if (!*comm)
-	{
-		free(tocken);
-		return (-1);
-	}
-	return (0);
-}
-
-int    ft_arealpha(t_vars *vars, int *i, t_list **comm)
-{
-	vars->catsh = *i;
-	while (vars->read[*i])
-	{
-		if (!ft_issep(vars->read[*i]) && !ft_isspace(vars->read[*i]) && !ft_isquotes(vars->read[*i]))
-			(*i)++;
-		else
-			break ;
-	}
-	if (ft_tocken(vars, *i, comm, COMM) == -1)
-		return (-1);
-	return (0);
-}
-
-int ft_arespace(char *read, int *i)
-{
-	while (read[*i])
-	{
-		if (ft_isspace(read[*i]))
-			(*i)++;
-		else
-			break ;
-	}
-	return (0);
-}
-
-int ft_aresep(t_vars *vars, int *i, t_list **comm)
-{
-	int	type;
-
-	type = 0;
-	if (ft_check_type(vars->read, i, &type) == -1)
-	{
-		ft_error();
-		return (-1);
-	}
-	if (type == 6) //pipe
-	{
-		vars->catsh = *i;
-		if (ft_pipe(vars, i) == -1)
-			return (-1);
-	}
-	else if (type == 4) //append >>
-	{
-		vars->catsh = *i;
-		if (ft_append(vars, i) == -1)
-			return (-1);
-	}
-	else if (type == 5) // heredoc <<
-	{
-		vars->catsh = *i;
-		if (ft_heredoc(vars, i) == -1)
-			return (-1);
-	}
-	// else if (type == 2 || type == 1) //redirection '<' && '>'
-	// {
-
-	// }
-	else
-	{
-		ft_error();
-		return (-1);
-	}
-	if (ft_tocken(vars, *i, comm, type) == -1)
-		return (-1);
+		return (free(token), free(current), -1);
 	return (0);
 }
 

@@ -1,8 +1,9 @@
 #include "../minishell.h"
 
-void	ft_error(void)
+void	ft_error(t_list **comm)
 {
-	printf("bash: syntax error near unexpected token `|'\n");
+	printf("bash: syntax error\n");
+	ft_lstfree(comm);
 	return ;
 }
 
@@ -26,67 +27,30 @@ int	ft_check_type(char *read, int *i, int *type)
 	return (0);
 }
 
-int	skip_space(char *str, int sep)
+int	skip_space(char *str, char c, int red)
 {
 	int	i;
 
+	(void)c;
 	i = 0;
-	while (str[i] == ' ')
-	{
+	while (ft_isspace(str[i]))
 		i++;
-		if (str[i] == sep)
+	if (str[i + red] == c)
 			return (-1);
-	}
 	return (0);
 }
 
-int	ft_pipe(t_vars *vars, int *i)
+int	after_skip(char *str, int i)
 {
-	if (*i == 0 || vars->read[*i + 1] == '|')
-	{
-		ft_error();
-		return (-1);
-	}
-	else if (skip_space(vars->read, PIP) == -1)
-	{
-		ft_error();
-		return (-1);
-	}
-	else
-		(*i)++;
-	return (0);
-}
+	int check;
 
-int	ft_append(t_vars *vars, int *i)
-{
-	if (ft_strlen(vars->read) == 2 || (vars->read[*i + 2] && vars->read[*i + 2] == '>'))
+	check = 0;
+	while (ft_isspace(str[i]))
 	{
-		ft_error();
-		return (-1);
+		check = 1;
+		i++;
 	}
-	else if (skip_space(vars->read, RED_APPEND) == -1)
-	{
-		ft_error();
+	if (str[i] == '\0' && check == 1)
 		return (-1);
-	}
-	else
-		*i += 2;
-	return (0);
-}
-
-int ft_heredoc(t_vars *vars, int *i)
-{
-	if (ft_strlen(vars->read) == 2 || (vars->read[*i + 2] && vars->read[*i + 2] == '<'))
-	{
-		ft_error();
-		return (-1);
-	}
-	else if (skip_space(vars->read, HEREDOC) == -1)
-	{
-		ft_error();
-		return (-1);
-	}
-	else
-		*i += 2;
 	return (0);
 }
