@@ -6,10 +6,10 @@ void	ft_error(void)
 	return ;
 }
 
-void	ft_check_type(char *read, int *i, int *type)
+int	ft_check_type(char *read, int *i, int *type)
 {
 	int	c;
-
+	
 	c = *i;
 	if (read[c] == '|')
 		*type = PIP;
@@ -21,66 +21,72 @@ void	ft_check_type(char *read, int *i, int *type)
 		*type = RED_IN;
 	else if (read[c] == '>')
 		*type = RED_OUT;
+	else
+		return (-1);
+	return (0);
+}
+
+int	skip_space(char *str, int sep)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == ' ')
+	{
+		i++;
+		if (str[i] == sep)
+			return (-1);
+	}
+	return (0);
 }
 
 int	ft_pipe(t_vars *vars, int *i)
 {
-	int	c;
-	int	stop;
-
-	// vars->catsh = *i;
-	stop = 0;
-	c = *i;
-	if (*i == 0 || vars->read[*i + 1] == '|' || vars->read[*i + 1] == '\0')
+	if (*i == 0 || vars->read[*i + 1] == '|')
 	{
 		ft_error();
 		return (-1);
 	}
-	while (vars->read[*i + 1])
-	// while (ft_isspace(vars->read[*i + 1]))
-	// 	c++;
-	// if (ft_issep(vars->read[c + 1]))
-	// {
-	// 	c += 2;
-	// 	if (ft_append(vars, &c, false) == -1)
-	// 		return (-1);
-	// 	// while (ft_issep(vars->read[c]))
-	// 	// {
-	// 	// 	stop++;
-	// 	// 	c++;
-	// 	// }
-	// 	// if (stop > 1 || vars->read[c] == '\0')
-	// 	// {
-	// 	// 	ft_error();
-	// 	// 	return(-1);
-	// 	// }
-	// }
-	// else
-	// 	(*i)++;
+	else if (skip_space(vars->read, PIP) == -1)
+	{
+		ft_error();
+		return (-1);
+	}
+	else
+		(*i)++;
 	return (0);
 }
 
-int	ft_append(t_vars *vars, int *i, bool what)
+int	ft_append(t_vars *vars, int *i)
 {
-	// int	c;
-
-	(void)what;
-	// c = *i;
-	printf("%d\n", *i);
-	if (ft_strlen(vars->read) == 2 || ft_issep(vars->read[*i + 2]) || vars->read[*i + 1] == '\0')
+	if (ft_strlen(vars->read) == 2 || (vars->read[*i + 2] && vars->read[*i + 2] == '>'))
 	{
 		ft_error();
 		return (-1);
 	}
-	// if (vars->read[c + 2] != '\0')
-		// c += 2; 
-	// while (ft_isspace(vars->read[c]))
-	// 	c++;
-	while (!ft_isspace(vars->read[*i + 1]) && !ft_isalpha(vars->read[*i + 1]))
-		(*i)++;
-	// if (vars->read[c] == '|')
-	// 	ft_pipe(vars, &c);
-	// else
-	// 	*i = c;
+	else if (skip_space(vars->read, RED_APPEND) == -1)
+	{
+		ft_error();
+		return (-1);
+	}
+	else
+		*i += 2;
+	return (0);
+}
+
+int ft_heredoc(t_vars *vars, int *i)
+{
+	if (ft_strlen(vars->read) == 2 || (vars->read[*i + 2] && vars->read[*i + 2] == '<'))
+	{
+		ft_error();
+		return (-1);
+	}
+	else if (skip_space(vars->read, HEREDOC) == -1)
+	{
+		ft_error();
+		return (-1);
+	}
+	else
+		*i += 2;
 	return (0);
 }

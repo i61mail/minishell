@@ -6,13 +6,7 @@ int	ft_redircmp(char *s1, char *s2, int *i)
 	int k;
 
 	k = 0;
-	// if (*i == 0)
-		c = *i;
-	// else if (*i == 1)
-	// 	c = *i - 1;
-	// else if (*i > 1)
-	// 	c = *i - 2;
-	
+	c = *i;
 	while (s2[k])
 	{
 		if (s1[c] == s2[k])

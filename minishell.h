@@ -24,7 +24,7 @@ typedef struct s_list
 typedef enum s_token
 {
 	COMM,
-	SPACE,
+	SPAC,
 	RED_IN,
 	RED_OUT,
 	RED_APPEND,
@@ -57,8 +57,9 @@ int		ft_issingle(char *read, int *i);
 int		even_odd(char *read, bool what);
 int		ft_redircmp(char *s1, char *s2, int *i);
 void	ft_error(void);
-void	ft_check_type(char *read, int *i, int *type);
+int		ft_check_type(char *read, int *i, int *type);
 int		ft_pipe(t_vars *vars, int *i);
-int		ft_append(t_vars *vars, int *i, bool what);
+int		ft_append(t_vars *vars, int *i);
+int		ft_heredoc(t_vars *vars, int *i);
 
 #endif
