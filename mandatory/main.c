@@ -20,47 +20,43 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 int    ft_pars_comm(t_vars *vars, t_list **comm)
 {
 	int i;
-	// int check;
+	int check;
+	int	quote;
 
+	quote = 0;
 	i = 0;
 	while (vars->read[i] != '\0')
 	{
 		if (!ft_issep(vars->read[i]) && !ft_isspace(vars->read[i]) && !ft_isquotes(vars->read[i]))
-			ft_arealpha(vars, &i, comm);
+			quote = ft_arealpha(vars, &i, comm);
 		else if (ft_isspace(vars->read[i]))
 			ft_arespace(vars->read, &i);
 		else if (ft_issep(vars->read[i]))
 		{
-			if (ft_aresep(vars, &i, comm) == -1)
+			quote = ft_aresep(vars, &i, comm);
+			if (quote == -1)
 				return (-1);
 		}
-		// else if (ft_isquotes(read[i]))
-		// {
-		// 	// printf("is quotes\n");
-		// 	if (read[i] == 34)
-		// 	{
-		// 		check = even_odd(read, true);
-		// 		if (check == 0)
-		// 		{
-		// 			printf("error\n");
-		// 			return (-1);
-		// 		}
-		// 		ft_isdouble(read, &i);
-		// 		check = 0;
-		// 	}
-		// 	check = even_odd(read, false);
-		// 	if (check == 0)
-		// 	{
-		// 		printf("error\n");
-		// 		return (-1);
-		// 	}
-		// 	ft_issingle(read, &i);
-		// }
-		// else
-		// {
-		// 	printf("error\n");
-		// 	return (-1);
-		// }
+		else if (ft_isquotes(vars->read[i]))
+		{
+				check = even_odd(vars->read);
+				if (check == 0)
+				{
+					ft_error(comm);
+					return (-1);
+				}
+				if (quote != 2)
+				{
+					vars->catsh = i + 1;
+					ft_arequotes(vars, &i, comm, QUOT);
+				}
+				else
+				{
+					i = vars->catsh;
+					printf("%d\n", i);
+					ft_arequotes(vars, &i, comm, QUOT);
+				}
+		}
 	}
 	while (*comm)
 	{

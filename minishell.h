@@ -12,6 +12,7 @@ typedef struct s_vars
 {
 	char *read;
 	int	catsh;
+	char *curr;
 }	t_vars;
 
 typedef struct s_list
@@ -28,7 +29,8 @@ typedef enum s_token
 	RED_OUT,
 	RED_APPEND,
 	HEREDOC,
-	PIP
+	PIP,
+	QUOT
 }	t_token;
 
 /*              utils  linked list       */
@@ -53,7 +55,7 @@ void	ft_lstfree(t_list **comm);
 int		ft_isquotes(int c);
 int		ft_isdouble(char *read, int *i);
 int		ft_issingle(char *read, int *i);
-int		even_odd(char *read, bool what);
+int		even_odd(char *read);
 int		ft_redircmp(char *s1, char *s2, int *i);
 void	ft_error(t_list **comm);
 int		ft_check_type(char *read, int *i, int *type);
@@ -67,5 +69,9 @@ int		ft_arealpha(t_vars *vars, int *i, t_list **comm);
 int		ft_token(t_vars *vars, int i, t_list **comm, int type);
 int		skip_space(char *str, char c, int red);
 int		after_skip(char *str, int i);
+int		ft_arequotes(t_vars *vars, int *i, t_list **comm, int type);
+char	*ft_strnjoin(char *s1, char *s2, size_t n);
+char	*ft_strjoin(char *s1, char *s2);
+void	*ft_memset(void *b, int c, size_t len);
 
 #endif

@@ -31,7 +31,6 @@ int	skip_space(char *str, char c, int red)
 {
 	int	i;
 
-	(void)c;
 	i = 0;
 	while (ft_isspace(str[i]))
 		i++;

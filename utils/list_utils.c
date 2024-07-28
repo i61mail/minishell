@@ -73,3 +73,77 @@ int	ft_lstsize(t_list *lst)
 	}
 	return (i);
 }
+
+
+char	*ft_strnjoin(char *s1, char *s2, size_t n)
+{
+	char	*s;
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	if (!s1)
+		return (ft_strdup(s2));
+	s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!s)
+		return (free(s1), NULL);
+	while (s1[i])
+	{
+		s[i] = s1[i];
+		i++;
+	}
+	s[i] = '\0';
+	len = ft_strlen(s);
+	i = 0;
+	while (s2[i] && i < n)
+	{
+		s[len++] = s2[i];
+		i++;
+	}
+	s[len] = '\0';
+	return (free(s1), s);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*str;
+	size_t	len;
+	int		i;
+
+	i = 0;
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (free(s1), NULL);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	str[i] = '\0';
+	i = 0;
+	len = ft_strlen(str);
+	while (s2[i])
+		str[len++] = s2[i++];
+	str[len] = '\0';
+	return (free(s1), str);
+}
+
+void	*ft_memset(void *b, int c, size_t len)
+{
+	char			*s;
+	// unsigned char	a;
+
+	s = (char *)b;
+	// a = (unsigned char)c;
+	while (len > 0)
+	{
+		*s = (unsigned char)c;
+		s++;
+		len--;
+	}
+	return (b);
+}
