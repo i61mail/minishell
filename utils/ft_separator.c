@@ -15,8 +15,8 @@ int	ft_pipe(t_vars *vars, int *i, t_list **comm)
 	else
 	{
 		(*i)++;
-		if (ft_isquotes(vars->read[*i]))
-			return (2);
+		// if (ft_isquotes(vars->read[*i]))
+		// 	return (2);
 		if (after_skip(vars->read, *i) == -1)
 		{
 			ft_error(comm);
@@ -43,6 +43,8 @@ int	ft_append(t_vars *vars, int *i, t_list **comm)
 	else
 	{
 		*i += 2;
+		// if (ft_isquotes(vars->read[*i]))
+		// 	return (2);
 		if (after_skip(vars->read, *i) == -1)
 		{
 			ft_error(comm);
@@ -68,6 +70,8 @@ int ft_heredoc(t_vars *vars, int *i, t_list **comm)
 	else
 	{
 		*i += 2;
+		// if (ft_isquotes(vars->read[*i]))
+		// 	return (2);
 		if (after_skip(vars->read, *i) == -1)
 		{
 			ft_error(comm);
@@ -92,6 +96,8 @@ int	ft_redirec(t_vars *vars, int *i, char c, t_list **comm)
 	else
 	{
 		(*i)++;
+		// if (ft_isquotes(vars->read[*i]))
+		// 	return (2);
 		if (after_skip(vars->read, *i) == -1)
 		{
 			ft_error(comm);

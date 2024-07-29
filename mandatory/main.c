@@ -47,13 +47,12 @@ int    ft_pars_comm(t_vars *vars, t_list **comm)
 				}
 				if (quote != 2)
 				{
-					vars->catsh = i + 1;
+					vars->catsh = i;
 					ft_arequotes(vars, &i, comm, QUOT);
 				}
 				else
 				{
 					i = vars->catsh;
-					printf("%d\n", i);
 					ft_arequotes(vars, &i, comm, QUOT);
 				}
 		}

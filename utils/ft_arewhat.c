@@ -31,10 +31,16 @@ int ft_arespace(char *read, int *i)
 
 static int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 {
+	int	check;
+
+	check = 0;
 	if (type == 4) // heredoc <<
 	{
 		vars->catsh = *i;
-		if (ft_heredoc(vars, i, comm) == -1)
+		check = ft_heredoc(vars, i, comm);
+		if (check == 2)
+			return (2);
+		else if (check == -1)
 			return (-1);
 	}
 	else if (type == 1 || type == 2) //redirection '<' && '>'
@@ -42,12 +48,18 @@ static int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 		vars->catsh = *i;
 		if (type == 1)
 		{
-			if (ft_redirec(vars, i, '<', comm) == -1)
+			check = ft_redirec(vars, i, '<', comm);
+			if (check == 2)
+				return (2);
+			else if (check == -1)
 				return (-1);
 		}
 		else
 		{
-			if (ft_redirec(vars, i, '>', comm) == -1)
+			check = ft_redirec(vars, i, '>', comm);
+			if (check == 2)
+				return (2);
+			else if (check == -1)
 				return (-1);
 		}
 	}
@@ -77,7 +89,10 @@ int ft_aresep(t_vars *vars, int *i, t_list **comm)
 	else if (type == 3) //append >>
 	{
 		vars->catsh = *i;
-		if (ft_append(vars, i, comm) == -1)
+		check = ft_append(vars, i, comm);
+		if (check == 2)
+			return (2);
+		else if (check == -1)
 			return (-1);
 	}
 	if (ft_aresep2(vars, i, type, comm) == -1)
@@ -89,29 +104,72 @@ int ft_aresep(t_vars *vars, int *i, t_list **comm)
 
 int	ft_arequotes(t_vars *vars, int *i, t_list **comm, int type)
 {
+	// t_vars	temp;
+	char	*str_tmp;
+	(void)comm;
+	(void)type;
+	char temp[2];
 	int	check;
-	
+
 	check = 0;
-	while (vars->read[*i])
-	{
-		(*i)++;
-		if (ft_isquotes(vars->read[*i]) || vars->read[*i] == '\0' || ft_isspace(vars->read[*i]))
+	temp[1] = '\0';
+	str_tmp = malloc(sizeof(char) * (ft_strlen(vars->read) - *i));
+	if (!str_tmp)
+		return (-1);
+	str_tmp[0] = '\0';
+	// str_tmp = ft_substr(vars->read, *i, ft_strlen(vars->read) - *i);
+	// printf("%s\n", str_tmp);
+	// int	check;
+	
+	// check = 0;
+	// while (vars->read[*i])
+	// {
+	// 	(*i)++;
+	// 	if (ft_isquotes(vars->read[*i]) || vars->read[*i] == '\0' || ft_isspace(vars->read[*i]))
+	// 	{
+	// 		if (ft_isquotes(vars->read[*i]))
+	// 			check = 1;
+	// 		if (vars->read[*i] == '\0' || (ft_isspace(vars->read[*i]) && check == 1) || (ft_isspace(vars->read[*i + 1]) && check == 1) || vars->read[*i + 1] == '\0')
+	// 		{
+	// 			check = 0;
+	// 			if (ft_token(vars, *i, comm, type) == -1)
+	// 			{
+	// 				ft_error(comm);
+	// 				return (-1);
+	// 			}
+	// 			if (vars->read[*i] != '\0')
+	// 				(*i)++;
+	// 			break ;
+	// 		 }
+	// 	}
+	// }
+	// while (vars->read[*i])
+	// {
+		while (vars->read[*i])
 		{
-			if (ft_isquotes(vars->read[*i]))
-				check = 1;
-			if (vars->read[*i] == '\0' || (ft_isspace(vars->read[*i]) && check == 1) || (ft_isspace(vars->read[*i + 1]) && check == 1) || vars->read[*i + 1] == '\0')
-			{
-				check = 0;
-				if (ft_token(vars, *i, comm, type) == -1)
+			check = 1;
+			// printf("%d\n", vars->catsh);
+			if ((vars->read[*i] != '$' && vars->read[*i] != 34) || (vars->read[*i] != 39 && check == 0))
+				// str_tmp = ft_substr(vars->read, *i, *i + 1);
+				// str_tmp = ft_strnjoin(str_tmp, vars->read, (*i + 1) - vars->catsh);
 				{
-					ft_error(comm);
-					return (-1);
+					temp[0] = vars->read[*i];
+					str_tmp = ft_strjoin(str_tmp, temp);
+
 				}
-				if (vars->read[*i] != '\0')
+			else if (vars->read[*i] == '$')
+			{
+				(*i)++;
+				if (ft_isdigit(vars->read[*i]))
 					(*i)++;
-				break ;
-			 }
+				else if (vars->read[*i] == '$')
+				{
+					ft_strjoin(str_tmp, "PID");
+					(*i)++;
+				}
+			}
+			(*i)++;//ls"cat"
 		}
-	}
-	return (0);
+		printf("%s\n", str_tmp);
+		return (0);
 }

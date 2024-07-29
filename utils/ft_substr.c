@@ -25,3 +25,4 @@ char	*ft_substr(char *s, int start, int	len)
 	sub[i] = '\0';
 	return (sub);
 }
+

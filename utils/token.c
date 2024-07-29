@@ -32,10 +32,10 @@ int	skip_space(char *str, char c, int red)
 	int	i;
 
 	i = 0;
+	(void)red;
+	(void)c;
 	while (ft_isspace(str[i]))
 		i++;
-	if (str[i + red] == c)
-			return (-1);
 	return (0);
 }
 
@@ -49,7 +49,7 @@ int	after_skip(char *str, int i)
 		check = 1;
 		i++;
 	}
-	if (str[i] == '\0' && check == 1)
+	if ((str[i] == '\0' && check == 1) || (ft_issep(str[i]) && check == 1))
 		return (-1);
 	return (0);
 }

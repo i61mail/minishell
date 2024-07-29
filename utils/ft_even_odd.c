@@ -4,22 +4,30 @@ int	even_odd(char *read)
 {
 	int	i;
 	int	check;
+	int	sing;
 
+	sing = 0;
 	check = 0;
 	i = 0;
 	while (read[i])
 	{
-		if (read[i] == 34 || read[i] == 39)
+		if (read[i] == 34 && sing == 0)
+		{
+			if (check >= 1)
+				check = 0;
+			else
 				check += 1;
+		}
+		else if (read[i] == 39 && check == 0)
+		{
+			if (sing >= 1)
+				sing = 0;
+			else
+				sing += 1;
+		}
 		i++;
 	}
-	if (check % 2 == 0)
-	{
-		// if (read[0] == 34 && read[i - 1] != 34)
-		// 	return (0);
-		// else if (read[0] == 39 && read[i - 1] != 39)
-		// 	return (0);
+	if (check % 2 == 0 && sing % 2 == 0)
 		return (1);
-	}
 	return (0);
 }
