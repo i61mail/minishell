@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
+/*   Updated: 2024/08/02 17:11:07 by isrkik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 {
-	char *token;
-	t_list *current;
+	char	*token;
+	t_list	*current;
 
 	token = ft_substr(vars->read, vars->catsh, i - vars->catsh);
-	  if (!token)
+	if (!token)
 		return (-1);
 	current = ft_lstnew(token, type);
 	if (!current)
@@ -17,17 +29,17 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 	return (0);
 }
 
-int    ft_pars_comm(t_vars *vars, t_list **comm)
+int	ft_pars_comm(t_vars *vars, t_list **comm)
 {
-	int i;
-	// int check;
+	int	i;
 	int	quote;
 
 	quote = 0;
 	i = 0;
 	while (vars->read[i] != '\0')
 	{
-		if (!ft_issep(vars->read[i]) && !ft_isspace(vars->read[i]) && !ft_isquotes(vars->read[i]))
+		if (!ft_issep(vars->read[i])
+			&& !ft_isspace(vars->read[i]) && !ft_isquotes(vars->read[i]))
 			quote = ft_arealpha(vars, &i, comm);
 		else if (ft_isspace(vars->read[i]))
 			ft_arespace(vars->read, &i);
@@ -37,40 +49,21 @@ int    ft_pars_comm(t_vars *vars, t_list **comm)
 			if (quote == -1)
 				return (-1);
 		}
-		// else if (ft_isquotes(vars->read[i]))
-		// {
-		// 		check = even_odd(vars->read);
-		// 		if (check == 0)
-		// 		{
-		// 			ft_error(comm);
-		// 			return (-1);
-		// 		}
-		// 		if (quote != 2)
-		// 		{
-		// 			vars->catsh = i + 1;
-		// 			ft_arequotes(vars, &i, comm, QUOT);
-		// 		}
-		// 		else
-		// 		{
-		// 			i = vars->catsh;
-		// 			ft_arequotes(vars, &i, comm, QUOT);
-		// 		}//"ca">a
-		// }
 	}
 	while (*comm)
 	{
-		printf("%s      &&    %d\n", (char *)(*comm)->content, (*comm)->type);
+		printf("%s      &&    %d\n", (*comm)->content, (*comm)->type);
 		*comm = (*comm)->next;
 	}
 	return (0);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_list  *comm;
+	t_list	*comm;
 	t_vars	vars;
-	(void)av;
 
+	(void)av;
 	while (1)
 	{
 		comm = NULL;
@@ -86,4 +79,4 @@ int main(int ac, char **av)
 			break ;
 	}
 	return (0);
-}   
+}

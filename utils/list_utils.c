@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/02 16:55:38 by isrkik            #+#    #+#             */
+/*   Updated: 2024/08/02 16:56:47 by isrkik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_list	*ft_lstnew(void *content, int type)
@@ -74,7 +86,6 @@ int	ft_lstsize(t_list *lst)
 	return (i);
 }
 
-
 char	*ft_strnjoin(char *s1, char *s2, size_t n)
 {
 	char	*s;
@@ -134,11 +145,9 @@ char	*ft_strjoin(char *s1, char *s2)
 
 void	*ft_memset(void *b, int c, size_t len)
 {
-	char			*s;
-	// unsigned char	a;
+	char	*s;
 
 	s = (char *)b;
-	// a = (unsigned char)c;
 	while (len > 0)
 	{
 		*s = (unsigned char)c;

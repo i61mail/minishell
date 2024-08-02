@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/02 16:57:13 by isrkik            #+#    #+#             */
+/*   Updated: 2024/08/02 17:14:31 by isrkik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-char	*ft_substr(char *s, int start, int	len)
+char	*ft_substr(char *s, int start, int len)
 {
 	char	*sub;
 	int		i;
@@ -26,3 +38,12 @@ char	*ft_substr(char *s, int start, int	len)
 	return (sub);
 }
 
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
+/*   Updated: 2024/08/02 16:55:18 by isrkik           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	ft_error(t_list **comm)
@@ -10,7 +22,7 @@ void	ft_error(t_list **comm)
 int	ft_check_type(char *read, int *i, int *type)
 {
 	int	c;
-	
+
 	c = *i;
 	if (read[c] == '|')
 		*type = PIP;
@@ -41,7 +53,7 @@ int	skip_space(char *str, char c, int red)
 
 int	after_skip(char *str, int i)
 {
-	int check;
+	int	check;
 
 	check = 0;
 	while (ft_isspace(str[i]))
