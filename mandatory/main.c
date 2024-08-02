@@ -20,7 +20,7 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 int    ft_pars_comm(t_vars *vars, t_list **comm)
 {
 	int i;
-	int check;
+	// int check;
 	int	quote;
 
 	quote = 0;
@@ -37,25 +37,25 @@ int    ft_pars_comm(t_vars *vars, t_list **comm)
 			if (quote == -1)
 				return (-1);
 		}
-		else if (ft_isquotes(vars->read[i]))
-		{
-				check = even_odd(vars->read);
-				if (check == 0)
-				{
-					ft_error(comm);
-					return (-1);
-				}
-				if (quote != 2)
-				{
-					vars->catsh = i;
-					ft_arequotes(vars, &i, comm, QUOT);
-				}
-				else
-				{
-					i = vars->catsh;
-					ft_arequotes(vars, &i, comm, QUOT);
-				}
-		}
+		// else if (ft_isquotes(vars->read[i]))
+		// {
+		// 		check = even_odd(vars->read);
+		// 		if (check == 0)
+		// 		{
+		// 			ft_error(comm);
+		// 			return (-1);
+		// 		}
+		// 		if (quote != 2)
+		// 		{
+		// 			vars->catsh = i + 1;
+		// 			ft_arequotes(vars, &i, comm, QUOT);
+		// 		}
+		// 		else
+		// 		{
+		// 			i = vars->catsh;
+		// 			ft_arequotes(vars, &i, comm, QUOT);
+		// 		}//"ca">a
+		// }
 	}
 	while (*comm)
 	{
