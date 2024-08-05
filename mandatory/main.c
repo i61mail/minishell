@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/02 17:11:07 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/05 15:45:59 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,17 @@ int	ft_pars_comm(t_vars *vars, t_list **comm)
 		else if (ft_issep(vars->read[i]))
 		{
 			quote = ft_aresep(vars, &i, comm);
+			if (quote == -1)
+				return (-1);
+		}
+		else if (ft_isquotes(vars->read[i]) || quote == 2)
+		{
+			if (even_odd(vars->read) == 0)
+			{
+				ft_error(comm);
+				return (-1);
+			}
+			quote = ft_arequotes(vars, &i, comm);
 			if (quote == -1)
 				return (-1);
 		}

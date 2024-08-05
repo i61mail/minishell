@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/02 17:13:02 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/05 15:44:16 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_vars
 	char	*read;
 	int		catsh;
 	char	*curr;
+	int		befor_sing;
 }	t_vars;
 
 typedef struct s_list
@@ -79,8 +80,8 @@ int		ft_arespace(char *read, int *i);
 int		ft_arealpha(t_vars *vars, int *i, t_list **comm);
 int		ft_token(t_vars *vars, int i, t_list **comm, int type);
 int		skip_space(char *str, char c, int red);
-int		after_skip(char *str, int i);
-// int		ft_arequotes(t_vars *vars, int *i, t_list **comm, int type);
+int		after_skip(char *str, int i, int red);
+int		ft_arequotes(t_vars *vars, int *i, t_list **comm);
 char	*ft_strnjoin(char *s1, char *s2, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memset(void *b, int c, size_t len);

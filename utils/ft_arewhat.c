@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/02 16:54:14 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/05 13:33:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,22 @@
 
 int	ft_arealpha(t_vars *vars, int *i, t_list **comm)
 {
+	int	one;
+
+	one = 1;
 	vars->catsh = *i;
 	while (vars->read[*i])
 	{
 		if (!ft_issep(vars->read[*i]) && !ft_isspace(vars->read[*i])
 			&& !ft_isquotes(vars->read[*i]))
+		{
+			if (one == 1)
+			{
+				vars->befor_sing = *i;
+				one = 0;
+			}
 			(*i)++;
+		}
 		else
 			break ;
 	}
@@ -142,7 +152,53 @@ int	ft_aresep(t_vars *vars, int *i, t_list **comm)
 // 	return (0);
 // }
 
-// int	ft_arequotes(t_vars *vars, int *i, t_list **comm, int type)
-// {
-// 	return (0);
-// }
+int	single_quo(t_vars *vars, int *i, char **str_temp)
+{
+	char	temp[2];
+
+	temp[1] = '\0';
+	if (vars->read[(*i)++] == 39)
+	{
+		while (vars->read[*i] && vars->read[*i] != 39)
+		{
+			temp[0] = vars->read[*i];
+			*str_temp = ft_strjoin(*str_temp, temp);
+			if (!*str_temp)
+				return (-1);
+			(*i)++;
+		}
+		(*i)++;
+	}
+	return (0);
+}
+
+int	ft_arequotes(t_vars *vars, int *i, t_list **comm)
+{
+	(void)comm;
+	char temp[2];
+	char *str_temp;
+
+	temp[1] = '\0';
+	str_temp = NULL;
+	if (*i > 0 && !ft_isspace(vars->read[*i - 1]))
+		*i = vars->befor_sing;
+	while (vars->read[*i] && !ft_isquotes(vars->read[*i]) && vars->read[*i] != '$')
+	{
+		temp[0] = vars->read[*i];
+		str_temp = ft_strjoin(str_temp, temp);
+		if (!str_temp)
+			return (-1);
+		(*i)++;
+	}
+	if (vars->read[*i] == '$')
+	{
+		i++;
+	}
+	if (vars->read[*i] == 34 || vars->read[*i] == 39)
+	{
+		if (single_quo(vars, i, &str_temp))
+			return (-1);
+	}
+	printf("str_temp == %s\n", str_temp);
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/02 16:55:18 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/04 12:42:25 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,19 @@ int	skip_space(char *str, char c, int red)
 	return (0);
 }
 
-int	after_skip(char *str, int i)
+int	after_skip(char *str, int i, int red)
 {
-	int	check;
-
-	check = 0;
+	(void)red;
 	while (ft_isspace(str[i]))
 	{
-		check = 1;
 		i++;
 	}
-	if ((str[i] == '\0' && check == 1) || (ft_issep(str[i]) && check == 1))
+	if (str[i] == '\0')
 		return (-1);
+	if (ft_issep(str[i]) && str[i] != '<')
+	{
+		i++;
+		after_skip(str, i, red);
+	}
 	return (0);
 }
