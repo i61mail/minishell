@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/05 13:33:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/06 17:18:10 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,22 +135,23 @@ int	ft_aresep(t_vars *vars, int *i, t_list **comm)
 	return (0);
 }
 
-// int	ft_count_dollar(char *str, int *i)
-// {
-// 	int	k;
+int	ft_count_dollar(char *str, int *i)
+{
+	int	k;
 
-// 	k = 0;
-// 	while (str[*i] == '$')
-// 	{
-// 		(*i)++;
-// 		k++;
-// 	}
-// 	if (k % 2 == 0)
-// 		return (k);
-// 	else
-// 		return (k - 1);
-// 	return (0);
-// }
+	k = 0;
+	(*i)--;
+	while (str[*i] == '$')
+	{
+		(*i)++;
+		k++;
+	}
+	if (k % 2 == 0)
+		return (k);
+	else
+		return (k - 1);
+	return (0);
+}
 
 int	single_quo(t_vars *vars, int *i, char **str_temp)
 {
@@ -172,32 +173,107 @@ int	single_quo(t_vars *vars, int *i, char **str_temp)
 	return (0);
 }
 
+int	double_quo(t_vars *vars, int *i, char **str_temp)
+{
+	char temp[2];
+
+	temp[1] = '\0';
+	while (vars->read[*i] && vars->read[*i] != '$' && vars->read[*i] != 34)
+	{
+		temp[0] = vars->read[*i];
+		*str_temp = ft_strjoin(*str_temp, temp);
+		if (!*str_temp)
+			return (-1);
+		(*i)++;
+	}
+	return (0);
+}
+
+int	dollar(t_vars *vars, int *i, char **str_temp)
+{
+	int	catsh;
+	int	len;
+	char *temp;
+	
+	temp = NULL;
+	len = 0;
+	catsh = 0;
+	if (vars->read[*i] == '$')
+	{
+		(*i)++;
+		if (vars->read[*i] == '$')
+		{
+			catsh = *i - 1;
+			len = ft_count_dollar(vars->read, i);
+			temp = ft_substr(vars->read, catsh, len);
+			if (!temp)
+				return (-1);
+			*str_temp = ft_strjoin(*str_temp, temp);
+			if (!*str_temp)
+				return (-1);
+		}
+		if (ft_isdigit(vars->read[*i]))
+			(*i)++;
+		if (double_quo(vars, i, str_temp) == -1)
+			return (-1);
+	}
+	return (0);
+}
+
+
+int	dollar_quotes(t_vars *vars, int *i, char **str_temp)
+{
+	if (dollar(vars, i, str_temp) == -1)
+			return (-1);
+	if (vars->read[*i] == 39)
+	{
+		if (single_quo(vars, i, str_temp))
+			return (-1);
+		while (ft_isspace(vars->read[*i]))
+			(*i)++;
+		if (ft_issep(vars->read[*i]))
+			return (2);
+	}
+	if (vars->read[*i] == 34)
+	{
+		(*i)++;
+		if (double_quo(vars, i, str_temp))
+			return (-1);
+		while (ft_isspace(vars->read[*i]))
+			(*i)++;
+		if (ft_issep(vars->read[*i]))
+			return (2);
+	}
+	return (0);
+}
+
 int	ft_arequotes(t_vars *vars, int *i, t_list **comm)
 {
 	(void)comm;
 	char temp[2];
 	char *str_temp;
+	int	check;
 
+	check = 0;
 	temp[1] = '\0';
 	str_temp = NULL;
 	if (*i > 0 && !ft_isspace(vars->read[*i - 1]))
 		*i = vars->befor_sing;
-	while (vars->read[*i] && !ft_isquotes(vars->read[*i]) && vars->read[*i] != '$')
+	while (vars->read[*i])
 	{
-		temp[0] = vars->read[*i];
-		str_temp = ft_strjoin(str_temp, temp);
-		if (!str_temp)
+		while (vars->read[*i] && !ft_isquotes(vars->read[*i]) && vars->read[*i] != '$')
+		{
+			temp[0] = vars->read[*i];
+			str_temp = ft_strjoin(str_temp, temp);
+			if (!str_temp)
+				return (-1);
+			(*i)++;
+		}
+		check = dollar_quotes(vars, i, &str_temp);
+		if (check == -1)
 			return (-1);
-		(*i)++;
-	}
-	if (vars->read[*i] == '$')
-	{
-		i++;
-	}
-	if (vars->read[*i] == 34 || vars->read[*i] == 39)
-	{
-		if (single_quo(vars, i, &str_temp))
-			return (-1);
+		else if (check == 2)
+			break;
 	}
 	printf("str_temp == %s\n", str_temp);
 	return (0);
