@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/06 17:17:07 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/07 17:44:43 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,58 @@ int	ft_pars_comm(t_vars *vars, t_list **comm)
 	return (0);
 }
 
+int	strcpy_env(t_env **envir, char **env)
+{
+	int		i;
+	int		k;
+	int		j;
+	t_env	*new_node;
+	char	*key;
+	char	*value;
+
+	i = 0;
+	while (env[i])
+	{
+		k = 0;
+		while (env[i][k] && env[i][k] != '=')
+			k++;
+		j = k;
+		key = malloc(sizeof(char) * (k + 1));
+		if (!key)
+			return (-1);
+		ft_strncpy(key, env[i], k);
+		while (env[i][k])
+			k++;
+		k -= j;
+		value = malloc(sizeof(char) * (k + 1));
+		if (!value)
+			return (free(key), -1);
+		ft_strncpy(value, env[i] + j + 1, k);
+		new_node = ft_lstenv(key, value);
+		if (!new_node)
+			return (free(key), free(value), -1);
+		ft_lstenvadd_back(envir, new_node);
+		i++;
+	}
+	while (*envir)
+	{
+		// printf("key == %s\n", (*envir)->key);
+		printf("%s", (*envir)->key);
+		printf("=%s\n",(*envir)->value);
+		*envir = (*envir)->next;
+	}
+	return (0);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_list	*comm;
 	t_vars	vars;
+	t_env	*envir;
 
 	(void)av;
-	(void)env;
+	envir = NULL;
+	strcpy_env(&envir, env);
 	while (1)
 	{
 		comm = NULL;

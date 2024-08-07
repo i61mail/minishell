@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/06 17:12:53 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/07 15:06:43 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <string.h>
 
 typedef struct s_vars
 {
@@ -27,6 +28,13 @@ typedef struct s_vars
 	char	*curr;
 	int		befor_sing;
 }	t_vars;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_list
 {
@@ -53,6 +61,9 @@ void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
+t_env	*ft_lstenv(char *key, char *value);
+void	ft_lstenvadd_back(t_env **lst, t_env *new);
+t_env	*ft_lstenvlast(t_env *lst);
 
 /*             utils  main         */
 
@@ -85,5 +96,6 @@ int		ft_arequotes(t_vars *vars, int *i, t_list **comm);
 char	*ft_strnjoin(char *s1, char *s2, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memset(void *b, int c, size_t len);
+char	*ft_strncpy(char *dst, char *src, int n);
 
 #endif

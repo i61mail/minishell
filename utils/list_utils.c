@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:55:38 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/02 16:56:47 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/07 11:24:26 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,4 +155,40 @@ void	*ft_memset(void *b, int c, size_t len)
 		len--;
 	}
 	return (b);
+}
+t_env	*ft_lstenv(char *key, char *value)
+{
+	t_env	*temp;
+
+	temp = (t_env *)malloc(sizeof(t_env));
+	if (!temp)
+		return (NULL);
+	temp->key = key;
+	temp->value = value;
+	temp->next = NULL;
+	return (temp);
+}
+
+void	ft_lstenvadd_back(t_env **lst, t_env *new)
+{
+	t_env	*last;
+
+	if (!lst || !new)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	last = ft_lstenvlast(*lst);
+	last->next = new;
+}
+
+t_env	*ft_lstenvlast(t_env *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/06 17:18:10 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/07 14:57:15 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,8 @@ int	double_quo(t_vars *vars, int *i, char **str_temp)
 			return (-1);
 		(*i)++;
 	}
+	if (vars->read[*i] == 34)
+		(*i) += 1;
 	return (0);
 }
 
