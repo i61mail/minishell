@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/07 17:44:43 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/08 11:03:16 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	quotes(t_vars *vars, int *i, t_list **comm)
 int	ft_pars_comm(t_vars *vars, t_list **comm)
 {
 	int	i;
+	t_list	*temp;
 
 	i = 0;
 	while (vars->read[i] != '\0')
@@ -63,10 +64,11 @@ int	ft_pars_comm(t_vars *vars, t_list **comm)
 		if (quotes(vars, &i, comm) == -1)
 			return (-1);
 	}
-	while (*comm)
+	temp = *comm;
+	while (temp)
 	{
-		printf("%s      &&    %d\n", (*comm)->content, (*comm)->type);
-		*comm = (*comm)->next;
+		printf("%s      &&    %d\n", temp->content, temp->type);
+		temp = temp->next;
 	}
 	return (0);
 }
@@ -106,7 +108,6 @@ int	strcpy_env(t_env **envir, char **env)
 	}
 	while (*envir)
 	{
-		// printf("key == %s\n", (*envir)->key);
 		printf("%s", (*envir)->key);
 		printf("=%s\n",(*envir)->value);
 		*envir = (*envir)->next;

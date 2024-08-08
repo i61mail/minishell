@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/07 15:06:43 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/08 11:02:28 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <string.h>
 
 typedef struct s_vars
 {
@@ -38,7 +37,7 @@ typedef struct s_env
 
 typedef struct s_list
 {
-	void			*content;
+	char			*content;
 	int				type;
 	struct s_list	*next;
 }	t_list;
@@ -97,5 +96,6 @@ char	*ft_strnjoin(char *s1, char *s2, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memset(void *b, int c, size_t len);
 char	*ft_strncpy(char *dst, char *src, int n);
+char	**ft_split(char *s, char c);
 
 #endif

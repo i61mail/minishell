@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/07 14:57:15 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/08 13:21:19 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,6 @@ int	dollar(t_vars *vars, int *i, char **str_temp)
 	return (0);
 }
 
-
 int	dollar_quotes(t_vars *vars, int *i, char **str_temp)
 {
 	if (dollar(vars, i, str_temp) == -1)
@@ -243,7 +242,7 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp)
 			return (-1);
 		while (ft_isspace(vars->read[*i]))
 			(*i)++;
-		if (ft_issep(vars->read[*i]))
+		if (ft_issep(vars->read[*i]) || ft_isquotes(vars->read[*i]))
 			return (2);
 	}
 	return (0);
