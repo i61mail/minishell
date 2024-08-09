@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/08 11:03:16 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/09 14:50:00 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,14 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 	token = ft_substr(vars->read, vars->catsh, i - vars->catsh);
 	if (!token)
 		return (-1);
+	if (token[0] == '-' && token[1])
+		type = FLAG;
 	current = ft_lstnew(token, type);
 	if (!current)
 		return (free(token), free(current), -1);
 	ft_lstadd_back(comm, current);
 	if (!*comm)
 		return (free(token), free(current), -1);
-	return (0);
-}
-
-int	quotes(t_vars *vars, int *i, t_list **comm)
-{
-	if (ft_isquotes(vars->read[*i]))
-	{
-		if (even_odd(vars->read) == 0)
-		{
-			ft_error(comm);
-			return (-1);
-		}
-		ft_arequotes(vars, i, comm);
-	}
 	return (0);
 }
 
@@ -73,48 +61,6 @@ int	ft_pars_comm(t_vars *vars, t_list **comm)
 	return (0);
 }
 
-int	strcpy_env(t_env **envir, char **env)
-{
-	int		i;
-	int		k;
-	int		j;
-	t_env	*new_node;
-	char	*key;
-	char	*value;
-
-	i = 0;
-	while (env[i])
-	{
-		k = 0;
-		while (env[i][k] && env[i][k] != '=')
-			k++;
-		j = k;
-		key = malloc(sizeof(char) * (k + 1));
-		if (!key)
-			return (-1);
-		ft_strncpy(key, env[i], k);
-		while (env[i][k])
-			k++;
-		k -= j;
-		value = malloc(sizeof(char) * (k + 1));
-		if (!value)
-			return (free(key), -1);
-		ft_strncpy(value, env[i] + j + 1, k);
-		new_node = ft_lstenv(key, value);
-		if (!new_node)
-			return (free(key), free(value), -1);
-		ft_lstenvadd_back(envir, new_node);
-		i++;
-	}
-	while (*envir)
-	{
-		printf("%s", (*envir)->key);
-		printf("=%s\n",(*envir)->value);
-		*envir = (*envir)->next;
-	}
-	return (0);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	t_list	*comm;
@@ -131,12 +77,17 @@ int	main(int ac, char **av, char **env)
 		{
 			vars.read = readline("minishell> ");
 			if (!vars.read)
+			{
+				free(vars.read);
 				break ;
+			}
 			add_history(vars.read);
 			ft_pars_comm(&vars, &comm);
 		}
 		else
 			break ;
+		free(vars.read);
 	}
+	free(vars.read);
 	return (0);
 }

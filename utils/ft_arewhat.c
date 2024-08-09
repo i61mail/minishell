@@ -6,30 +6,35 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/08 13:21:19 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/09 14:45:08 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	quotes(t_vars *vars, int *i, t_list **comm)
+{
+	if (ft_isquotes(vars->read[*i]))
+	{
+		if (even_odd(vars->read) == 0)
+		{
+			ft_error(comm);
+			return (-1);
+		}
+		ft_arequotes(vars, i, comm);
+	}
+	return (0);
+}
+
 int	ft_arealpha(t_vars *vars, int *i, t_list **comm)
 {
-	int	one;
-
-	one = 1;
 	vars->catsh = *i;
+	vars->befor_sing = *i;
 	while (vars->read[*i])
 	{
 		if (!ft_issep(vars->read[*i]) && !ft_isspace(vars->read[*i])
 			&& !ft_isquotes(vars->read[*i]))
-		{
-			if (one == 1)
-			{
-				vars->befor_sing = *i;
-				one = 0;
-			}
 			(*i)++;
-		}
 		else
 			break ;
 	}
@@ -153,6 +158,24 @@ int	ft_count_dollar(char *str, int *i)
 	return (0);
 }
 
+int	double_quo(t_vars *vars, int *i, char **str_temp)
+{
+	char temp[2];
+
+	temp[1] = '\0';
+	while (vars->read[*i] && vars->read[*i] != '$' && vars->read[*i] != 34)
+	{
+		temp[0] = vars->read[*i];
+		*str_temp = ft_strjoin(*str_temp, temp);
+		if (!*str_temp)
+			return (-1);
+		(*i)++;
+	}
+	if (vars->read[*i] == 34)
+		(*i) += 1;
+	return (0);
+}
+
 int	single_quo(t_vars *vars, int *i, char **str_temp)
 {
 	char	temp[2];
@@ -173,23 +196,6 @@ int	single_quo(t_vars *vars, int *i, char **str_temp)
 	return (0);
 }
 
-int	double_quo(t_vars *vars, int *i, char **str_temp)
-{
-	char temp[2];
-
-	temp[1] = '\0';
-	while (vars->read[*i] && vars->read[*i] != '$' && vars->read[*i] != 34)
-	{
-		temp[0] = vars->read[*i];
-		*str_temp = ft_strjoin(*str_temp, temp);
-		if (!*str_temp)
-			return (-1);
-		(*i)++;
-	}
-	if (vars->read[*i] == 34)
-		(*i) += 1;
-	return (0);
-}
 
 int	dollar(t_vars *vars, int *i, char **str_temp)
 {
@@ -221,29 +227,35 @@ int	dollar(t_vars *vars, int *i, char **str_temp)
 	}
 	return (0);
 }
-
+//"''"ks
+//"'>'"ls|cat
+//'ls''sd'>ls
+//'ls'|'sd'ls
 int	dollar_quotes(t_vars *vars, int *i, char **str_temp)
 {
 	if (dollar(vars, i, str_temp) == -1)
 			return (-1);
-	if (vars->read[*i] == 39)
+	while (ft_isquotes(vars->read[*i]))
 	{
-		if (single_quo(vars, i, str_temp))
-			return (-1);
-		while (ft_isspace(vars->read[*i]))
+		if (vars->read[*i] == 39)
+		{
+			if (single_quo(vars, i, str_temp))
+				return (-1);
+			if (ft_isspace(vars->read[*i]))
+				return (2);
+			if (ft_issep(vars->read[*i]))
+				return (2);
+		}
+		if (vars->read[*i] == 34)
+		{
 			(*i)++;
-		if (ft_issep(vars->read[*i]))
-			return (2);
-	}
-	if (vars->read[*i] == 34)
-	{
-		(*i)++;
-		if (double_quo(vars, i, str_temp))
-			return (-1);
-		while (ft_isspace(vars->read[*i]))
-			(*i)++;
-		if (ft_issep(vars->read[*i]) || ft_isquotes(vars->read[*i]))
-			return (2);
+			if (double_quo(vars, i, str_temp))
+				return (-1);
+			if (ft_isspace(vars->read[*i]))
+				return (2);
+			if (ft_issep(vars->read[*i]))
+				return (2);
+		}
 	}
 	return (0);
 }
@@ -254,14 +266,15 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm)
 	char temp[2];
 	char *str_temp;
 	int	check;
+	t_list *curr;
 
 	check = 0;
 	temp[1] = '\0';
-	str_temp = NULL;
-	if (*i > 0 && !ft_isspace(vars->read[*i - 1]))
+	if (*i > 0 && !ft_isspace(vars->read[*i - 1]) && !ft_issep(vars->read[*i - 1]))
 		*i = vars->befor_sing;
 	while (vars->read[*i])
 	{
+		str_temp = NULL;
 		while (vars->read[*i] && !ft_isquotes(vars->read[*i]) && vars->read[*i] != '$')
 		{
 			temp[0] = vars->read[*i];
@@ -273,9 +286,11 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm)
 		check = dollar_quotes(vars, i, &str_temp);
 		if (check == -1)
 			return (-1);
-		else if (check == 2)
+		curr = ft_lstnew(ft_strdup(str_temp), 6);
+		ft_lstadd_back(comm, curr);
+		free(str_temp);
+		if (check == 2)
 			break;
 	}
-	printf("str_temp == %s\n", str_temp);
 	return (0);
 }
