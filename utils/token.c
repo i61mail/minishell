@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/04 12:42:25 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/10 09:10:54 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error(t_list **comm)
 {
-	printf("bash: syntax error\n");
+	ft_putstr("minishell: syntax error\n", 2);
 	ft_lstfree(comm);
 	return ;
 }

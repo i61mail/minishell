@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/09 14:50:00 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/10 15:40:03 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 	token = ft_substr(vars->read, vars->catsh, i - vars->catsh);
 	if (!token)
 		return (-1);
-	if (token[0] == '-' && token[1])
-		type = FLAG;
 	current = ft_lstnew(token, type);
 	if (!current)
 		return (free(token), free(current), -1);
@@ -31,9 +29,9 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 	return (0);
 }
 
-int	ft_pars_comm(t_vars *vars, t_list **comm)
+int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
-	int	i;
+	int		i;
 	t_list	*temp;
 
 	i = 0;
@@ -49,7 +47,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm)
 			if (ft_aresep(vars, &i, comm) == -1)
 				return (-1);
 		}
-		if (quotes(vars, &i, comm) == -1)
+		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
 	}
 	temp = *comm;
@@ -82,7 +80,7 @@ int	main(int ac, char **av, char **env)
 				break ;
 			}
 			add_history(vars.read);
-			ft_pars_comm(&vars, &comm);
+			ft_pars_comm(&vars, &comm, &envir);
 		}
 		else
 			break ;
