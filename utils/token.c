@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/10 09:10:54 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/11 20:34:26 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_error(t_list **comm)
 {
-	ft_putstr("minishell: syntax error\n", 2);
+	ft_putstr_fd("minishell: syntax error\n", 2);
 	ft_lstfree(comm);
 	return ;
 }

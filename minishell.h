@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/11 20:15:10 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/11 20:33:15 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void		ft_putstr_fd(char *str, int fd);
 void		ft_putchar_fd(char c, int fd);
 int			ft_strcmp(char *s1, char *s2);
 long long	ft_atoi(char *str);
+int			ft_strncmp(char *s1, char *s2, size_t n);
 
 /*    utils check*/
 

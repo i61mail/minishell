@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:28:00 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/11 18:36:00 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/11 20:33:47 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_pwd()
 {
-	ft_putstr(getcwd(NULL, 0), 1);
+	ft_putstr_fd(getcwd(NULL, 0), 1);
 	ft_putchar_fd('\n', 1);
 	return (0);
 }
