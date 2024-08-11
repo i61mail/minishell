@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/10 15:40:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/11 20:16:31 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 {
@@ -81,6 +81,7 @@ int	main(int ac, char **av, char **env)
 			}
 			add_history(vars.read);
 			ft_pars_comm(&vars, &comm, &envir);
+			ft_execute(&vars,comm,envir);
 		}
 		else
 			break ;

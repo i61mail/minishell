@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/11 10:52:36 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/11 20:15:10 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char		*ft_strjoin(char *s1, char *s2);
 void		*ft_memset(void *b, int c, size_t len);
 char		*ft_strncpy(char *dst, char *src, int n);
 char		**ft_split(char *s, char c);
-void		ft_putstr(char *str, int fd);
+void		ft_putstr_fd(char *str, int fd);
 void		ft_putchar_fd(char c, int fd);
 int			ft_strcmp(char *s1, char *s2);
 long long	ft_atoi(char *str);
@@ -113,5 +113,13 @@ int			strcpy_env(t_env **envir, char **env);
 t_env		*ft_lstenv(char *key, char *value);
 void		ft_lstenvadd_back(t_env **lst, t_env *new);
 t_env		*ft_lstenvlast(t_env *lst);
+
+/*       execution      */
+void		ft_execute(t_vars *vars,t_list *comm,t_env *envir);
+
+/*        builtins        */
+int			ft_echo(t_list *comm);
+int			ft_cd(t_vars *vars,t_list *comm,t_env *envir);
+int			ft_pwd();
 
 #endif

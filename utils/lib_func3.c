@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_func3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:57:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/11 10:48:54 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/11 20:15:33 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_putchar_fd(char c, int fd)
 	write (fd, &c, 1);
 }
 
-void	ft_putstr(char *str, int fd)
+void	ft_putstr_fd(char *str, int fd)
 {
 	int	i;
 
