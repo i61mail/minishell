@@ -2,6 +2,8 @@
     "files.associations": {
         "minishell.h": "c",
         "istream": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "unistd.h": "c",
+        "limits.h": "c"
     }
 }
