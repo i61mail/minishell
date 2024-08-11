@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "minishell.h": "c",
-        "istream": "c",
-        "stdio.h": "c"
-    }
-}

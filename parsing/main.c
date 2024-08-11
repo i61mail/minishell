@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/08 11:03:16 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/11 17:07:35 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,10 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 	return (0);
 }
 
-int	quotes(t_vars *vars, int *i, t_list **comm)
+int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
-	if (ft_isquotes(vars->read[*i]))
-	{
-		if (even_odd(vars->read) == 0)
-		{
-			ft_error(comm);
-			return (-1);
-		}
-		ft_arequotes(vars, i, comm);
-	}
-	return (0);
-}
+	int		i;
 
-int	ft_pars_comm(t_vars *vars, t_list **comm)
-{
-	int	i;
-	t_list	*temp;
 
 	i = 0;
 	while (vars->read[i] != '\0')
@@ -61,57 +47,16 @@ int	ft_pars_comm(t_vars *vars, t_list **comm)
 			if (ft_aresep(vars, &i, comm) == -1)
 				return (-1);
 		}
-		if (quotes(vars, &i, comm) == -1)
+		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
 	}
-	temp = *comm;
-	while (temp)
-	{
-		printf("%s      &&    %d\n", temp->content, temp->type);
-		temp = temp->next;
-	}
-	return (0);
-}
-
-int	strcpy_env(t_env **envir, char **env)
-{
-	int		i;
-	int		k;
-	int		j;
-	t_env	*new_node;
-	char	*key;
-	char	*value;
-
-	i = 0;
-	while (env[i])
-	{
-		k = 0;
-		while (env[i][k] && env[i][k] != '=')
-			k++;
-		j = k;
-		key = malloc(sizeof(char) * (k + 1));
-		if (!key)
-			return (-1);
-		ft_strncpy(key, env[i], k);
-		while (env[i][k])
-			k++;
-		k -= j;
-		value = malloc(sizeof(char) * (k + 1));
-		if (!value)
-			return (free(key), -1);
-		ft_strncpy(value, env[i] + j + 1, k);
-		new_node = ft_lstenv(key, value);
-		if (!new_node)
-			return (free(key), free(value), -1);
-		ft_lstenvadd_back(envir, new_node);
-		i++;
-	}
-	while (*envir)
-	{
-		printf("%s", (*envir)->key);
-		printf("=%s\n",(*envir)->value);
-		*envir = (*envir)->next;
-	}
+	//t_list	*temp;
+	//temp = *comm;
+	//while (temp)
+	//{
+	//	printf("%s      &&    %d\n", temp->content, temp->type);
+	//	temp = temp->next;
+	//}
 	return (0);
 }
 
@@ -131,12 +76,18 @@ int	main(int ac, char **av, char **env)
 		{
 			vars.read = readline("minishell> ");
 			if (!vars.read)
+			{
+				free(vars.read);
 				break ;
+			}
 			add_history(vars.read);
-			ft_pars_comm(&vars, &comm);
+			ft_pars_comm(&vars, &comm, &envir);
+			ft_execute(&vars,comm,envir);
 		}
 		else
 			break ;
+		free(vars.read);
 	}
+	free(vars.read);
 	return (0);
 }

@@ -1,50 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_iswhat.c                                        :+:      :+:    :+:   */
+/*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/02 17:03:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/09 12:15:00 by isrkik           ###   ########.fr       */
+/*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
+/*   Updated: 2024/08/10 15:40:07 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_isalpha(int c)
+int	ft_count_dollar(char *str, int *i)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	int	k;
+
+	k = 0;
+	(*i)--;
+	while (str[*i] == '$')
 	{
-		return (1);
+		(*i)++;
+		k++;
 	}
+	if (k % 2 == 0)
+		return (k);
+	else
+		return (k - 1);
 	return (0);
 }
 
-int	ft_isdigit(int c)
+int	quotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-int	ft_issep(int c)
-{
-	if (c == '<' || c == '>' || c == '|')
-		return (1);
-	return (0);
-}
-
-int	ft_isspace(int c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v')
-		return (1);
-	return (0);
-}
-
-int	ft_isquotes(int c)
-{
-	if (c == 34 || c == 39)
-		return (1);
+	if (ft_isquotes(vars->read[*i]))
+	{
+		if (even_odd(vars->read) == 0)
+		{
+			ft_error(comm);
+			return (-1);
+		}
+		ft_arequotes(vars, i, comm, envir);
+	}
 	return (0);
 }
