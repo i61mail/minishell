@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/13 17:40:34 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/13 21:11:57 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*ft_locate_bin(char *command, char *path)
 	{
 		temp = ft_strjoin(*_path, "/");
 		temp1 = ft_strjoin(temp, ft_strdup(command));
-		if (!access(temp1, EACCES))
+		if (!access(temp1, X_OK | F_OK))
 			return (free(command), temp1);
 		_path++;
 	}
@@ -128,8 +128,6 @@ void	ft_execute(t_vars *vars, t_list *comm, t_env *envir)
 			perror(comm->content);
 		}
 		else
-		{
 			waitpid(id, NULL, 0);
-		}
 	}
 }
