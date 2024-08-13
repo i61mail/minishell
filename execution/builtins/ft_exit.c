@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:50:06 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/11 17:38:30 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:37:25 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_exit(t_list *comm)
 {
-	
-	return(1);
+	(void)comm;
+	printf("hii\n");
+	return (1);
 }

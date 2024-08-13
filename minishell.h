@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/11 20:33:15 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/13 17:32:53 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <errno.h>
 
 typedef struct s_vars
 {
@@ -116,11 +117,12 @@ void		ft_lstenvadd_back(t_env **lst, t_env *new);
 t_env		*ft_lstenvlast(t_env *lst);
 
 /*       execution      */
-void		ft_execute(t_vars *vars,t_list *comm,t_env *envir);
+void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);
 
 /*        builtins        */
 int			ft_echo(t_list *comm);
-int			ft_cd(t_vars *vars,t_list *comm,t_env *envir);
-int			ft_pwd();
+int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
+int			ft_pwd(void);
+int			ft_exit(t_list *comm);
 
 #endif
