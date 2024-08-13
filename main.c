@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/11 20:16:31 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/13 17:38:06 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
 	int		i;
-	t_list	*temp;
+	//t_list	*temp;
 
 	i = 0;
 	while (vars->read[i] != '\0')
@@ -50,12 +50,12 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
 	}
-	temp = *comm;
-	while (temp)
-	{
-		printf("%s      &&    %d\n", temp->content, temp->type);
-		temp = temp->next;
-	}
+	//temp = *comm;
+	//while (temp)
+	//{
+	//	printf("%s      &&    %d\n", temp->content, temp->type);
+	//	temp = temp->next;
+	//}
 	return (0);
 }
 
@@ -81,7 +81,7 @@ int	main(int ac, char **av, char **env)
 			}
 			add_history(vars.read);
 			ft_pars_comm(&vars, &comm, &envir);
-			ft_execute(&vars,comm,envir);
+			ft_execute(&vars, comm, envir);
 		}
 		else
 			break ;
