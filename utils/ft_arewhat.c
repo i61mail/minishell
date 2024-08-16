@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arewhat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 11:41:10 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/16 23:22:22 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,19 @@
 int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	char *str_temp;
+	t_list	*curr;
 
-	str_temp = NULL;
+	curr = NULL;
+	str_temp = ft_strdup("");
 	vars->catsh = *i;
 	vars->befor_sing = *i;
 	if (vars->read[*i] == '$')
+	{
 		dollar(vars, i, &str_temp, envir);
+		//khask tchuf kifach matkhlihach tfre9 w tjm3hom tatl9a space wla chi haja 
+		replace_expand(curr, str_temp, comm);
+		return (0);
+	}
 	while (vars->read[*i])
 	{
 		if (!ft_issep(vars->read[*i]) && !ft_isspace(vars->read[*i])

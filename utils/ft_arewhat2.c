@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arewhat2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 16:00:18 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/16 18:47:51 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	replace_expand(t_list *curr, char *str_temp, t_list **comm)
+{
+	curr = ft_lstnew(ft_strdup(str_temp), 0);
+	ft_lstadd_back(comm, curr);
+	free(str_temp);
+}
 
 char	*ft_check_env(t_env **envir, char *comp)
 {
@@ -28,7 +35,7 @@ char	*ft_check_env(t_env **envir, char *comp)
 		}
 		temp = temp->next;
 	}
-	return (ft_strdup("\0"));
+	return (ft_strdup(""));
 }
 
 int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
@@ -37,7 +44,7 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	char	*comp;
 
 	tmp[1] = '\0';
-	(*i)++;
+	// (*i)++;
 	comp = NULL;
 	while (vars->read[*i] && (ft_isalpha(vars->read[*i]) || vars->read[*i] == '_'))
 	{
@@ -50,7 +57,9 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	comp = ft_check_env(envir, comp);
 	if (!comp)
 		return (-1);
+	printf("1 == %s\n", *str_temp);
 	*str_temp = ft_strjoin(*str_temp, comp);
+	printf("2 == %s\n", *str_temp);
 	return (0);
 }
 
@@ -72,9 +81,8 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	int	len;
 	char *temp;
 	int	start;
+	int	check = 0;
 
-	(void)envir;
-	(void)str_temp;
 	start = 0;
 	len = 0;
 	temp = NULL;
@@ -82,18 +90,29 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	{
 		start = *i;
 		len = count_dollar(vars->read, i);
-		printf("%d\n", len);
-		if (len % 2 != 0 && len > 1)
+		if (len % 2 != 0)
+		{
+			if (ft_isdigit(vars->read[*i]))
+			{
+				check = 1;
+				(*i)++;
+			}
+		}
+		// printf("%d\n", len);
+		if (len % 2 != 0 && check == 0)
 		{
 			temp = ft_substr(vars->read, start, len - 1);
-			// expanding(vars, i, &temp, envir);
+			expanding(vars, i, &temp, envir);
 		}
 		else
+		{
 			temp = ft_substr(vars->read, start, len);
+		}
 		*str_temp = ft_strjoin(*str_temp, temp);
-		printf("temp == %s\n", temp);
-		printf("str_temp == %s\n", *str_temp);
-		printf("*i == %d\n", *i);
+
+		// printf("temp == %s\n", temp);
+		// printf("str_temp == %s\n", *str_temp);
+		// printf("*i == %d\n", *i);
 	}
 	return (0);
 }
@@ -104,13 +123,18 @@ int	double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir)
 
 	(void)envir;
 	temp[1] = '\0';
-	while (vars->read[*i] && vars->read[*i] != '$' && vars->read[*i] != 34)
+	while (vars->read[*i] && vars->read[*i] != 34)
 	{
-		temp[0] = vars->read[*i];
-		*str_temp = ft_strjoin(*str_temp, temp);
-		if (!*str_temp)
-			return (-1);
-		(*i)++;
+		if (vars->read[*i] == '$')
+			dollar(vars, i, str_temp, envir);
+		else if (vars->read[*i] != 34)
+		{
+			temp[0] = vars->read[*i];
+			*str_temp = ft_strjoin(*str_temp, temp);
+			if (!*str_temp)
+				return (-1);
+			(*i)++;
+		}
 	}
 	if (vars->read[*i] == 34)
 		(*i) += 1;
@@ -179,7 +203,7 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			just_alpha(vars, i, str_temp, envir);
 		if (ft_issep(vars->read[*i]) || ft_isspace(vars->read[*i]))
 			return (2);
-	}
+	}//"$1'23as''"
 	return (0);
 }
 
@@ -193,6 +217,7 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	(void)comm;
 	check = 0;
 	temp[1] = '\0';
+	curr = NULL;
 	if (*i > 0 && !ft_isspace(vars->read[*i - 1])
 		&& !ft_issep(vars->read[*i - 1]))
 		*i = vars->befor_sing;
@@ -211,9 +236,7 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		check = dollar_quotes(vars, i, &str_temp, envir);
 		if (check == -1)
 			return (-1);
-		curr = ft_lstnew(ft_strdup(str_temp), 0);
-		ft_lstadd_back(comm, curr);
-		free(str_temp);
+		replace_expand(curr, str_temp, comm);
 		if (check == 2)
 			break ;
 	}

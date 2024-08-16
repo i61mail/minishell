@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 11:25:47 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/16 23:22:38 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int			quotes(t_vars *vars, int *i, t_list **comm, t_env **envir);
 int			count_dollar(char *str, int *i);
 int			double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
+void		replace_expand(t_list *curr, char *str_temp, t_list **comm);
 
 /*        utils       */
 
