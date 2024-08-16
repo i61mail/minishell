@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/13 18:34:30 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/16 11:25:47 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,12 @@ int			ft_aresep(t_vars *vars, int *i, t_list **comm);
 int			ft_isquotes(int c);
 int			ft_isspace(int c);
 int			ft_arespace(char *read, int *i);
-int			ft_arealpha(t_vars *vars, int *i, t_list **comm);
+int			ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir);
 int			ft_issep(int c);
 int			quotes(t_vars *vars, int *i, t_list **comm, t_env **envir);
-int			ft_count_dollar(char *str, int *i);
+int			count_dollar(char *str, int *i);
 int			double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir);
+int			dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
 
 /*        utils       */
 

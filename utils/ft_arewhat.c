@@ -6,16 +6,21 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/10 08:08:37 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/16 11:41:10 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_arealpha(t_vars *vars, int *i, t_list **comm)
+int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
+	char *str_temp;
+
+	str_temp = NULL;
 	vars->catsh = *i;
 	vars->befor_sing = *i;
+	if (vars->read[*i] == '$')
+		dollar(vars, i, &str_temp, envir);
 	while (vars->read[*i])
 	{
 		if (!ft_issep(vars->read[*i]) && !ft_isspace(vars->read[*i])

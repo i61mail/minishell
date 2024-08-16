@@ -3,91 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arewhat2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 11:07:38 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/16 11:56:22 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// char	*ft_check_env(t_env **envir, char *comp)
-// {
-// 	char *exp;
-// 	t_env	*temp;
+char	*ft_check_env(t_env **envir, char *comp)
+{
+	char *exp;
+	t_env	*temp;
 
-// 	temp = *envir;
-// 	exp = NULL;
-// 	while (temp && temp->key)
-// 	{
-// 		if (ft_strcmp(comp, temp->key) == 0)
-// 		{
-// 			exp = ft_strdup(temp->value);
-// 			return (exp);
-// 		}
-// 		temp = temp->next;
-// 	}
-// 	return (ft_strdup("\0"));
-// }
+	temp = *envir;
+	exp = NULL;
+	while (temp && temp->key)
+	{
+		if (ft_strcmp(comp, temp->key) == 0)
+		{
+			exp = ft_strdup(temp->value);
+			return (exp);
+		}
+		temp = temp->next;
+	}
+	return (ft_strdup("\0"));
+}
 
-// int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
-// {
-// 	char	tmp[2];
-// 	char	*comp;
+int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
+{
+	char	tmp[2];
+	char	*comp;
 
-// 	tmp[1] = '\0';
-// 	(*i)++;
-// 	comp = NULL;
-// 	while (vars->read[*i] && (ft_isalpha(vars->read[*i]) || vars->read[*i] == '_'))
-// 	{
-// 		tmp[0] = vars->read[*i];
-// 		comp = ft_strjoin(comp, tmp);
-// 		if (!comp)
-// 			return (-1);
-// 		(*i)++;
-// 	}
-// 	comp = ft_check_env(envir, comp);
-// 	if (!comp)
-// 		return (-1);
-// 	*str_temp = ft_strjoin(*str_temp, comp);
-// 	return (0);
-// }
+	tmp[1] = '\0';
+	(*i)++;
+	comp = NULL;
+	while (vars->read[*i] && (ft_isalpha(vars->read[*i]) || vars->read[*i] == '_'))
+	{
+		tmp[0] = vars->read[*i];
+		comp = ft_strjoin(comp, tmp);
+		if (!comp)
+			return (-1);
+		(*i)++;
+	}
+	comp = ft_check_env(envir, comp);
+	if (!comp)
+		return (-1);
+	*str_temp = ft_strjoin(*str_temp, comp);
+	return (0);
+}
 
-// int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
-// {
-// 	int		catsh;
-// 	int		len;
-// 	char	*temp;
+int	count_dollar(char *str, int *i)
+{
+	int	len;
 
-// 	temp = NULL;
-// 	len = 0;
-// 	catsh = 0;
-// 	if (vars->read[*i] == '$')
-// 	{
-// 		if (expanding(vars, i, str_temp, envir) == -1)
-// 			return (-1);
-// 		(*i)++;
-// 		if (vars->read[*i] == '$')
-// 		{
-// 			catsh = *i - 1;
-// 			len = ft_count_dollar(vars->read, i);
-// 			temp = ft_substr(vars->read, catsh, len);
-// 			if (!temp)
-// 				return (-1);
-// 			*str_temp = ft_strjoin(*str_temp, temp);
-// 			if (!*str_temp)
-// 				return (-1);
-// 		}
-// 		if (ft_isdigit(vars->read[*i]))
-// 			(*i)++;
-// 		if (double_quo(vars, i, str_temp, envir) == -1)
-// 			return (-1);
-// 		if (single_quo(vars, i, str_temp) == -1)
-// 			return (-1);
-// 	}
-// 	return (0);
-// }
+	len = 0;
+	while (str[*i] == '$')
+	{
+		(*i)++;
+		len++;
+	}
+	return (len);
+}
+
+int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
+{
+	int	len;
+	char *temp;
+	int	start;
+
+	(void)envir;
+	(void)str_temp;
+	start = 0;
+	len = 0;
+	temp = NULL;
+	if (vars->read[*i] == '$')
+	{
+		start = *i;
+		len = count_dollar(vars->read, i);
+		// printf("%d\n", len);
+		if (len % 2 != 0 && len > 1)
+		{
+			temp = ft_substr(vars->read, start, len - 1);
+			// expanding(vars, i, &temp, envir);
+		}
+		else
+			temp = ft_substr(vars->read, start, len);
+		// printf("temp == %s\n", temp);
+		// printf("str_temp == %s\n", *str_temp);
+	}
+	return (0);
+}
 
 int	double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {

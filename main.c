@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 11:10:54 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/16 11:22:24 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 	{
 		if (!ft_issep(vars->read[i])
 			&& !ft_isspace(vars->read[i]) && !ft_isquotes(vars->read[i]))
-			ft_arealpha(vars, &i, comm);
+			ft_arealpha(vars, &i, comm, envir);
 		else if (ft_isspace(vars->read[i]))
 			ft_arespace(vars->read, &i);
 		else if (ft_issep(vars->read[i]))
