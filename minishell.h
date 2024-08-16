@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 10:05:41 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/13 18:34:30 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <errno.h>
+# include <sys/wait.h>
 
 typedef struct s_vars
 {
@@ -52,6 +54,7 @@ typedef enum s_token
 	RED_APPEND,
 	HEREDOC,
 	PIP,
+	QUOT
 }	t_token;
 
 /*              utils  linked list       */
@@ -115,11 +118,12 @@ void		ft_lstenvadd_back(t_env **lst, t_env *new);
 t_env		*ft_lstenvlast(t_env *lst);
 
 /*       execution      */
-void		ft_execute(t_vars *vars,t_list *comm,t_env *envir);
+void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);
 
 /*        builtins        */
 int			ft_echo(t_list *comm);
-int			ft_cd(t_vars *vars,t_list *comm,t_env *envir);
-int			ft_pwd();
+int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
+int			ft_pwd(void);
+int			ft_exit(t_list *comm);
 
 #endif
