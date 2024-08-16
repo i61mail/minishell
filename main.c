@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 11:22:24 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/16 15:22:06 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
 	int		i;
-	// t_list	*temp;
+	t_list	*temp;
 
 	i = 0;
 	while (vars->read[i] != '\0')
@@ -50,12 +50,12 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
 	}
-	// temp = *comm;
-	// while (temp)
-	// {
-	// 	printf("%s      &&    %d\n", temp->content, temp->type);
-	// 	temp = temp->next;
-	// }
+	temp = *comm;
+	while (temp)
+	{
+		printf("%s      &&    %d\n", temp->content, temp->type);
+		temp = temp->next;
+	}
 	return (0);
 }
 

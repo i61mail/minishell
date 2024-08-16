@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 11:56:22 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/16 16:00:18 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	{
 		start = *i;
 		len = count_dollar(vars->read, i);
-		// printf("%d\n", len);
+		printf("%d\n", len);
 		if (len % 2 != 0 && len > 1)
 		{
 			temp = ft_substr(vars->read, start, len - 1);
@@ -90,8 +90,10 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		}
 		else
 			temp = ft_substr(vars->read, start, len);
-		// printf("temp == %s\n", temp);
-		// printf("str_temp == %s\n", *str_temp);
+		*str_temp = ft_strjoin(*str_temp, temp);
+		printf("temp == %s\n", temp);
+		printf("str_temp == %s\n", *str_temp);
+		printf("*i == %d\n", *i);
 	}
 	return (0);
 }
@@ -146,7 +148,7 @@ int	just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	(void)envir;
 	str = NULL;
 	temp[1] = '\0';
-	while (vars->read[*i] && vars->read[*i] != '$' && !ft_issep(vars->read[*i]))
+	while (vars->read[*i] && vars->read[*i] != '$' && !ft_issep(vars->read[*i]) && vars->read[*i] != 34)
 	{
 		temp[0] = vars->read[*i];
 		str = ft_strjoin(str, temp);
@@ -154,6 +156,8 @@ int	just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			return (-1);
 		(*i)++;
 	}
+	if (vars->read[*i] == 34)
+		(*i)++;
 	*str_temp = ft_strjoin(*str_temp, str);
 	return (0);
 }
@@ -162,8 +166,6 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	while (ft_isquotes(vars->read[*i]) || vars->read[*i] == '$' || ft_issep(vars->read[*i]))
 	{
-		if (ft_issep(vars->read[*i]))
-			return (2);
 		if (vars->read[*i] == 34)
 		{
 			(*i)++;
@@ -171,10 +173,12 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		}
 		if (vars->read[*i] == 39)
 			single_quo(vars, i, str_temp);
-		// if (vars->read[*i] == '$')
-		// 	dollar(vars, i, str_temp, envir);
+		if (vars->read[*i] == '$')
+			dollar(vars, i, str_temp, envir);
 		if (!ft_issep(vars->read[*i] && vars->read[*i] != '$') && !ft_isquotes(vars->read[*i]))
 			just_alpha(vars, i, str_temp, envir);
+		if (ft_issep(vars->read[*i]) || ft_isspace(vars->read[*i]))
+			return (2);
 	}
 	return (0);
 }
