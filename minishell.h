@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/17 10:47:54 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/17 16:42:23 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int			strcpy_env(t_env **envir, char **env);
 t_env		*ft_lstenv(char *key, char *value);
 void		ft_lstenvadd_back(t_env **lst, t_env *new);
 t_env		*ft_lstenvlast(t_env *lst);
+void		ft_env_free(t_env **env);
 
 /*       execution      */
 void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);

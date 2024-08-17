@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/17 11:21:05 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/17 18:19:23 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,36 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	char *str_temp;
 	t_list	*curr;
 	int		hold;
+	char	temp[2];
 
+	temp[1] = '\0';
 	hold = 0;
 	curr = NULL;
 	str_temp = ft_strdup("");
 	vars->catsh = *i;
 	vars->befor_sing = *i;
-	if (vars->read[*i] == '$')
-	{
-		hold = ft_dollar(vars, i, &str_temp, envir);
-		if (hold == 2)
-			return (2);		
-		replace_expand(curr, str_temp, comm);
-		return (0);
-	}
 	while (vars->read[*i])
 	{
 		if (!ft_issep(vars->read[*i]) && !ft_isspace(vars->read[*i])
-			&& !ft_isquotes(vars->read[*i]))
-			(*i)++;
+			&& !ft_isquotes(vars->read[*i]) && vars->read[*i] != '$')
+			{
+				temp[0] = vars->read[*i];
+				str_temp = ft_strjoin(str_temp, temp);
+				(*i)++;
+			}
 		else
-			break ;
+		{
+			if (vars->read[*i] == '$')
+			{
+				hold = ft_dollar(vars, i, &str_temp, envir);
+				if (hold == 2)
+					return (2);
+				replace_expand(curr, str_temp, comm);
+				return (0);
+			}
+			else
+				break ;
+		}
 	}
 	if (ft_isquotes(vars->read[*i]))
 		return (2);

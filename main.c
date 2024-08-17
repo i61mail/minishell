@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 15:22:06 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/17 18:03:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
 	int		i;
-	t_list	*temp;
+	// t_list	*temp;
 
 	i = 0;
 	while (vars->read[i] != '\0')
@@ -50,13 +50,27 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
 	}
-	temp = *comm;
-	while (temp)
-	{
-		printf("%s      &&    %d\n", temp->content, temp->type);
-		temp = temp->next;
-	}
+	// temp = *comm;
+	// while (temp)
+	// {
+	// 	printf("%s      &&    %d\n", temp->content, temp->type);
+	// 	temp = temp->next;
+	// }
 	return (0);
+}
+
+void	f(void)
+{
+	system("leaks minishell");
+}
+
+void	init_vars(t_list **comm, t_vars *vars)
+{
+	*comm = NULL;
+	vars->read = NULL;
+	vars->catsh = 0;
+	vars->befor_sing = 0;
+	vars->curr = NULL;
 }
 
 int	main(int ac, char **av, char **env)
@@ -65,12 +79,13 @@ int	main(int ac, char **av, char **env)
 	t_vars	vars;
 	t_env	*envir;
 
+	// atexit(f);
 	(void)av;
 	envir = NULL;
 	strcpy_env(&envir, env);
 	while (1)
 	{
-		comm = NULL;
+		init_vars(&comm, &vars);
 		if (ac == 1)
 		{
 			vars.read = readline("minishell> ");
@@ -84,7 +99,10 @@ int	main(int ac, char **av, char **env)
 			ft_execute(&vars,comm,envir);
 		}
 		else
+		{
+			ft_env_free(&envir);
 			break ;
+		}
 		free(vars.read);
 	}
 	free(vars.read);

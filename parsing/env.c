@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:04:43 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/11 20:13:07 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/17 17:05:54 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,8 @@ int	strcpy_env(t_env **envir, char **env)
 	}
 	// while (*envir)
 	// {
-	// 	printf("%s", (*envir)->key);
-	// 	printf("=%s\n",(*envir)->value);
-	// 	*envir = (*envir)->next;
+	// 	printf("%s = %s\n", (*envir)->key, (*envir)->value);
+	// 	(*envir) = (*envir)->next;
 	// }
 	return (0);
 }
