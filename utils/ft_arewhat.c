@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/17 18:19:23 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/17 18:49:15 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 				break ;
 		}
 	}
-	if (ft_isquotes(vars->read[*i]))
+	if (vars->read[*i] && ft_isquotes(vars->read[*i]))
 		return (2);
 	if (ft_token(vars, *i, comm, COMM) == -1)
 		return (-1);
