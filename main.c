@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/13 17:38:06 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:35:48 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	envir = NULL;
+	vars.read = NULL;
 	strcpy_env(&envir, env);
 	while (1)
 	{

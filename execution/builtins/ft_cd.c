@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/13 17:33:43 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:10:19 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env *envir)
 	{
 		comm = comm->next;
 		if (chdir(comm->content))
-			printf("cd:%s: No such file or directory\n", comm->content);
+			printf("minishell: cd: %s: No such file or directory\n", comm->content);
 	}
 	return (0);
 }

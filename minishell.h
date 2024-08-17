@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/13 17:32:53 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:44:20 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void		ft_putchar_fd(char c, int fd);
 int			ft_strcmp(char *s1, char *s2);
 long long	ft_atoi(char *str);
 int			ft_strncmp(char *s1, char *s2, size_t n);
+char		*ft_strchr(const char *str, int c);
 
 /*    utils check*/
 
@@ -123,6 +124,6 @@ void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);
 int			ft_echo(t_list *comm);
 int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
 int			ft_pwd(void);
-int			ft_exit(t_list *comm);
+int			ft_exit(int	exit_status);
 
 #endif
