@@ -3,28 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arewhat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 23:22:22 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/17 11:21:05 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
+{
+	int	len;
+	char *temp;
+	int	start;
+	int	check;
+	char stemp[2];
+
+	check = 0;
+	stemp[1] = '\0';
+	start = 0;
+	len = 0;
+	temp = NULL;
+	if (vars->read[*i] == '$')
+	{
+		start = *i;
+		len = count_dollar(vars->read, i);
+		if (len % 2 != 0)
+		{
+			if (ft_isdigit(vars->read[*i]))
+			{
+				check = 1;
+				(*i)++;
+			}
+		}
+		if (len % 2 != 0 && check == 0)
+		{
+			temp = ft_substr(vars->read, start, len - 1);
+			expanding(vars, i, &temp, envir);
+		}
+		else
+			temp = ft_substr(vars->read, start, len);
+		*str_temp = ft_strjoin(*str_temp, temp);
+		while (vars->read[*i] && !ft_isspace(vars->read[*i]) && !ft_issep(vars->read[*i]) && vars->read[*i] != '$' && !ft_isquotes(vars->read[*i]))
+		{
+			stemp[0] = vars->read[*i];
+			*str_temp = ft_strjoin(*str_temp, stemp);
+			(*i)++;
+		}
+		if (vars->read[*i] == '$')
+			ft_dollar(vars, i, str_temp, envir);
+		if (ft_isquotes(vars->read[*i]))
+			return (2);
+	}
+	return (0);
+}
+
 int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	char *str_temp;
 	t_list	*curr;
+	int		hold;
 
+	hold = 0;
 	curr = NULL;
 	str_temp = ft_strdup("");
 	vars->catsh = *i;
 	vars->befor_sing = *i;
 	if (vars->read[*i] == '$')
 	{
-		dollar(vars, i, &str_temp, envir);
-		//khask tchuf kifach matkhlihach tfre9 w tjm3hom tatl9a space wla chi haja 
+		hold = ft_dollar(vars, i, &str_temp, envir);
+		if (hold == 2)
+			return (2);		
 		replace_expand(curr, str_temp, comm);
 		return (0);
 	}

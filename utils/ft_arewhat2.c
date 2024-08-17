@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arewhat2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 18:47:51 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/17 11:31:30 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	replace_expand(t_list *curr, char *str_temp, t_list **comm)
 
 char	*ft_check_env(t_env **envir, char *comp)
 {
-	char *exp;
+	char	*exp;
 	t_env	*temp;
 
 	temp = *envir;
@@ -44,7 +44,6 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	char	*comp;
 
 	tmp[1] = '\0';
-	// (*i)++;
 	comp = NULL;
 	while (vars->read[*i] && (ft_isalpha(vars->read[*i]) || vars->read[*i] == '_'))
 	{
@@ -57,9 +56,7 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	comp = ft_check_env(envir, comp);
 	if (!comp)
 		return (-1);
-	printf("1 == %s\n", *str_temp);
 	*str_temp = ft_strjoin(*str_temp, comp);
-	printf("2 == %s\n", *str_temp);
 	return (0);
 }
 
@@ -81,8 +78,9 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	int	len;
 	char *temp;
 	int	start;
-	int	check = 0;
+	int	check;
 
+	check = 0;
 	start = 0;
 	len = 0;
 	temp = NULL;
@@ -98,21 +96,14 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 				(*i)++;
 			}
 		}
-		// printf("%d\n", len);
 		if (len % 2 != 0 && check == 0)
 		{
 			temp = ft_substr(vars->read, start, len - 1);
 			expanding(vars, i, &temp, envir);
 		}
 		else
-		{
 			temp = ft_substr(vars->read, start, len);
-		}
 		*str_temp = ft_strjoin(*str_temp, temp);
-
-		// printf("temp == %s\n", temp);
-		// printf("str_temp == %s\n", *str_temp);
-		// printf("*i == %d\n", *i);
 	}
 	return (0);
 }
@@ -121,7 +112,6 @@ int	double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	char	temp[2];
 
-	(void)envir;
 	temp[1] = '\0';
 	while (vars->read[*i] && vars->read[*i] != 34)
 	{
@@ -162,8 +152,6 @@ int	single_quo(t_vars *vars, int *i, char **str_temp)
 	return (0);
 }
 
-//"'>'"ls|cat
-
 int	just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	char	temp[2];
@@ -172,7 +160,7 @@ int	just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	(void)envir;
 	str = NULL;
 	temp[1] = '\0';
-	while (vars->read[*i] && vars->read[*i] != '$' && !ft_issep(vars->read[*i]) && vars->read[*i] != 34)
+	while (vars->read[*i] && vars->read[*i] != '$' && !ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i]))
 	{
 		temp[0] = vars->read[*i];
 		str = ft_strjoin(str, temp);
@@ -180,8 +168,6 @@ int	just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			return (-1);
 		(*i)++;
 	}
-	if (vars->read[*i] == 34)
-		(*i)++;
 	*str_temp = ft_strjoin(*str_temp, str);
 	return (0);
 }
@@ -203,7 +189,7 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			just_alpha(vars, i, str_temp, envir);
 		if (ft_issep(vars->read[*i]) || ft_isspace(vars->read[*i]))
 			return (2);
-	}//"$1'23as''"
+	}
 	return (0);
 }
 
