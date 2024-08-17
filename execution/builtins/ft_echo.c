@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/13 17:37:14 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:57:44 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ int	ft_echo(t_list *comm)
 
 	is_n = 1;
 	temp = NULL;
+
 	comm = comm->next;
-	if (ft_isflag(comm->content))
+	while (comm && ft_isflag(comm->content))
 	{
 		is_n = 0;
 		comm = comm->next;
