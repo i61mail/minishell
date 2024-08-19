@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:55:38 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/10 09:00:58 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/18 11:59:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	ft_lstfree(t_list **comm)
 	while (curr)
 	{
 		temp = curr->next;
+		free(curr->content);
 		free(curr);
 		curr = temp;
 	}

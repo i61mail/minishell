@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/17 16:27:50 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:01:44 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_vars
 {
 	char	*read;
 	int		catsh;
-	char	*curr;
 	int		befor_sing;
 }	t_vars;
 
@@ -64,6 +63,7 @@ void		ft_lstadd_front(t_list **lst, t_list *new);
 t_list		*ft_lstlast(t_list *lst);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstfree(t_list **comm);
+void		free_all(char *read, t_list **comm, t_env **envir);
 
 /*       is what  */
 
@@ -75,11 +75,14 @@ int			ft_aresep(t_vars *vars, int *i, t_list **comm);
 int			ft_isquotes(int c);
 int			ft_isspace(int c);
 int			ft_arespace(char *read, int *i);
-int			ft_arealpha(t_vars *vars, int *i, t_list **comm);
+int			ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir);
 int			ft_issep(int c);
 int			quotes(t_vars *vars, int *i, t_list **comm, t_env **envir);
-int			ft_count_dollar(char *str, int *i);
+int			count_dollar(char *str, int *i);
 int			double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir);
+int			dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
+void		replace_expand(t_list *curr, char *str_temp, t_list **comm);
+int			expanding(t_vars *vars, int *i, char **str_temp, t_env **envir);
 
 /*        utils       */
 
@@ -117,6 +120,7 @@ int			strcpy_env(t_env **envir, char **env);
 t_env		*ft_lstenv(char *key, char *value);
 void		ft_lstenvadd_back(t_env **lst, t_env *new);
 t_env		*ft_lstenvlast(t_env *lst);
+void		ft_env_free(t_env **env);
 
 /*       execution      */
 void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);

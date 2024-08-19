@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:00:08 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/10 09:00:46 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/18 11:16:05 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,22 @@ t_env	*ft_lstenvlast(t_env *lst)
 	while (lst->next)
 		lst = lst->next;
 	return (lst);
+}
+
+void	ft_env_free(t_env **env)
+{
+	t_env	*curr;
+	t_env	*temp;
+
+	if (!env)
+		return ;
+	curr = *env;
+	while (curr)
+	{
+		temp = curr->next;
+		free(curr->key);
+		free(curr->value);
+		free(curr);
+		curr = temp;
+	}
 }
