@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
 TARGET = minishell
 
@@ -29,3 +29,5 @@ fclean : clean
 	rm -f $(TARGET)
 
 re : fclean $(TARGET)
+
+#echo $USER"$""PWD"

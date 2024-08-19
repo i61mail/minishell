@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/17 11:31:30 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/19 09:42:51 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ char	*ft_check_env(t_env **envir, char *comp)
 
 	temp = *envir;
 	exp = NULL;
-	while (temp && temp->key)
+	while (comp && temp && temp->key)
 	{
 		if (ft_strcmp(comp, temp->key) == 0)
 		{
 			exp = ft_strdup(temp->value);
-			return (exp);
+			return (free(comp), exp);
 		}
 		temp = temp->next;
 	}
-	return (ft_strdup(""));
+	return (free(comp), ft_strdup(""));
 }
 
 int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
@@ -45,7 +45,7 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 
 	tmp[1] = '\0';
 	comp = NULL;
-	while (vars->read[*i] && (ft_isalpha(vars->read[*i]) || vars->read[*i] == '_'))
+	while (vars->read[*i] && (ft_isalpha(vars->read[*i]) || vars->read[*i] == '_' || ft_isdigit(vars->read[*i])))
 	{
 		tmp[0] = vars->read[*i];
 		comp = ft_strjoin(comp, tmp);
@@ -57,7 +57,7 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	if (!comp)
 		return (-1);
 	*str_temp = ft_strjoin(*str_temp, comp);
-	return (0);
+	return (free(comp), 0);
 }
 
 int	count_dollar(char *str, int *i)
@@ -73,6 +73,20 @@ int	count_dollar(char *str, int *i)
 	return (len);
 }
 
+int	isthere(char *str, int *i)
+{
+	int b;
+
+	b = 0;
+	while (str[b] && b < *i)
+	{
+		if (str[b] == 34)
+			return (1);
+		b++;
+	}
+	return (0);
+}
+
 int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	int	len;
@@ -86,6 +100,10 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	temp = NULL;
 	if (vars->read[*i] == '$')
 	{
+		if (*i > 0 && vars->read[*i] && (ft_isquotes(vars->read[*i - 1]) && vars->read[*i + 1] == '\0'))
+			*str_temp = ft_strjoin(*str_temp, "$\0");
+		if (*i > 0 && vars->read[*i] && (vars->read[*i + 1] == 39 && isthere(vars->read, i)))
+			*str_temp = ft_strjoin(*str_temp, "$\0");
 		start = *i;
 		len = count_dollar(vars->read, i);
 		if (len % 2 != 0)
@@ -101,9 +119,12 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			temp = ft_substr(vars->read, start, len - 1);
 			expanding(vars, i, &temp, envir);
 		}
+		else if (len % 2 != 0 && check == 1)
+			temp = ft_substr(vars->read, start, len - 1);
 		else
 			temp = ft_substr(vars->read, start, len);
 		*str_temp = ft_strjoin(*str_temp, temp);
+		free(temp);
 	}
 	return (0);
 }
@@ -169,6 +190,7 @@ int	just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		(*i)++;
 	}
 	*str_temp = ft_strjoin(*str_temp, str);
+	free(str);
 	return (0);
 }
 
@@ -185,7 +207,7 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			single_quo(vars, i, str_temp);
 		if (vars->read[*i] == '$')
 			dollar(vars, i, str_temp, envir);
-		if (!ft_issep(vars->read[*i] && vars->read[*i] != '$') && !ft_isquotes(vars->read[*i]))
+		if (vars->read[*i] && !ft_issep(vars->read[*i]) && vars->read[*i] != '$' && !ft_isquotes(vars->read[*i]))
 			just_alpha(vars, i, str_temp, envir);
 		if (ft_issep(vars->read[*i]) || ft_isspace(vars->read[*i]))
 			return (2);
@@ -200,7 +222,6 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	int		check;
 	t_list	*curr;
 
-	(void)comm;
 	check = 0;
 	temp[1] = '\0';
 	curr = NULL;

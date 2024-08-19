@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/17 19:48:24 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/19 10:52:09 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
 	int		i;
 	// t_list	*temp;
-
 	i = 0;
 	while (vars->read[i] != '\0')
 	{
@@ -59,27 +58,29 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 	return (0);
 }
 
-void	f(void)
-{
-	system("leaks minishell");
-}
-
-void	init_vars(t_list **comm, t_vars *vars, t_env **envir)
+void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 {
 	*envir = NULL;
 	*comm = NULL;
 	vars->read = NULL;
 	vars->catsh = 0;
 	vars->befor_sing = 0;
-	vars->curr = NULL;
+	strcpy_env(envir, env);
 }
 
 int	pars_exec(t_vars vars, t_list *comm, t_env *envir)
 {
 	add_history(vars.read);
 	if (ft_pars_comm(&vars, &comm, &envir) != -1)
-		ft_execute(&vars,comm,envir);
-	// ft_pars_comm(&vars, &comm, &envir);
+	{
+		ft_execute(&vars, comm, envir);
+		free_all(vars.read, &comm, &envir);
+	}
+	else
+	{
+		free(vars.read);
+		ft_env_free(&envir);
+	}
 	return (0);
 }
 
@@ -89,20 +90,16 @@ int	main(int ac, char **av, char **env)
 	t_vars	vars;
 	t_env	*envir;
 
-	atexit(f);
 	(void)av;
 	while (1)
 	{
-		init_vars(&comm, &vars, &envir);
-		strcpy_env(&envir, env);
+		init_vars(&comm, &vars, &envir, env);
 		if (ac == 1)
 		{
 			vars.read = readline("minishell> ");
 			if (!vars.read)
 			{
-				free(vars.read);
-				ft_lstfree(&comm);
-				ft_env_free(&envir);
+				free_all(vars.read, &comm, &envir);
 				break ;
 			}
 			pars_exec(vars, comm, envir);
@@ -112,9 +109,6 @@ int	main(int ac, char **av, char **env)
 			ft_env_free(&envir);
 			break ;
 		}
-		free(vars.read);
-		ft_env_free(&envir);
-		ft_lstfree(&comm);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/17 16:42:23 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/19 09:55:14 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_vars
 {
 	char	*read;
 	int		catsh;
-	char	*curr;
 	int		befor_sing;
 }	t_vars;
 
@@ -64,6 +63,7 @@ void		ft_lstadd_front(t_list **lst, t_list *new);
 t_list		*ft_lstlast(t_list *lst);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstfree(t_list **comm);
+void		free_all(char *read, t_list **comm, t_env **envir);
 
 /*       is what  */
 

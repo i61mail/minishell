@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/11 20:34:26 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/19 09:55:59 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,11 @@ int	after_skip(char *str, int i, int red)
 		after_skip(str, i, red);
 	}
 	return (0);
+}
+
+void	free_all(char *read, t_list **comm, t_env **envir)
+{
+	free(read);
+	ft_lstfree(comm);
+	ft_env_free(envir);
 }

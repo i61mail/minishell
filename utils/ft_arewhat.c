@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/17 18:49:15 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/19 10:50:22 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	temp = NULL;
 	if (vars->read[*i] == '$')
 	{
+		if (vars->read[*i + 1] == '\0')
+			*str_temp = ft_strjoin(*str_temp, "$\0");
 		start = *i;
 		len = count_dollar(vars->read, i);
 		if (len % 2 != 0)
@@ -42,9 +44,12 @@ int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			temp = ft_substr(vars->read, start, len - 1);
 			expanding(vars, i, &temp, envir);
 		}
+		else if (len % 2 != 0 && check == 1)
+			temp = ft_substr(vars->read, start, len - 1);
 		else
 			temp = ft_substr(vars->read, start, len);
 		*str_temp = ft_strjoin(*str_temp, temp);
+		free(temp);
 		while (vars->read[*i] && !ft_isspace(vars->read[*i]) && !ft_issep(vars->read[*i]) && vars->read[*i] != '$' && !ft_isquotes(vars->read[*i]))
 		{
 			stemp[0] = vars->read[*i];
@@ -52,9 +57,9 @@ int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			(*i)++;
 		}
 		if (vars->read[*i] == '$')
-			ft_dollar(vars, i, str_temp, envir);
+			return (ft_dollar(vars, i, str_temp, envir));
 		if (ft_isquotes(vars->read[*i]))
-			return (2);
+			return (free(*str_temp), 2);
 	}
 	return (0);
 }
@@ -96,10 +101,10 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		}
 	}
 	if (vars->read[*i] && ft_isquotes(vars->read[*i]))
-		return (2);
+		return (free(str_temp), 2);
 	if (ft_token(vars, *i, comm, COMM) == -1)
 		return (-1);
-	return (0);
+	return (free(str_temp), 0);
 }
 
 int	ft_arespace(char *read, int *i)
@@ -119,7 +124,7 @@ static int	ft_aresep3(t_vars *vars, int *i, int type, t_list **comm)
 	int	check;
 
 	check = 0;
-	if (type == 1 || type == 2) //redirection '<' && '>'
+	if (type == 1 || type == 2)
 	{
 		vars->catsh = *i;
 		if (type == 1)
@@ -147,7 +152,7 @@ static int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 	int	check;
 
 	check = 0;
-	if (type == 3) //append >>
+	if (type == 3)
 	{
 		vars->catsh = *i;
 		check = ft_append(vars, i, comm);
@@ -156,7 +161,7 @@ static int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 		else if (check == -1)
 			return (-1);
 	}
-	else if (type == 4) // heredoc <<
+	else if (type == 4)
 	{
 		vars->catsh = *i;
 		check = ft_heredoc(vars, i, comm);
@@ -181,7 +186,7 @@ int	ft_aresep(t_vars *vars, int *i, t_list **comm)
 		ft_error(comm);
 		return (-1);
 	}
-	if (type == 5) //pipe
+	if (type == 5)
 	{
 		vars->catsh = *i;
 		check = ft_pipe(vars, i, comm);
