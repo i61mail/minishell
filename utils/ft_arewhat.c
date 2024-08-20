@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arewhat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/20 14:48:30 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/20 22:18:15 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,12 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	return (free(str_temp), 0);
 }
 
-int	ft_arespace(char *read, int *i)
+int	ft_arespace(t_vars *vars, int *i)
 {
-	while (read[*i])
+	vars->bef_spac = *i;
+	while (vars->read[*i])
 	{
-		if (ft_isspace(read[*i]))
+		if (ft_isspace(vars->read[*i]))
 			(*i)++;
 		else
 			break ;

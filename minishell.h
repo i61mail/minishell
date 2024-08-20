@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/19 11:01:44 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/20 22:18:05 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_vars
 	char	*read;
 	int		catsh;
 	int		befor_sing;
+	int		bef_spac;
 }	t_vars;
 
 typedef struct s_env
@@ -74,7 +75,7 @@ int			ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir);
 int			ft_aresep(t_vars *vars, int *i, t_list **comm);
 int			ft_isquotes(int c);
 int			ft_isspace(int c);
-int			ft_arespace(char *read, int *i);
+int			ft_arespace(t_vars *vars, int *i);
 int			ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir);
 int			ft_issep(int c);
 int			quotes(t_vars *vars, int *i, t_list **comm, t_env **envir);

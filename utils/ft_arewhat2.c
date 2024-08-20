@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arewhat2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/20 15:02:50 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/20 23:16:30 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,33 @@ int	count_dollar(char *str, int *i)
 	return (len);
 }
 
-int	isthere(char *str, int *i)
+int	isthere(t_vars *vars, int *i)
 {
 	int b;
+	int	check;
 
-	b = 0;
-	while (str[b] && b < *i)
+	check = 0;
+	b = vars->bef_spac;
+	while (vars->read[b] && b != *i)
 	{
-		if (str[b] == 34)
+		if (vars->read[b] == 34 && check == 0 && *i > b)
+		{
+			check = 1;
+			b++;
+		}
+		if (vars->read[b] == 34 && check == 1 && b > *i)
+			return (1);
+		if (vars->read[b] == 34 && check == 1)
+			return (0);
+		if (vars->read[b] == 39 && check == 1 && b > *i)
 			return (1);
 		b++;
+		if (b > *i + 1)
+			return (0);
 	}
+	if (b == *i && (vars->read[b + 1] != 39 && vars->read[b + 1] != '_'
+		&& !ft_isdigit(vars->read[b + 1]) && !ft_isalpha(vars->read[b + 1])))
+		return (1);
 	return (0);
 }
 
@@ -116,10 +132,13 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	temp = NULL;
 	if (vars->read[*i] == '$')
 	{
-		if (*i > 0 && vars->read[*i] && (ft_isquotes(vars->read[*i - 1]) && (vars->read[*i + 1] == '\0' || ft_isquotes(vars->read[*i + 1]))))
-			*str_temp = ft_strjoin(*str_temp, "$\0");
-		if (*i > 0 && vars->read[*i] && (vars->read[*i + 1] == 39 && isthere(vars->read, i)))
-			*str_temp = ft_strjoin(*str_temp, "$\0");
+		if (vars->read[*i + 1] != '$')
+		{
+			if (*i > 0 && vars->read[*i] && (ft_isquotes(vars->read[*i - 1]) && (vars->read[*i + 1] == '\0' || isthere(vars, i))))
+				*str_temp = ft_strjoin(*str_temp, "$\0");
+			else if (*i > 0 && vars->read[*i] && (vars->read[*i + 1] == 39 && isthere(vars, i)))
+				*str_temp = ft_strjoin(*str_temp, "$\0");
+		}
 		start = *i;
 		len = count_dollar(vars->read, i);
 		if (len % 2 != 0)
@@ -164,7 +183,10 @@ int	double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		}
 	}
 	if (vars->read[*i] == 34)
+	{
 		(*i) += 1;
+		vars->bef_spac = *i;
+	}
 	return (0);
 }
 
@@ -223,7 +245,7 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			single_quo(vars, i, str_temp);
 		if (vars->read[*i] && vars->read[*i] == '$')
 			dollar(vars, i, str_temp, envir);
-		if (vars->read[*i] && !ft_issep(vars->read[*i]) && vars->read[*i] != '$' && !ft_isquotes(vars->read[*i]))
+		if (vars->read[*i] && !ft_issep(vars->read[*i]) && vars->read[*i] != '$' && !ft_isquotes(vars->read[*i]) && !ft_isspace(vars->read[*i]))
 			just_alpha(vars, i, str_temp, envir);
 		if (vars->read[*i] && (ft_issep(vars->read[*i]) || ft_isspace(vars->read[*i])))
 			return (2);
