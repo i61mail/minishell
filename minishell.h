@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/16 17:44:20 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:29:11 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <errno.h>
+# include <sys/wait.h>
 
 typedef struct s_vars
 {
@@ -28,6 +29,11 @@ typedef struct s_vars
 	int		catsh;
 	char	*curr;
 	int		befor_sing;
+	int		exit_status;
+	int		pfd[2];
+	int		old_fd;
+	int		i;
+	int		v;
 }	t_vars;
 
 typedef struct s_env
@@ -124,6 +130,16 @@ void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);
 int			ft_echo(t_list *comm);
 int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
 int			ft_pwd(void);
-int			ft_exit(int	exit_status);
+int			ft_exit(int exit_status, int is_pipd);
+
+/* 		  exec utils	*/
+int			ft_env_length(t_env *envir);
+int			ft_comm_length(t_list *comm);
+int			ft_pipe_num(t_list *comm);
+void		dup_and_close(int oldfd, int newfd);
+char		*ft_locate_bin(char *command, char *path);
+char		**ft_2denv(t_env *envir);
+char		**ft_2dcomm(t_list *comm);
+char		*ft_comm2str(t_list **comm);
 
 #endif
