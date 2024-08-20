@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/20 23:16:30 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/20 23:39:05 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,12 @@ int	isthere(t_vars *vars, int *i)
 		{
 			check = 1;
 			b++;
+		}
+		while (vars->read[b] && check == 1 && (ft_isalpha(vars->read[b]) || ft_isdigit(vars->read[b]) || vars->read[b] == '_'))
+		{
+			b++;
+			if (vars->read[b] == '$')
+				return (1);
 		}
 		if (vars->read[b] == 34 && check == 1 && b > *i)
 			return (1);
