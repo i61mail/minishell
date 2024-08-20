@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/19 10:50:22 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/20 14:48:30 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	temp = NULL;
 	if (vars->read[*i] == '$')
 	{
-		if (vars->read[*i + 1] == '\0')
+		if (vars->read[*i + 1] == '\0' || ft_isspace(vars->read[*i + 1]))
 			*str_temp = ft_strjoin(*str_temp, "$\0");
 		start = *i;
 		len = count_dollar(vars->read, i);

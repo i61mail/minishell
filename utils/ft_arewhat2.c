@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/19 09:42:51 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/20 14:57:42 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	temp = NULL;
 	if (vars->read[*i] == '$')
 	{
-		if (*i > 0 && vars->read[*i] && (ft_isquotes(vars->read[*i - 1]) && vars->read[*i + 1] == '\0'))
+		if (*i > 0 && vars->read[*i] && (ft_isquotes(vars->read[*i - 1]) && (vars->read[*i + 1] == '\0' || ft_isquotes(vars->read[*i + 1]))))
 			*str_temp = ft_strjoin(*str_temp, "$\0");
 		if (*i > 0 && vars->read[*i] && (vars->read[*i + 1] == 39 && isthere(vars->read, i)))
 			*str_temp = ft_strjoin(*str_temp, "$\0");
@@ -215,15 +215,30 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	return (0);
 }
 
-int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
+static int	before_quotes(t_vars *vars, int *i, char **str_temp)
 {
 	char	temp[2];
+
+	temp[1] = '\0';
+	while (vars->read[*i] && !ft_isquotes(vars->read[*i])
+		&& vars->read[*i] != '$')
+	{
+		temp[0] = vars->read[*i];
+		*str_temp = ft_strjoin(*str_temp, temp);
+		if (!*str_temp)
+			return (-1);
+		(*i)++;
+	}
+	return (0);
+}
+
+int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
+{
 	char	*str_temp;
 	int		check;
 	t_list	*curr;
 
 	check = 0;
-	temp[1] = '\0';
 	curr = NULL;
 	if (*i > 0 && !ft_isspace(vars->read[*i - 1])
 		&& !ft_issep(vars->read[*i - 1]))
@@ -231,15 +246,8 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	while (vars->read[*i])
 	{
 		str_temp = NULL;
-		while (vars->read[*i] && !ft_isquotes(vars->read[*i])
-			&& vars->read[*i] != '$')
-		{
-			temp[0] = vars->read[*i];
-			str_temp = ft_strjoin(str_temp, temp);
-			if (!str_temp)
-				return (-1);
-			(*i)++;
-		}
+		if (before_quotes(vars, i, &str_temp) == -1)
+			return (-1);
 		check = dollar_quotes(vars, i, &str_temp, envir);
 		if (check == -1)
 			return (-1);
