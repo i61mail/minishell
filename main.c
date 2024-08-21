@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/20 22:17:48 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/21 11:25:16 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->read = NULL;
 	vars->catsh = 0;
 	vars->befor_sing = 0;
+	vars->bef_spac = 0;
 	strcpy_env(envir, env);
 }
 

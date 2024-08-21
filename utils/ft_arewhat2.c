@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arewhat2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/20 23:39:05 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/21 11:36:09 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,28 +84,28 @@ int	isthere(t_vars *vars, int *i)
 	b = vars->bef_spac;
 	while (vars->read[b] && b != *i)
 	{
-		if (vars->read[b] == 34 && check == 0 && *i > b)
+		if (vars->read[b] && vars->read[b] == 34 && check == 0 && *i > b)
 		{
 			check = 1;
 			b++;
 		}
-		while (vars->read[b] && check == 1 && (ft_isalpha(vars->read[b]) || ft_isdigit(vars->read[b]) || vars->read[b] == '_'))
+		while (vars->read[b] && check == 1 && (ft_isalpha(vars->read[b]) || ft_isdigit(vars->read[b]) || vars->read[b] == '_' || ft_isspace(vars->read[b])))
 		{
 			b++;
-			if (vars->read[b] == '$')
+			if (vars->read[b] && vars->read[b] == '$')
 				return (1);
 		}
-		if (vars->read[b] == 34 && check == 1 && b > *i)
+		if (vars->read[b] && vars->read[b] == 34 && check == 1 && b > *i)
 			return (1);
-		if (vars->read[b] == 34 && check == 1)
+		if (vars->read[b] && vars->read[b] == 34 && check == 1)
 			return (0);
-		if (vars->read[b] == 39 && check == 1 && b > *i)
+		if (vars->read[b] && vars->read[b] == 39 && check == 1)
 			return (1);
 		b++;
 		if (b > *i + 1)
 			return (0);
 	}
-	if (b == *i && (vars->read[b + 1] != 39 && vars->read[b + 1] != '_'
+	if (vars->read[b] && b == *i && (!ft_isquotes(vars->read[b + 1]) && vars->read[b + 1] != '_'
 		&& !ft_isdigit(vars->read[b + 1]) && !ft_isalpha(vars->read[b + 1])))
 		return (1);
 	return (0);
@@ -138,11 +138,11 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	temp = NULL;
 	if (vars->read[*i] == '$')
 	{
-		if (vars->read[*i + 1] != '$')
+		if (vars->read[*i + 1] != '$' && !ft_isdigit(vars->read[*i + 1]) && !ft_isalpha(vars->read[*i + 1]) && vars->read[*i + 1] != '_')
 		{
-			if (*i > 0 && vars->read[*i] && (ft_isquotes(vars->read[*i - 1]) && (vars->read[*i + 1] == '\0' || isthere(vars, i))))
+			if (*i > 0 && vars->read[*i] && (vars->read[*i + 1] == '\0' || isthere(vars, i)))
 				*str_temp = ft_strjoin(*str_temp, "$\0");
-			else if (*i > 0 && vars->read[*i] && (vars->read[*i + 1] == 39 && isthere(vars, i)))
+			else if (*i > 0 && vars->read[*i] && ft_isquotes(vars->read[*i + 1] && isthere(vars, i)))
 				*str_temp = ft_strjoin(*str_temp, "$\0");
 		}
 		start = *i;
