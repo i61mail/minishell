@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/21 11:36:09 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/21 13:13:39 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,23 @@ int	count_dollar(char *str, int *i)
 	return (len);
 }
 
+int	check_isthere(t_vars *vars, int *b, int i, int *check)
+{
+	if (vars->read[*b] && vars->read[*b] == 34 && *check == 0 && i > *b)
+	{
+		*check = 1;
+		(*b)++;
+	}
+	while (vars->read[*b] && *check == 1 && (ft_isalpha(vars->read[*b]) || ft_isdigit(vars->read[*b])
+		|| vars->read[*b] == '_' || ft_isspace(vars->read[*b])))
+	{
+		(*b)++;
+		if (vars->read[*b] && vars->read[*b] == '$')
+			return (1);
+	}
+	return (0);
+}
+
 int	isthere(t_vars *vars, int *i)
 {
 	int b;
@@ -84,17 +101,8 @@ int	isthere(t_vars *vars, int *i)
 	b = vars->bef_spac;
 	while (vars->read[b] && b != *i)
 	{
-		if (vars->read[b] && vars->read[b] == 34 && check == 0 && *i > b)
-		{
-			check = 1;
-			b++;
-		}
-		while (vars->read[b] && check == 1 && (ft_isalpha(vars->read[b]) || ft_isdigit(vars->read[b]) || vars->read[b] == '_' || ft_isspace(vars->read[b])))
-		{
-			b++;
-			if (vars->read[b] && vars->read[b] == '$')
-				return (1);
-		}
+		if (check_isthere(vars, &b, *i, &check) == 1)
+			return (1);
 		if (vars->read[b] && vars->read[b] == 34 && check == 1 && b > *i)
 			return (1);
 		if (vars->read[b] && vars->read[b] == 34 && check == 1)
@@ -125,6 +133,25 @@ int	ft_onedollar(char *str, int *i)
 	return (0);
 }
 
+void	check_dollar(t_vars *vars, int *i, char **str_temp)
+{
+	if (vars->read[*i + 1] != '$' && !ft_isdigit(vars->read[*i + 1]) && !ft_isalpha(vars->read[*i + 1]) && vars->read[*i + 1] != '_')
+	{
+		if (*i > 0 && vars->read[*i] && (vars->read[*i + 1] == '\0' || isthere(vars, i)))
+			*str_temp = ft_strjoin(*str_temp, "$\0");
+		else if (*i > 0 && vars->read[*i] && ft_isquotes(vars->read[*i + 1] && isthere(vars, i)))
+			*str_temp = ft_strjoin(*str_temp, "$\0");
+	}	
+}
+
+void	init_va(int *len, int *start, int *check, char **temp)
+{
+	*check = 0;
+	*start = 0;
+	*len = 0;
+	*temp = NULL;
+}
+
 int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	int	len;
@@ -132,19 +159,10 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	int	start;
 	int	check;
 
-	check = 0;
-	start = 0;
-	len = 0;
-	temp = NULL;
+	init_va(&len, &start, &check, &temp);
 	if (vars->read[*i] == '$')
 	{
-		if (vars->read[*i + 1] != '$' && !ft_isdigit(vars->read[*i + 1]) && !ft_isalpha(vars->read[*i + 1]) && vars->read[*i + 1] != '_')
-		{
-			if (*i > 0 && vars->read[*i] && (vars->read[*i + 1] == '\0' || isthere(vars, i)))
-				*str_temp = ft_strjoin(*str_temp, "$\0");
-			else if (*i > 0 && vars->read[*i] && ft_isquotes(vars->read[*i + 1] && isthere(vars, i)))
-				*str_temp = ft_strjoin(*str_temp, "$\0");
-		}
+		check_dollar(vars, i, str_temp);
 		start = *i;
 		len = count_dollar(vars->read, i);
 		if (len % 2 != 0)
@@ -157,7 +175,12 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		}
 		if (len % 2 != 0 && check == 0)
 		{
-			temp = ft_substr(vars->read, start, len - 1);
+			if (!ft_isdigit(vars->read[*i]) && !ft_isalpha(vars->read[*i]) && vars->read[*i] != '_' && len > 1)
+			{
+				temp = ft_substr(vars->read, start, len);
+			}
+			else
+				temp = ft_substr(vars->read, start, len - 1);
 			expanding(vars, i, &temp, envir);
 		}
 		else if (len % 2 != 0 && check == 1)

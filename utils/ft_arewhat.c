@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arewhat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/20 22:18:15 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/21 13:15:40 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	temp = NULL;
 	if (vars->read[*i] == '$')
 	{
-		if (vars->read[*i + 1] == '\0' || ft_isspace(vars->read[*i + 1]))
-			*str_temp = ft_strjoin(*str_temp, "$\0");
 		start = *i;
 		len = count_dollar(vars->read, i);
 		if (len % 2 != 0)
@@ -41,7 +39,10 @@ int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		}
 		if (len % 2 != 0 && check == 0)
 		{
-			temp = ft_substr(vars->read, start, len - 1);
+			if (!ft_isdigit(vars->read[*i]) && !ft_isalpha(vars->read[*i]) && vars->read[*i] != '_')
+				temp = ft_substr(vars->read, start, len);
+			else
+				temp = ft_substr(vars->read, start, len - 1);
 			expanding(vars, i, &temp, envir);
 		}
 		else if (len % 2 != 0 && check == 1)
