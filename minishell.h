@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/20 22:18:05 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/22 15:51:56 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct s_vars
 	int		catsh;
 	int		befor_sing;
 	int		bef_spac;
+	int		len;
+	int		start;
 }	t_vars;
 
 typedef struct s_env
@@ -84,6 +86,20 @@ int			double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
 void		replace_expand(t_list *curr, char *str_temp, t_list **comm);
 int			expanding(t_vars *vars, int *i, char **str_temp, t_env **envir);
+void		init_va(int *check, char **temp);
+void		check_dollar(t_vars *vars, int *i, char **str_temp);
+int			dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir);
+int			just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir);
+int			before_quotes(t_vars *vars, int *i, char **str_temp);
+void		skip_digit(t_vars *vars, int *i, int *check);
+int			ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
+int			append_dollar2(t_vars *vars, int *i, char **temp, t_env **envir);
+int			join_afterdollar(t_vars *vars, int *i, char **str_temp);
+int			address_quote(t_vars *vars, int *i, char **str_temp, t_env **envir);
+void		initi_vars(int *check, char **temp);
+int			append_dollar(t_vars *vars, int *i, char **temp, t_env **envir);
+int			ft_aresep3(t_vars *vars, int *i, int type, t_list **comm);
+int			ft_aresep2(t_vars *vars, int *i, int type, t_list **comm);
 
 /*        utils       */
 
@@ -130,6 +146,6 @@ void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);
 int			ft_echo(t_list *comm);
 int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
 int			ft_pwd(void);
-int			ft_exit(int	exit_status);
+int			ft_exit(int exit_status);
 
 #endif

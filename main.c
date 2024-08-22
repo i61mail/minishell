@@ -6,28 +6,11 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/21 16:08:43 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/22 15:52:46 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_token(t_vars *vars, int i, t_list **comm, int type)
-{
-	char	*token;
-	t_list	*current;
-
-	token = ft_substr(vars->read, vars->catsh, i - vars->catsh);
-	if (!token)
-		return (-1);
-	current = ft_lstnew(token, type);
-	if (!current)
-		return (free(token), free(current), -1);
-	ft_lstadd_back(comm, current);
-	if (!*comm)
-		return (free(token), free(current), -1);
-	return (0);
-}
 
 int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
@@ -66,6 +49,8 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->catsh = 0;
 	vars->befor_sing = 0;
 	vars->bef_spac = 0;
+	vars->len = 0;
+	vars->start = 0;
 	strcpy_env(envir, env);
 }
 
