@@ -3,198 +3,159 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/19 14:00:03 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/22 16:09:32 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_env_length(t_env *envir)
+void	ft_child(t_vars *vars, t_list *comm, t_env *envir, char *command)
 {
-	int	i;
-
-	i = 0;
-	while (envir)
-	{
-		envir = envir->next;
-		i++;
-	}
-	return (i);
-}
-
-int	ft_comm_length(t_list *comm)
-{
-	int	i;
-
-	i = 0;
-	while (comm)
-	{
-		comm = comm->next;
-		i++;
-	}
-	return (i);
-}
-
-char	**ft_2denv(t_env *envir)
-{
+	char	*binary;
 	char	**_2denv;
-	char	*temp;
-	char	*temp1;
-	int		i;
 
-	i = 0;
-	_2denv = malloc(sizeof(char *) * (ft_env_length(envir) + 1));
-	if (!_2denv)
-		return (NULL);
-	while (envir)
+	close(vars->pfd[0]);
+	binary = ft_locate_bin(comm->content, getenv("PATH"));
+	if (!binary)
 	{
-		temp = ft_strjoin(ft_strdup(envir->key), "=");
-		temp1 = ft_strjoin(temp, envir->value);
-		_2denv[i] = temp1;
-		envir = envir->next;
-		i++;
+		close(vars->pfd[1]);
+		close(vars->old_fd);
+		printf("minishell: %s: command not found\n", comm->content);
+		exit(127);
 	}
-	_2denv[i] = NULL;
-	return (_2denv);
+	if (vars->pipe)
+		dup_and_close(vars->pfd[1], 1);
+	dup_and_close(vars->old_fd, 0);
+	comm->content = binary;
+	_2denv = ft_2denv(envir);
+	execve(binary, ft_split(command,' '), (char *const *)_2denv);
+	perror(comm->content);
+	exit(errno);
 }
 
-char	**ft_2dcomm(t_list *comm)
+void	ft_parent(t_vars *vars, t_list *comm)
 {
-	char	**_2dcomm;
-	int		i;
+	int	pid;
 
-	i = 0;
-	_2dcomm = malloc(sizeof(char *) * (ft_comm_length(comm) + 1));
-	if (!_2dcomm)
-		return (NULL);
-	while (comm && comm->type != PIP)
-	{
-		_2dcomm[i] = comm->content;
-		comm = comm->next;
-		i++;
-	}
-	_2dcomm[i] = NULL;
-	return (_2dcomm);
+	close(vars->pfd[1]);
+	if (vars->old_fd != 0 && vars->old_fd != 1)
+		close(vars->old_fd);
+	vars->old_fd = vars->pfd[0];
+	wait(&pid);
+	if (WIFEXITED(pid))
+		vars->exit_status = WEXITSTATUS(pid);
+	if (comm && !ft_strncmp(comm->content, "exit\0", 5))
+		ft_exit(vars->exit_status, vars->numofpipes);
+	//free child leaks
 }
-char	*ft_comm2str(t_list **comm, int *fd)
+void	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 {
-	char *str;
-	t_list *temp = (*comm);
+	(void)vars;
+	if(!node || !next_node)
+	{
+		printf("i should'nt get here\n");
+		return ;
+	}
+	if(node->type != PIP && node->type != RED_IN)
+		vars->pipe = 0;
+	if(node->type == RED_OUT)
+	{
+		int fd = open(next_node->content, O_WRONLY  | O_CREAT | O_TRUNC, 0644);
+		if(fd == -1)
+			printf("failure to open file\n");
+		dup_and_close(fd, 1);
+	}
+	if(node->type == RED_APPEND)
+	{
+		int fd = open(next_node->content, O_WRONLY  | O_CREAT | O_APPEND, 0644);
+		if(fd == -1)
+			printf("failure to open file\n");
+		dup_and_close(fd, 1);
+	}
+	if(node->type == RED_IN)
+	{
+		int fd = open(next_node->content, O_RDONLY);
+		if(fd == -1)
+			printf("failure to open file\n");
+		dup_and_close(fd, 0);// failure to open file needs to be handled
+	}
+}
+char *ft_command(t_list *comm, t_vars *vars)
+{
+	char		*str;
+	t_list		*temp;
 
+	temp = comm;
 	str = ft_strdup("");
-	while(temp && temp->type != PIP)
+	while (temp && temp->type != PIP)
 	{
-		//printf("%s\n",temp->content);
-		str = ft_strjoin(str, " ");
-		str = ft_strjoin(str, temp->content);	
+		if (temp != comm && !temp->type)
+			str = ft_strjoin(str, " ");
+		if (temp->type)
+		{
+			ft_handle_redir(temp, temp->next, vars);
+			temp = temp->next;
+			if(temp)
+				temp = temp->next;
+			continue;
+		}
+		str = ft_strjoin(str, temp->content);
 		temp = temp->next;
-	}
-	if(temp)
-	{
-		*comm = temp->next;
-	}
-	else
-	{
-		(void)fd;
-		//fd[0] = 0;
-		//fd[1] = 1;
-		*comm =NULL;
 	}
 	return (str);
 }
 
-char	*ft_locate_bin(char *command, char *path)
+void	ft_exec_command(t_vars *vars, t_list *comm, t_env *envir)
 {
-	char	**_path;
-	char	*temp;
-	char	*temp1;
+	char *command;
 
-	if(!command)
-		return (NULL);
-	//if given an absolute path or a absolue path
-	if (ft_strchr(command, '/'))
-		return(command);
-	
-	// if given a realative path to a command that does not exist in the current dir.
-	_path = ft_split(path, ':');
-	while (*_path)
+	command = ft_command(comm, vars);
+	if (comm && !ft_strncmp(comm->content, "echo\0", 5))
+		ft_echo(command);
+	else if (comm && !ft_strncmp(comm->content, "cd\0", 3))
+		ft_cd(vars, comm, envir);
+	else if (comm && !ft_strncmp(comm->content, "pwd\0", 4))
+		ft_pwd();
+	else if (comm && ft_strncmp(comm->content, "exit\0", 5))
+		ft_child(vars, comm, envir,command);
+	exit(127);
+}
+
+void	ft_run(t_vars *vars, t_list *comm, t_env *envir)
+{
+	int		id;
+	t_list	*new_comm;
+
+	new_comm = NULL;
+	while (comm)
 	{
-		temp = ft_strjoin(*_path, "/");
-		temp1 = ft_strjoin(temp, ft_strdup(command));
-		if (!access(temp1, X_OK | F_OK))
-			return (temp1);
-		_path++;
+		pipe(vars->pfd);
+		new_comm = ft_split_pipe(&comm, vars);
+		id = fork();
+		if (id == -1)
+		{
+			ft_putstr_fd("minishell: fork: Resource temporarily unavailable\n",2);
+			return ;
+		}
+		if (!id)
+			ft_exec_command(vars, comm, envir);
+		else
+			ft_parent(vars, comm);
+		comm = new_comm;
 	}
-	return (NULL);
 }
 
 void	ft_execute(t_vars *vars, t_list *comm, t_env *envir)
 {
-	char	*command;
-	char	**_2dcomm;
-	char	**_2denv;
-	char 	*str_com;
-	t_list 	*new_comm;
-	int		id;
-	static int		exit_status = 0;
-	int		pfd[2];
-	new_comm = comm;
+	vars->old_fd = 0;
+	vars->numofpipes = ft_pipe_num(comm);
 	if (!comm)
 		return ;
-	pipe(pfd);
-	while(comm)
-	{
-		str_com = ft_comm2str(&new_comm,pfd);
-		if (comm && !ft_strncmp(comm->content, "echo\0", 5))
-			ft_echo(comm);
-		else if (comm && !ft_strncmp(comm->content, "cd\0", 3))
-			ft_cd(vars, comm, envir);
-		else if (comm && !ft_strncmp(comm->content, "pwd\0", 4))
-			ft_pwd();
-		else if (comm && !ft_strncmp(comm->content, "exit\0", 5))
-			ft_exit(exit_status);
-		else
-		{
-			id = fork();
-			if(id == -1)
-			{
-				printf("minishell: fork: Resource temporarily unavailable\n");
-				return ;
-			}
-			if (!id)
-			{
-				close(pfd[1]);
-				command = ft_locate_bin(comm->content, getenv("PATH"));
-				if (!command)
-				{
-					printf("minishell: %s: command not found\n", comm->content);
-					exit(127);
-				}
-				comm->content = command;
-				_2denv = ft_2denv(envir);
-				_2dcomm = ft_2dcomm(comm);
-				
-				execve(_2dcomm[0], _2dcomm, (char *const *)_2denv);
-				perror(comm->content);
-			}
-			else
-			{
-				close(pfd[0]);
-				int	pid;
-				wait(&pid);
-				if(WIFEXITED(pid))
-				{
-					exit_status = WEXITSTATUS(pid);
-					//printf("process exited with %d \n",exit_status);
-				}
-				close(pfd[1]);
-				//free child leaks
-			}
-		}
-		//printf("comm :%s\n", str_com);
-		comm = new_comm;
-	}
-	}
+	ft_run(vars, comm, envir);
+	if (vars->old_fd != 0 && vars->old_fd != 1)
+		close(vars->old_fd);
+	vars->old_fd = 0;
+}

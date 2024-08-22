@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/19 11:00:02 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/22 16:09:37 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,26 @@ int	ft_isflag(char *str)
 	return (1);
 }
 
-int	ft_echo(t_list *comm)
+int	ft_echo(char *command)
 {
-	t_list	*temp;
 	int		is_n;
+	int		i;
+	char **_2dcommand;
 
 	is_n = 1;
-	temp = NULL;
-
-	comm = comm->next;
-	while (comm && ft_isflag(comm->content))
+	i = 1;
+	_2dcommand = ft_split(command,' ');
+	while (_2dcommand[i] && ft_isflag(_2dcommand[i]))
 	{
 		is_n = 0;
-		comm = comm->next;
+		i++;
 	}
-	temp = comm;
-	while (temp && temp->type == 0)
+	while (_2dcommand[i])
 	{
-		printf("%s", temp->content);
-		if (temp->next)
+		printf("%s", _2dcommand[i]);
+		if (_2dcommand[i + 1])
 			printf(" ");
-		temp = temp->next;
+		i++;
 	}
 	if (is_n)
 		printf("\n");

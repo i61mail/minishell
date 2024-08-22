@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/19 11:01:44 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/22 16:07:28 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,18 @@
 # include <limits.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 typedef struct s_vars
 {
 	char	*read;
 	int		catsh;
 	int		befor_sing;
+	int		exit_status;
+	int		pfd[2];
+	int		old_fd;
+	int		pipe;
+	int		numofpipes;
 }	t_vars;
 
 typedef struct s_env
@@ -126,9 +132,19 @@ void		ft_env_free(t_env **env);
 void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);
 
 /*        builtins        */
-int			ft_echo(t_list *comm);
+int			ft_echo(char *command);
 int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
 int			ft_pwd(void);
-int			ft_exit(int	exit_status);
+int			ft_exit(int exit_status, int is_pipd);
+
+/* 		  exec utils	*/
+int			ft_env_length(t_env *envir);
+int			ft_comm_length(t_list *comm);
+int			ft_pipe_num(t_list *comm);
+void		dup_and_close(int oldfd, int newfd);
+char		*ft_locate_bin(char *command, char *path);
+char		**ft_2denv(t_env *envir);
+char		**ft_2dcomm(t_list *comm);
+t_list		*ft_split_pipe(t_list **new_comm, t_vars *vars);
 
 #endif
