@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/21 21:21:04 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:26:36 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		printf("i should'nt get here\n");
 		return ;
 	}
-	if(node->type != PIP)
+	if(node->type != PIP && node->type != RED_IN)
 		vars->pipe = 0;
 	if(node->type == RED_OUT)
 	{
@@ -80,7 +80,7 @@ void	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		int fd = open(next_node->content, O_RDONLY);
 		if(fd == -1)
 			printf("failure to open file\n");
-		dup_and_close(fd, 0);
+		dup_and_close(fd, 0);// failure to open file needs to be handled
 	}
 }
 char *ft_command(t_list *comm, t_vars *vars)
@@ -92,7 +92,7 @@ char *ft_command(t_list *comm, t_vars *vars)
 	str = ft_strdup("");
 	while (temp && temp->type != PIP)
 	{
-		if (temp != comm)
+		if (temp != comm && !temp->type)
 			str = ft_strjoin(str, " ");
 		if (temp->type)
 		{
@@ -113,7 +113,7 @@ void	ft_exec_command(t_vars *vars, t_list *comm, t_env *envir)
 	char *command;
 	command = ft_command(comm, vars);
 	if (comm && !ft_strncmp(comm->content, "echo\0", 5))
-		ft_echo(comm);
+		ft_echo(command);
 	else if (comm && !ft_strncmp(comm->content, "cd\0", 3))
 		ft_cd(vars, comm, envir);
 	else if (comm && !ft_strncmp(comm->content, "pwd\0", 4))

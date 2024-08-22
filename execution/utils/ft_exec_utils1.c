@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:23:32 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/21 20:23:56 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:40:03 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,3 +72,8 @@ t_list	*ft_split_pipe(t_list **new_comm, t_vars *vars)
 		return (NULL);
 	}	
 }
+
+//void	ft_add_env(char *key, char *value, t_env **envir)
+//{
+
+//}
