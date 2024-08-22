@@ -6,28 +6,15 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/08/22 16:08:13 by mait-lah         ###   ########.fr       */
+=======
+/*   Updated: 2024/08/22 15:52:46 by isrkik           ###   ########.fr       */
+>>>>>>> pars
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_token(t_vars *vars, int i, t_list **comm, int type)
-{
-	char	*token;
-	t_list	*current;
-
-	token = ft_substr(vars->read, vars->catsh, i - vars->catsh);
-	if (!token)
-		return (-1);
-	current = ft_lstnew(token, type);
-	if (!current)
-		return (free(token), free(current), -1);
-	ft_lstadd_back(comm, current);
-	if (!*comm)
-		return (free(token), free(current), -1);
-	return (0);
-}
 
 int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
@@ -40,7 +27,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 			&& !ft_isspace(vars->read[i]) && !ft_isquotes(vars->read[i]))
 			ft_arealpha(vars, &i, comm, envir);
 		else if (ft_isspace(vars->read[i]))
-			ft_arespace(vars->read, &i);
+			ft_arespace(vars, &i);
 		else if (ft_issep(vars->read[i]))
 		{
 			if (ft_aresep(vars, &i, comm) == -1)
@@ -65,6 +52,9 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->read = NULL;
 	vars->catsh = 0;
 	vars->befor_sing = 0;
+	vars->bef_spac = 0;
+	vars->len = 0;
+	vars->start = 0;
 	strcpy_env(envir, env);
 }
 

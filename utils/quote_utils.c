@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/10 15:40:07 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/22 14:20:25 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,52 @@ int	quotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 			return (-1);
 		}
 		ft_arequotes(vars, i, comm, envir);
+	}
+	return (0);
+}
+
+int	skip_space(char *str, char c, int red)
+{
+	int	i;
+
+	i = 0;
+	(void)red;
+	(void)c;
+	while (ft_isspace(str[i]))
+		i++;
+	return (0);
+}
+
+int	after_skip(char *str, int i, int red)
+{
+	(void)red;
+	while (ft_isspace(str[i]))
+	{
+		i++;
+	}
+	if (str[i] == '\0')
+		return (-1);
+	if (ft_issep(str[i]) && str[i] != '<')
+	{
+		i++;
+		after_skip(str, i, red);
+	}
+	return (0);
+}
+
+int	before_quotes(t_vars *vars, int *i, char **str_temp)
+{
+	char	temp[2];
+
+	temp[1] = '\0';
+	while (vars->read[*i] && !ft_isquotes(vars->read[*i])
+		&& vars->read[*i] != '$')
+	{
+		temp[0] = vars->read[*i];
+		*str_temp = ft_strjoin(*str_temp, temp);
+		if (!*str_temp)
+			return (-1);
+		(*i)++;
 	}
 	return (0);
 }

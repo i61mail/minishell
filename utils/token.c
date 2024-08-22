@@ -6,11 +6,28 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/19 09:55:59 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/22 12:11:03 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_token(t_vars *vars, int i, t_list **comm, int type)
+{
+	char	*token;
+	t_list	*current;
+
+	token = ft_substr(vars->read, vars->catsh, i - vars->catsh);
+	if (!token)
+		return (-1);
+	current = ft_lstnew(token, type);
+	if (!current)
+		return (free(token), free(current), -1);
+	ft_lstadd_back(comm, current);
+	if (!*comm)
+		return (free(token), free(current), -1);
+	return (0);
+}
 
 void	ft_error(t_list **comm)
 {
@@ -39,38 +56,31 @@ int	ft_check_type(char *read, int *i, int *type)
 	return (0);
 }
 
-int	skip_space(char *str, char c, int red)
-{
-	int	i;
-
-	i = 0;
-	(void)red;
-	(void)c;
-	while (ft_isspace(str[i]))
-		i++;
-	return (0);
-}
-
-int	after_skip(char *str, int i, int red)
-{
-	(void)red;
-	while (ft_isspace(str[i]))
-	{
-		i++;
-	}
-	if (str[i] == '\0')
-		return (-1);
-	if (ft_issep(str[i]) && str[i] != '<')
-	{
-		i++;
-		after_skip(str, i, red);
-	}
-	return (0);
-}
-
 void	free_all(char *read, t_list **comm, t_env **envir)
 {
 	free(read);
 	ft_lstfree(comm);
 	ft_env_free(envir);
+}
+
+int	just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir)
+{
+	char	temp[2];
+	char	*str;
+
+	(void)envir;
+	str = NULL;
+	temp[1] = '\0';
+	while (vars->read[*i] && vars->read[*i] != '$'
+		&& !ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i]))
+	{
+		temp[0] = vars->read[*i];
+		str = ft_strjoin(str, temp);
+		if (!str)
+			return (-1);
+		(*i)++;
+	}
+	*str_temp = ft_strjoin(*str_temp, str);
+	free(str);
+	return (0);
 }
