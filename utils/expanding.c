@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 14:59:21 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/23 15:38:55 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ char	*ft_check_env(t_env **envir, char *comp)
 	return (free(comp), ft_strdup(""));
 }
 
+char *expand_exit_status(t_vars *vars, char *comp)
+{
+	comp = ft_itoa(vars->exit_status);
+	return (comp);
+}
+
 int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	char	tmp[2];
@@ -55,6 +61,13 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		if (!comp)
 			return (-1);
 		(*i)++;
+	}
+	if (vars->read[*i] == '?')
+	{
+		comp = expand_exit_status(vars, comp);
+		*str_temp = ft_strjoin(*str_temp, comp);
+		(*i)++;
+		return (0);
 	}
 	comp = ft_check_env(envir, comp);
 	if (!comp)

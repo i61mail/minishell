@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_func4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 10:48:32 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/11 20:32:48 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/23 12:02:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,65 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+int	ft_count(int n)
+{
+	int b;
+
+	b = 0;
+	while (n != 0)
+	{
+		n /= 10;
+		b++;
+	}
+	return (b);
+}
+
+
+char	*ft_int_to_str(long convert, int len_str, char *str)
+{
+	if (convert < 0)
+	{
+		str[0] = '-';
+		convert *= -1;
+		str[len_str + 1] = '\0';
+		while (len_str > 0)
+		{
+			str[len_str] = convert % 10 + 48;
+			convert /= 10;
+			len_str--;
+		}
+	}
+	else if (convert > 0)
+	{
+		str[len_str] = '\0';
+		while (len_str)
+		{
+			str[len_str - 1] = convert % 10 + 48;
+			convert /= 10;
+			len_str--;
+		}
+	}
+	return (str);
+}
+
+char *ft_itoa(int nbr)
+{
+	char *str;
+	long convert;
+	int	sign;
+	int len_str;
+
+	len_str = ft_count(nbr);
+	convert = (long) nbr;
+	sign = 0;
+	if (convert < 0)
+		sign = 1;
+	else if (convert == 0)
+		return ("0");
+	str = malloc(sizeof(char) * (len_str + sign + 1));
+	if (!str)
+		return (NULL);
+	return (ft_int_to_str(convert, len_str, str));
 }

@@ -6,12 +6,12 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 15:51:58 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/23 12:53:58 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+/*$$$'' //$$$""*/
 int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	char	*temp;

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:03:29 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 15:11:10 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/23 15:38:41 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	initi_vars(int *check, char **temp)
 int	append_dollar(t_vars *vars, int *i, char **temp, t_env **envir)
 {
 	if (!ft_isdigit(vars->read[*i]) && !ft_isalpha(vars->read[*i])
-		&& vars->read[*i] != '_')
+		&& vars->read[*i] != '_' && vars->read[*i] != '?')
 	{
 		*temp = ft_substr(vars->read, vars->start, vars->len);
 		if (!*temp)

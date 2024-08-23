@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 16:20:26 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/23 12:02:23 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int			ft_strcmp(char *s1, char *s2);
 long long	ft_atoi(char *str);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strchr(const char *str, int c);
+char		*ft_itoa(int nbr);
 
 /*    utils check*/
 

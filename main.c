@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 16:20:41 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/23 11:31:09 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->bef_spac = 0;
 	vars->len = 0;
 	vars->start = 0;
+	vars->exit_status = 0;
+	vars->old_fd = 0;
+	vars->pipe = 0;
+	vars->numofpipes = 0;
 	strcpy_env(envir, env);
 }
 
