@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:06:07 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 12:07:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/23 18:07:00 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	isthere(t_vars *vars, int *i)
 	{
 		if (check_isthere(vars, &b, *i, &check) == 1)
 			return (1);
-		if (vars->read[b] && vars->read[b] == 34 && check == 1 && b > *i)
+		if (vars->read[b] && (vars->read[b] == 34 || (!ft_isdigit(vars->read[b]) && !ft_isalpha(vars->read[b]) && vars->read[b] != '?')) && check == 1 && b > *i)
 			return (1);
 		if (vars->read[b] && vars->read[b] == 34 && check == 1)
 			return (0);
@@ -88,7 +88,7 @@ int	ft_onedollar(char *str, int *i)
 void	check_dollar(t_vars *vars, int *i, char **str_temp)
 {
 	if (vars->read[*i + 1] != '$' && !ft_isdigit(vars->read[*i + 1])
-		&& !ft_isalpha(vars->read[*i + 1]) && vars->read[*i + 1] != '_')
+		&& !ft_isalpha(vars->read[*i + 1]) && vars->read[*i + 1] != '_' && vars->read[*i + 1] != '?')
 	{
 		if (*i > 0 && vars->read[*i] && (vars->read[*i + 1] == '\0'
 				|| isthere(vars, i)))
