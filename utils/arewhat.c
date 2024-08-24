@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/23 18:02:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 16:33:34 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 				hold = ft_dollar(vars, i, &str_temp, envir);
 				if (hold == 2)
 					return (2);
-				replace_expand(curr, str_temp, comm);
+				replace_expand(curr, str_temp, comm, 0);
 				return (0);
 			}
 			else

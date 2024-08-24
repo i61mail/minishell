@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/24 10:14:33 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 16:32:55 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ typedef enum s_token
 	RED_APPEND,
 	HEREDOC,
 	PIP,
-	QUOT
+	QUOT,
+	HEREDOC_DEL
 }	t_token;
 
 /*              utils  linked list       */
@@ -90,7 +91,7 @@ int			quotes(t_vars *vars, int *i, t_list **comm, t_env **envir);
 int			count_dollar(char *str, int *i);
 int			double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
-void		replace_expand(t_list *curr, char *str_temp, t_list **comm);
+void		replace_expand(t_list *curr, char *str_temp, t_list **comm, int type);
 int			expanding(t_vars *vars, int *i, char **str_temp, t_env **envir);
 void		init_va(int *check, char **temp);
 void		check_dollar(t_vars *vars, int *i, char **str_temp);
@@ -106,6 +107,8 @@ void		initi_vars(int *check, char **temp);
 int			append_dollar(t_vars *vars, int *i, char **temp, t_env **envir);
 int			ft_aresep3(t_vars *vars, int *i, int type, t_list **comm);
 int			ft_aresep2(t_vars *vars, int *i, int type, t_list **comm);
+int			process_heredoc(t_list *temp, t_vars *vars);
+int			heredoc_delimiter(t_vars *vars, int *i, t_list **comm);
 
 /*        utils       */
 

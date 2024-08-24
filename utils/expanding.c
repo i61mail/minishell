@@ -6,17 +6,17 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/23 18:08:08 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 16:32:48 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	replace_expand(t_list *curr, char *str_temp, t_list **comm)
+void	replace_expand(t_list *curr, char *str_temp, t_list **comm, int type)
 {
 	if (!str_temp)
 		str_temp = ft_strdup("");
-	curr = ft_lstnew(ft_strdup(str_temp), 0);
+	curr = ft_lstnew(ft_strdup(str_temp), type);
 	ft_lstadd_back(comm, curr);
 	free(str_temp);
 }

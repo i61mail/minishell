@@ -12,7 +12,7 @@ SRC_MAN =  $(EXEC_MAN)  main.c utils/list_utils.c utils/lib_func.c utils/lib_fun
 	utils/ft_even_odd.c utils/ft_redircmp.c utils/token.c utils/ft_iswhat.c utils/arewhat.c \
 	utils/ft_separator.c parsing/env.c utils/quotes.c utils/env_utils.c utils/quote_utils.c \
 	utils/lib_func4.c utils/ft_strchr.c utils/expanding.c utils/dollar.c utils/temp.c \
-	utils/temp2.c
+	utils/temp2.c utils/heredoc.c
 
 OBJ_MAN = ${SRC_MAN:.c=.o}
 
