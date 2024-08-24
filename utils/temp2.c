@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:12:05 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 15:13:07 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 10:15:21 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_aresep3(t_vars *vars, int *i, int type, t_list **comm)
 		vars->catsh = *i;
 		if (type == 1)
 		{
-			check = ft_redirec(vars, i, '<', comm);
+			check = ft_redirec(vars, i, comm, RED_IN);
 			if (check == 2)
 				return (2);
 			else if (check == -1)
@@ -43,7 +43,7 @@ int	ft_aresep3(t_vars *vars, int *i, int type, t_list **comm)
 		}
 		else
 		{
-			check = ft_redirec(vars, i, '>', comm);
+			check = ft_redirec(vars, i, comm, RED_OUT);
 			if (check == 2)
 				return (2);
 			else if (check == -1)

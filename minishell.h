@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/23 12:02:23 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 10:14:33 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,9 @@ int			ft_check_type(char *read, int *i, int *type);
 int			ft_pipe(t_vars *vars, int *i, t_list **comm);
 int			ft_append(t_vars *vars, int *i, t_list **comm);
 int			ft_heredoc(t_vars *vars, int *i, t_list **comm);
-int			ft_redirec(t_vars *vars, int *i, char c, t_list **comm);
+int			ft_redirec(t_vars *vars, int *i, t_list **comm, char c);
 int			ft_token(t_vars *vars, int i, t_list **comm, int type);
-int			skip_space(char *str, char c, int red);
-int			after_skip(char *str, int i, int red);
+int			after_skip(char *str, int i, char c);
 
 /*        env        */
 int			strcpy_env(t_env **envir, char **env);
