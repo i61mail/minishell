@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/24 17:42:31 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 20:24:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
 	int		i;
-	t_list	*temp;
+	// t_list	*temp;
 	i = 0;
 	while (vars->read[i] != '\0')
 	{
@@ -32,12 +32,13 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
 	}
-	temp = *comm;
-	while (temp)
-	{
-		printf("%s   && %d\n", temp->content, temp->type);
-		temp = temp->next;
-	}
+	// temp = *comm;
+	// while (temp)
+	// {
+	// 	printf("%s   && %d\n", temp->content, temp->type);
+	// 	temp = temp->next;
+	// }
+	process_heredoc(*comm, vars);
 	return (0);
 }
 
@@ -82,9 +83,9 @@ int	main(int ac, char **av, char **env)
 	t_env	*envir;
 
 	(void)av;
+	init_vars(&comm, &vars, &envir, env);
 	while (1)
 	{
-		init_vars(&comm, &vars, &envir, env);
 		if (ac == 1)
 		{
 			vars.read = readline("minishell> ");

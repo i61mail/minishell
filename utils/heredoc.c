@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/24 17:40:55 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 20:23:26 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,25 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 			heredoc_char(vars, i, &str_temp);
 	}
 	replace_expand(curr, str_temp, comm, 7);
-	process_heredoc(*comm, vars);
+	// process_heredoc(*comm, vars);
 	return (0);
 }
 
-int	store_here(char *here_line, int fd, char *next)
+int	store_here(char *here_line, int fd, t_list *temp)
 {
-    (void)next;
+	int	i;
+
+	i = 0;
 	if (here_line)
 	{
+		if (ft_strcmp(here_line, temp->next->content) == 0)
+			exit(0);
+		while (here_line[i])
+		{
+			if (here_line[i] == '$')
+				printf("expand\n");
+			i++;
+		}
 		ft_putstr_fd(here_line ,fd);
 		ft_putchar_fd('\n', fd);
 	}
@@ -128,7 +138,7 @@ int	process_heredoc(t_list *temp, t_vars *vars)
 				return (-1);
 			if (return_fork == 0)
 			{
-				fd = open("file.txt", O_CREAT | O_RDWR, 0777);
+				fd = open("/tmp/file.txt", O_CREAT | O_RDWR, 0777);
 				if (fd < 0)
 					return (-1);
 				while (1)
@@ -139,13 +149,17 @@ int	process_heredoc(t_list *temp, t_vars *vars)
 						break ;
 						free(here_line);
 					}
-					store_here(here_line, fd, temp->next->content);
+					store_here(here_line, fd, temp);
 				}
 				close(fd);
 				exit(0);
 			}
 			else
+			{
 				wait(&child_status);
+				if (WIFEXITED(child_status))
+					vars->exit_status = WEXITSTATUS(child_status);
+			}
 		}
 		temp = temp->next;
 	}
