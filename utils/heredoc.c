@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/25 14:12:55 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/25 16:14:06 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,7 @@ char	*expand_heredoc(t_heredoc *herdoc, t_env **envir, int delimiter)
 	return (expand);
 }
 
-int	store_here(t_heredoc *herdoc, int *fd, t_list *temp, t_env **envir)
+int	store_here(t_heredoc *herdoc, int fd, t_list *temp, t_env **envir)
 {
 	int	i;
 	char	*value;
@@ -292,9 +292,9 @@ int	store_here(t_heredoc *herdoc, int *fd, t_list *temp, t_env **envir)
 		}
 		if (herdoc->here_line)
 			value = expand_heredoc(herdoc, envir, temp->next->type);
+		ft_putstr_fd(value , fd);
+		ft_putchar_fd('\n', fd);
 	}
-	ft_putstr_fd(value , *fd);
-	ft_putchar_fd('\n', *fd);
 	return (0);
 }
 
@@ -312,14 +312,14 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 	{
 		if (temp->type == HEREDOC)
 		{
+			vars->heredoc_fd = open("/tmp/file.txt", O_CREAT | O_RDWR, 0644);
+			if (vars->heredoc_fd < 0)
+				return (-1);
 			return_fork = fork();
 			if (return_fork < 0)
 				return (-1);
 			if (return_fork == 0)
 			{
-				vars->heredoc_fd = open("/tmp/file.txt", O_CREAT | O_RDWR | O_TRUNC, 0644);
-				if (vars->heredoc_fd < 0)
-					return (-1);
 				while (1)
 				{
 					herdoc.here_line = readline("> ");
@@ -328,9 +328,8 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 						free(herdoc.here_line);
 						break ;
 					}
-					store_here(&herdoc, &vars->heredoc_fd, temp, envir);
+					store_here(&herdoc, vars->heredoc_fd, temp, envir);
 				}
-				// close(vars->heredoc_fd);
 				exit(0);
 			}
 			else
@@ -339,6 +338,9 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 				if (WIFEXITED(child_status))
 					vars->exit_status = WEXITSTATUS(child_status);
 			}
+			close(vars->heredoc_fd);
+			vars->heredoc_fd =  open("/tmp/file.txt", O_RDWR);
+			unlink("/tmp/file.txt");
 		}
 		temp = temp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/25 13:21:44 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/25 16:17:29 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,12 @@ int	pars_exec(t_vars vars, t_list *comm, t_env *envir)
 	add_history(vars.read);
 	if (ft_pars_comm(&vars, &comm, &envir) != -1)
 	{
-		// ft_execute(&vars, comm, envir);
+		ft_execute(&vars, comm, envir);
 		free(vars.read);
 		ft_lstfree(&comm);
 	}
 	else
-	{
 		free(vars.read);
-		ft_env_free(&envir);
-	}
 	return (0);
 }
 
