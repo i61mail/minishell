@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/24 16:32:55 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/25 13:15:30 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
+typedef struct s_heredoc
+{
+	char	*value;
+	char	*expand;
+	char	*here_line;
+	int		len;
+	int		start;
+}	t_heredoc;
+
 typedef struct s_vars
 {
 	char	*read;
@@ -37,6 +46,7 @@ typedef struct s_vars
 	int		bef_spac;
 	int		len;
 	int		start;
+	int		heredoc_fd;
 }	t_vars;
 
 typedef struct s_env
@@ -63,7 +73,8 @@ typedef enum s_token
 	HEREDOC,
 	PIP,
 	QUOT,
-	HEREDOC_DEL
+	HEREDOC_DEL_Q,
+	HEREDOC_DEL_U
 }	t_token;
 
 /*              utils  linked list       */
@@ -107,7 +118,7 @@ void		initi_vars(int *check, char **temp);
 int			append_dollar(t_vars *vars, int *i, char **temp, t_env **envir);
 int			ft_aresep3(t_vars *vars, int *i, int type, t_list **comm);
 int			ft_aresep2(t_vars *vars, int *i, int type, t_list **comm);
-int			process_heredoc(t_list *temp, t_vars *vars);
+int			process_heredoc(t_list *temp, t_vars *vars, t_env **envir);
 int			heredoc_delimiter(t_vars *vars, int *i, t_list **comm);
 
 /*        utils       */
