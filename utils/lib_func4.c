@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_func4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 10:48:32 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/23 12:02:12 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/27 14:56:14 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,12 @@ char *ft_itoa(int nbr)
 	if (!str)
 		return (NULL);
 	return (ft_int_to_str(convert, len_str, str));
+}
+
+int	ft_isprint(int c)
+{
+	if (c >= 32 && c <= 126)
+		return (1);
+	else
+		return (0);
 }

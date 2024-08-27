@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/25 16:14:06 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/27 16:21:54 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,10 +279,8 @@ char	*expand_heredoc(t_heredoc *herdoc, t_env **envir, int delimiter)
 
 int	store_here(t_heredoc *herdoc, int fd, t_list *temp, t_env **envir)
 {
-	int	i;
 	char	*value;
 
-	i = 0;
 	value = NULL;
 	if (herdoc->here_line)
 	{
@@ -298,11 +296,46 @@ int	store_here(t_heredoc *herdoc, int fd, t_list *temp, t_env **envir)
 	return (0);
 }
 
+int	read_devrandom(int fd, char **file_name)
+{
+	int		i;
+	char	*str;
+	char	_temp[2];
+
+	i = 0;
+	_temp[1] = '\0';
+	str = malloc(sizeof(char) * 101);
+	if (!str)
+		return (-1);
+	str[100] = '\0';
+	if (read(fd, str, 100) == -1)
+	{
+		printf("read failat\n");
+		return (-1);
+	}
+	while (i < 40)
+	{
+		if (ft_isprint(str[i]) && (ft_isalpha(str[i]) || ft_isdigit(str[i])))
+		{
+			_temp[0] = str[i];
+			*file_name = ft_strjoin(*file_name, _temp);
+			if (!*file_name)
+				return (-1);
+		}
+		i++;
+	}
+	*file_name = ft_strjoin(*file_name, ".txt");
+	if (!*file_name)
+		return (-1);
+	return (0);
+}
+
 int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 {
 	t_heredoc	herdoc;
 	pid_t	return_fork;
 	int		child_status = 0;
+	char	*file_name =NULL;
 
 	herdoc.expand = NULL;
 	herdoc.here_line = NULL;
@@ -312,8 +345,15 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 	{
 		if (temp->type == HEREDOC)
 		{
-			vars->heredoc_fd = open("/tmp/file.txt", O_CREAT | O_RDWR, 0644);
-			if (vars->heredoc_fd < 0)
+			herdoc.fd = open("/dev/random", O_RDONLY);
+			if (herdoc.fd < 0)
+				return (-1);
+			read_devrandom(herdoc.fd, &file_name);
+			close(herdoc.fd);
+			herdoc.fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+			herdoc.fd1 = open(file_name, O_RDWR | O_TRUNC, 0644);
+			unlink(file_name);
+			if (herdoc.fd < 0)
 				return (-1);
 			return_fork = fork();
 			if (return_fork < 0)
@@ -328,7 +368,7 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 						free(herdoc.here_line);
 						break ;
 					}
-					store_here(&herdoc, vars->heredoc_fd, temp, envir);
+					store_here(&herdoc, herdoc.fd, temp, envir);
 				}
 				exit(0);
 			}
@@ -338,9 +378,8 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 				if (WIFEXITED(child_status))
 					vars->exit_status = WEXITSTATUS(child_status);
 			}
-			close(vars->heredoc_fd);
-			vars->heredoc_fd =  open("/tmp/file.txt", O_RDWR);
-			unlink("/tmp/file.txt");
+			close(herdoc.fd);
+			vars->heredoc_fd = herdoc.fd1;
 		}
 		temp = temp->next;
 	}
