@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/27 17:39:42 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/27 19:15:17 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,52 @@ int	heredoc_char(t_vars *vars, int *i, char **str_temp)
 			return (-1);
 		(*i)++;
 	}
-	if (vars->read[*i] && vars->read[*i] == '$' && vars->read[*i + 1] == '\0')
+	return (0);
+}
+
+void	isthere_quotes(char *str, int *i, int *var)
+{
+	int	k = *i;
+	while (str[k] && !ft_isspace(str[k]) && !ft_issep(str[k]))
 	{
-		temp[0] = vars->read[*i];
-		*str_temp = ft_strjoin(*str_temp, temp);
-		if (!*str_temp)
-			return (-1);
+		if (ft_isquotes(str[k]))
+			*var = 1;
+		k++;
+	}
+	if (*var == 1)
+		return ;
+}
+
+int	heredoc_count_dollar(char *line, int *i, char **str_temp, int var)
+{
+	char	temp[2];
+	int		len;
+	int		b;
+
+	temp[1] = '\0';
+	len = 0;
+	b = *i;
+	while (line[b] && line[b] == '$')
+	{
+		b++;
+		len++;
+	}
+	if (len == 1 && line[b] && ft_isquotes(line[b]))
+	{
+		(*i)++;
+		return (0);
+	}
+	if (len % 2 != 0 && len > 1 && var == 1)
+		(*i)++;
+	while (line[*i] && line[*i] == '$')
+	{
+		if (len % 2 == 0 || len % 2 != 0)
+		{
+			temp[0] = line[*i];
+			*str_temp = ft_strjoin(*str_temp, temp);
+			if (!*str_temp)
+				return (-1);
+		}
 		(*i)++;
 	}
 	return (0);
@@ -78,25 +118,23 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 {
 	char	*str_temp;
 	t_list	*curr;
-	int		check = 0;
-	int	quo = 0;
+	int		var;
 
 	curr = NULL;
 	str_temp = NULL;
+	var = 0;
 	if (even_odd(vars->read) == 0)
 		return (ft_error(comm), -1);
+	isthere_quotes(vars->read, i, &var);
 	while (vars->read[*i] && !ft_isspace(vars->read[*i]) && !ft_issep(vars->read[*i]))
 	{
 		if (vars->read[*i] && vars->read[*i] == 34)
 		{
-			quo = 1;
 			heredoc_double(vars, i, &str_temp);
 			if (vars->read[*i] == 34)
 			{
-				quo = 0;
 				(*i)++;
 			}
-			check = 1;
 		}
 		if (vars->read[*i] && vars->read[*i] == 39)
 		{
@@ -105,14 +143,13 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 			heredoc_single(vars, i, &str_temp);
 			if (vars->read[*i] == 39)
 				(*i)++;
-			check = 2;
 		}
-		if (vars->read[*i] == '$' && ft_isquotes(vars->read[*i + 1]) && quo == 0)
-			(*i)++;
+		if (vars->read[*i] && vars->read[*i] == '$')
+			heredoc_count_dollar(vars->read, i, &str_temp, var);
 		if (vars->read[*i] && !ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i]))
 			heredoc_char(vars, i, &str_temp);
 	}
-	if (check == 1 || check == 2)
+	if (var == 1)
 		replace_expand(curr, str_temp, comm, 7);
 	else
 		replace_expand(curr, str_temp, comm, 8);
@@ -325,7 +362,6 @@ int	read_devrandom(int fd, char **file_name)
 	str[100] = '\0';
 	if (read(fd, str, 100) == -1)
 	{
-		printf("read failat\n");
 		return (-1);
 	}
 	while (i < 40)
