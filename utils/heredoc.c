@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/27 16:21:54 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:39:42 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,16 @@ int	heredoc_char(t_vars *vars, int *i, char **str_temp)
 
 	temp[1] = '\0';
 	while (vars->read[*i] && !ft_issep(vars->read[*i])
-		&& !ft_isquotes(vars->read[*i]) && !ft_isspace(vars->read[*i]))
+		&& !ft_isquotes(vars->read[*i]) && !ft_isspace(vars->read[*i])
+			&& vars->read[*i] != '$')
+	{
+		temp[0] = vars->read[*i];
+		*str_temp = ft_strjoin(*str_temp, temp);
+		if (!*str_temp)
+			return (-1);
+		(*i)++;
+	}
+	if (vars->read[*i] && vars->read[*i] == '$' && vars->read[*i + 1] == '\0')
 	{
 		temp[0] = vars->read[*i];
 		*str_temp = ft_strjoin(*str_temp, temp);
@@ -70,6 +79,7 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 	char	*str_temp;
 	t_list	*curr;
 	int		check = 0;
+	int	quo = 0;
 
 	curr = NULL;
 	str_temp = NULL;
@@ -77,14 +87,18 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 		return (ft_error(comm), -1);
 	while (vars->read[*i] && !ft_isspace(vars->read[*i]) && !ft_issep(vars->read[*i]))
 	{
-		if (vars->read[*i] == 34)
+		if (vars->read[*i] && vars->read[*i] == 34)
 		{
+			quo = 1;
 			heredoc_double(vars, i, &str_temp);
 			if (vars->read[*i] == 34)
+			{
+				quo = 0;
 				(*i)++;
+			}
 			check = 1;
 		}
-		if (vars->read[*i] == 39)
+		if (vars->read[*i] && vars->read[*i] == 39)
 		{
 			(*i)++;
 			vars->catsh = *i;
@@ -93,14 +107,15 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 				(*i)++;
 			check = 2;
 		}
-		if (!ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i]))
+		if (vars->read[*i] == '$' && ft_isquotes(vars->read[*i + 1]) && quo == 0)
+			(*i)++;
+		if (vars->read[*i] && !ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i]))
 			heredoc_char(vars, i, &str_temp);
 	}
 	if (check == 1 || check == 2)
 		replace_expand(curr, str_temp, comm, 7);
 	else
 		replace_expand(curr, str_temp, comm, 8);
-	// process_heredoc(*comm, vars);
 	return (0);
 }
 
@@ -335,7 +350,7 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 	t_heredoc	herdoc;
 	pid_t	return_fork;
 	int		child_status = 0;
-	char	*file_name =NULL;
+	char	*file_name = NULL;
 
 	herdoc.expand = NULL;
 	herdoc.here_line = NULL;
