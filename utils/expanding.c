@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/24 16:32:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/28 10:36:03 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 void	replace_expand(t_list *curr, char *str_temp, t_list **comm, int type)
 {
-	if (!str_temp)
+	if (str_temp && str_temp[0] == '\0')
+	{
+		type = AMBIGUOUS;
+		str_temp = ft_strdup("");
+	}
+	else if (!str_temp)
 		str_temp = ft_strdup("");
 	curr = ft_lstnew(ft_strdup(str_temp), type);
 	ft_lstadd_back(comm, curr);
