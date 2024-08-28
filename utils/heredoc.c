@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/28 10:17:42 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/28 11:27:48 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -404,7 +404,7 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 			close(herdoc.fd);
 			herdoc.fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 			herdoc.fd1 = open(file_name, O_RDWR | O_TRUNC, 0644);
-			// unlink(file_name);
+			unlink(file_name);
 			if (herdoc.fd < 0)
 				return (-1);
 			return_fork = fork();

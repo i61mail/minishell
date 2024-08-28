@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:03:29 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/23 17:03:47 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/28 12:13:07 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	append_dollar2(t_vars *vars, int *i, char **temp, t_env **envir)
 		&& vars->read[*i] != '_' && !ft_isquotes(vars->read[*i]) && vars->len > 1)
 		*temp = ft_substr(vars->read, vars->start, vars->len);
 	if (vars->len % 2 != 0 && vars->len > 1 && !ft_isdigit(vars->read[*i]) && vars->read[*i] != '?'
-		&& !ft_isquotes(vars->read[*i]) && !ft_isalpha(vars->read[*i]) && vars->read[*i] != '_')
+		&& !ft_isalpha(vars->read[*i]) && vars->read[*i] != '_')
 		*temp = ft_substr(vars->read, vars->start, vars->len);
 	else
 		*temp = ft_substr(vars->read, vars->start, vars->len - 1);
