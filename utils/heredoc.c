@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/27 19:15:17 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/28 10:17:42 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,8 +340,9 @@ int	store_here(t_heredoc *herdoc, int fd, t_list *temp, t_env **envir)
 		{
 			exit(0);
 		}
-		if (herdoc->here_line)
-			value = expand_heredoc(herdoc, envir, temp->next->type);
+		value = expand_heredoc(herdoc, envir, temp->next->type);
+		if (!value)
+			value = ft_strdup("\0");
 		ft_putstr_fd(value , fd);
 		ft_putchar_fd('\n', fd);
 	}
@@ -403,7 +404,7 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 			close(herdoc.fd);
 			herdoc.fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 			herdoc.fd1 = open(file_name, O_RDWR | O_TRUNC, 0644);
-			unlink(file_name);
+			// unlink(file_name);
 			if (herdoc.fd < 0)
 				return (-1);
 			return_fork = fork();
