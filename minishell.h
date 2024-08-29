@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 08:52:53 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 15:07:03 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int			ft_isalpha(int c);
 int			ft_isdigit(int c);
 int			single_quo(t_vars *vars, int *i, char **str_temp);
 int			ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir);
-int			ft_aresep(t_vars *vars, int *i, t_list **comm);
+int			ft_aresep(t_vars *vars, int *i, t_list **comm, t_env **envir);
 int			ft_isquotes(int c);
 int			ft_isspace(int c);
 int			ft_arespace(t_vars *vars, int *i);

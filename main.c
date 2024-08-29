@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 08:52:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 16:06:10 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 			ft_arespace(vars, &i);
 		else if (ft_issep(vars->read[i]))
 		{
-			if (ft_aresep(vars, &i, comm) == -1)
+			if (ft_aresep(vars, &i, comm, envir) == -1)
 				return (-1);
 		}
 		if (quotes(vars, &i, comm, envir) == -1)
@@ -38,7 +38,6 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 	// 	printf("%s   && %d\n", temp->content, temp->type);
 	// 	temp = temp->next;
 	// }
-	process_heredoc(*comm, vars, envir);
 	return (0);
 }
 
@@ -65,9 +64,14 @@ int	pars_exec(t_vars vars, t_list *comm, t_env *envir)
 	add_history(vars.read);
 	if (ft_pars_comm(&vars, &comm, &envir) != -1)
 	{
+		// char *str = get_next_line(vars.heredoc_fd);
+		// while (str)
+		// {
+		// 	printf("gnl == %s", str);
+		// 	str = get_next_line(vars.heredoc_fd);
+		// }
 		ft_execute(&vars, comm, envir);
 		free(vars.read);
-		//ft_lstfree(&comm);
 	}
 	else
 		free(vars.read);
