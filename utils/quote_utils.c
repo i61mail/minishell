@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/24 17:47:51 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 16:04:39 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,25 @@ int	after_skip(char *str, int i, char c)
 {
 	while (ft_isspace(str[i]))
 		i++;
-	if (str[i] == '\0' || (str[i] == '|' && (c == RED_IN || c == HEREDOC || c == RED_APPEND || c == PIP || c == RED_OUT)))
-		return (-1);
-	else if (ft_issep(str[i]) && str[i] != '<')
+	if (c == HEREDOC)
 	{
-		i++;
-		after_skip(str, i, c);
+		if (str[i] == '\0' || ft_issep(str[i]))
+			return (-1);
+	}
+	else if (c == PIP)
+	{
+		if (str[i] == '\0')
+			return (-1);
+	}
+	else if (c == RED_OUT || c == RED_IN)
+	{
+		if (str[i] == '\0' || ft_issep(str[i]))
+			return (-1);
+	}
+	else if (c == RED_APPEND)
+	{
+		if (str[i] == '\0' || ft_issep(str[i]))
+			return (-1);
 	}
 	return (0);
 }

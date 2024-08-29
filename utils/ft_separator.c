@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:01:43 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/24 17:03:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 15:32:11 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ int	ft_append(t_vars *vars, int *i, t_list **comm)
 
 int	ft_heredoc(t_vars *vars, int *i, t_list **comm)
 {
-	if (ft_strlen(vars->read) == 2
-		|| ((vars->read[*i + 2] && vars->read[*i + 2] == '<')
-			|| vars->read[*i + 2] == '\0'))
+	if (ft_strlen(vars->read) == 2)
 		return (ft_error(comm), -1);
 	else
 	{

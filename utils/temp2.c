@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:12:05 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/24 18:55:58 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 16:06:54 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_aresep3(t_vars *vars, int *i, int type, t_list **comm)
 	int	check;
 
 	check = 0;
-	if (type == 1 || type == 2)
+	if (type == RED_IN || type == RED_OUT)
 	{
 		vars->catsh = *i;
 		if (type == 1)
@@ -58,7 +58,7 @@ int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 	int	check;
 
 	check = 0;
-	if (type == 3)
+	if (type == RED_APPEND)
 	{
 		vars->catsh = *i;
 		check = ft_append(vars, i, comm);
@@ -67,7 +67,7 @@ int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 		else if (check == -1)
 			return (-1);
 	}
-	else if (type == 4)
+	else if (type == HEREDOC)
 	{
 		vars->catsh = *i;
 		check = ft_heredoc(vars, i, comm);
@@ -81,7 +81,7 @@ int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 	return (0);
 }
 
-int	ft_aresep(t_vars *vars, int *i, t_list **comm)
+int	ft_aresep(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	int	type;
 	int	check;
@@ -89,7 +89,7 @@ int	ft_aresep(t_vars *vars, int *i, t_list **comm)
 	type = 0;
 	if (ft_check_type(vars->read, i, &type) == -1)
 		return (ft_error(comm), -1);
-	if (type == 5)
+	if (type == PIP)
 	{
 		vars->catsh = *i;
 		check = ft_pipe(vars, i, comm);
@@ -104,15 +104,13 @@ int	ft_aresep(t_vars *vars, int *i, t_list **comm)
 		return (-1);
 	if (type == HEREDOC)
 	{
-		if (!ft_issep(vars->read[*i]))
+		while (ft_isspace(vars->read[*i]))
+			(*i)++;
+		if (ft_isquotes(vars->read[*i]) || !ft_issep(vars->read[*i]))
 		{
-			while (ft_isspace(vars->read[*i]))
-				(*i)++;
-			if (ft_isquotes(vars->read[*i]) || !ft_issep(vars->read[*i]))
-			{
-				if (heredoc_delimiter(vars, i, comm) == -1)
-					return (-1);
-			}
+			if (heredoc_delimiter(vars, i, comm) == -1)
+				return (-1);
+			process_heredoc(*comm, vars, envir);
 		}
 	}
 	return (0);
