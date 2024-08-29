@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/23 11:31:09 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 08:49:43 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 	// temp = *comm;
 	// while (temp)
 	// {
-	// 	printf("%s      &&    %d\n", temp->content, temp->type);
+	// 	printf("%s   && %d\n", temp->content, temp->type);
 	// 	temp = temp->next;
 	// }
+	process_heredoc(*comm, vars, envir);
 	return (0);
 }
 
@@ -55,6 +56,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->old_fd = 0;
 	vars->pipe = 0;
 	vars->numofpipes = 0;
+	vars->heredoc_fd = 0;
 	strcpy_env(envir, env);
 }
 
@@ -64,13 +66,11 @@ int	pars_exec(t_vars vars, t_list *comm, t_env *envir)
 	if (ft_pars_comm(&vars, &comm, &envir) != -1)
 	{
 		ft_execute(&vars, comm, envir);
-		free_all(vars.read, &comm, &envir);
+		free(vars.read);
+		//ft_lstfree(&comm);
 	}
 	else
-	{
 		free(vars.read);
-		ft_env_free(&envir);
-	}
 	return (0);
 }
 
@@ -81,9 +81,9 @@ int	main(int ac, char **av, char **env)
 	t_env	*envir;
 
 	(void)av;
+	init_vars(&comm, &vars, &envir, env);
 	while (1)
 	{
-		init_vars(&comm, &vars, &envir, env);
 		if (ac == 1)
 		{
 			vars.read = readline("minishell> ");
