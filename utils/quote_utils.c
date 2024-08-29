@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 14:20:25 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 17:47:51 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,16 @@ int	quotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	return (0);
 }
 
-int	skip_space(char *str, char c, int red)
+int	after_skip(char *str, int i, char c)
 {
-	int	i;
-
-	i = 0;
-	(void)red;
-	(void)c;
 	while (ft_isspace(str[i]))
 		i++;
-	return (0);
-}
-
-int	after_skip(char *str, int i, int red)
-{
-	(void)red;
-	while (ft_isspace(str[i]))
-	{
-		i++;
-	}
-	if (str[i] == '\0')
+	if (str[i] == '\0' || (str[i] == '|' && (c == RED_IN || c == HEREDOC || c == RED_APPEND || c == PIP || c == RED_OUT)))
 		return (-1);
-	if (ft_issep(str[i]) && str[i] != '<')
+	else if (ft_issep(str[i]) && str[i] != '<')
 	{
 		i++;
-		after_skip(str, i, red);
+		after_skip(str, i, c);
 	}
 	return (0);
 }

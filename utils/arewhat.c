@@ -6,12 +6,12 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/23 12:53:58 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 16:33:34 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-/*$$$'' //$$$""*/
+
 int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	char	*temp;
@@ -25,7 +25,9 @@ int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		if (vars->len % 2 != 0)
 			skip_digit(vars, i, &check);
 		if (vars->len % 2 != 0 && check == 0)
+		{
 			append_dollar(vars, i, &temp, envir);
+		}
 		else if (vars->len % 2 != 0 && check == 1)
 			temp = ft_substr(vars->read, vars->start, vars->len - 1);
 		else
@@ -64,21 +66,6 @@ static void	init_vars(char **str_temp, t_list **curr, int *hold)
 		return ;
 }
 
-// int	temps(t_vars *vars, int *i, char **str_temp)
-// {
-// 	char	temp[2];
-
-// 	temp[1] = '\0';
-// 	if (!ft_issep(vars->read[*i]) && !ft_isspace(vars->read[*i])
-// 			&& !ft_isquotes(vars->read[*i]) && vars->read[*i] != '$')
-// 		{
-// 			temp[0] = vars->read[*i];
-// 			*str_temp = ft_strjoin(*str_temp, temp);
-// 			(*i)++;
-// 		}
-// 		return (0);
-// }
-
 int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	char	*str_temp;
@@ -106,7 +93,7 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 				hold = ft_dollar(vars, i, &str_temp, envir);
 				if (hold == 2)
 					return (2);
-				replace_expand(curr, str_temp, comm);
+				replace_expand(curr, str_temp, comm, 0);
 				return (0);
 			}
 			else

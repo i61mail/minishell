@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:12:05 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 15:13:07 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/24 18:55:58 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_aresep3(t_vars *vars, int *i, int type, t_list **comm)
 		vars->catsh = *i;
 		if (type == 1)
 		{
-			check = ft_redirec(vars, i, '<', comm);
+			check = ft_redirec(vars, i, comm, RED_IN);
 			if (check == 2)
 				return (2);
 			else if (check == -1)
@@ -43,7 +43,7 @@ int	ft_aresep3(t_vars *vars, int *i, int type, t_list **comm)
 		}
 		else
 		{
-			check = ft_redirec(vars, i, '>', comm);
+			check = ft_redirec(vars, i, comm, RED_OUT);
 			if (check == 2)
 				return (2);
 			else if (check == -1)
@@ -88,10 +88,7 @@ int	ft_aresep(t_vars *vars, int *i, t_list **comm)
 
 	type = 0;
 	if (ft_check_type(vars->read, i, &type) == -1)
-	{
-		ft_error(comm);
-		return (-1);
-	}
+		return (ft_error(comm), -1);
 	if (type == 5)
 	{
 		vars->catsh = *i;
@@ -105,5 +102,18 @@ int	ft_aresep(t_vars *vars, int *i, t_list **comm)
 		return (-1);
 	if (ft_token(vars, *i, comm, type) == -1)
 		return (-1);
+	if (type == HEREDOC)
+	{
+		if (!ft_issep(vars->read[*i]))
+		{
+			while (ft_isspace(vars->read[*i]))
+				(*i)++;
+			if (ft_isquotes(vars->read[*i]) || !ft_issep(vars->read[*i]))
+			{
+				if (heredoc_delimiter(vars, i, comm) == -1)
+					return (-1);
+			}
+		}
+	}
 	return (0);
 }

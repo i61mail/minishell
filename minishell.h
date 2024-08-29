@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 08:48:20 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 08:52:53 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef struct s_heredoc
 	char	*here_line;
 	int		len;
 	int		start;
-	int		heredoc_fd;
+	int		fd;
+	int		fd1;
 }	t_heredoc;
 
 typedef struct s_vars
@@ -75,7 +76,8 @@ typedef enum s_token
 	PIP,
 	QUOT,
 	HEREDOC_DEL_Q,
-	HEREDOC_DEL_U
+	HEREDOC_DEL_U,
+	AMBIGUOUS
 }	t_token;
 
 /*              utils  linked list       */
@@ -121,6 +123,8 @@ int			ft_aresep3(t_vars *vars, int *i, int type, t_list **comm);
 int			ft_aresep2(t_vars *vars, int *i, int type, t_list **comm);
 int			process_heredoc(t_list *temp, t_vars *vars, t_env **envir);
 int			heredoc_delimiter(t_vars *vars, int *i, t_list **comm);
+int			ft_isprint(int c);
+char   		*get_next_line(int fd);
 
 /*        utils       */
 
