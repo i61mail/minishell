@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 16:08:30 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 16:48:28 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdbool.h>
 # include <limits.h>
 # include <errno.h>
 # include <sys/wait.h>
@@ -29,10 +28,13 @@ typedef struct s_heredoc
 	char	*value;
 	char	*expand;
 	char	*here_line;
+	char	*file_name;
+	pid_t	return_fork;
+	int		child_status;
 	int		len;
 	int		start;
 	int		fd;
-	int		fd1;
+	int		passed_fd;
 }	t_heredoc;
 
 typedef struct s_vars
