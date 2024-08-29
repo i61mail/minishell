@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 16:48:28 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:54:46 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_vars
 	int		len;
 	int		start;
 	int		heredoc_fd;
+	int		flag_splite;
 }	t_vars;
 
 typedef struct s_env
@@ -78,7 +79,8 @@ typedef enum s_token
 	PIP,
 	HEREDOC_DEL_Q,
 	HEREDOC_DEL_U,
-	AMBIGUOUS
+	AMBIGUOUS,
+	SPLITED
 }	t_token;
 
 /*              utils  linked list       */

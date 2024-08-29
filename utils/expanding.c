@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 13:53:37 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:58:09 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,11 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		if (vars->read[*i] && vars->read[*i] == 39)
 			single_quo(vars, i, str_temp);
 		if (vars->read[*i] && vars->read[*i] == '$')
+		{
+			if (*i > 0 && vars->read[*i - 1] != '=')
+				vars->flag_splite = SPLITED;
 			dollar(vars, i, str_temp, envir);
+		}
 		if (vars->read[*i] && !ft_issep(vars->read[*i]) && vars->read[*i] != '$'
 			&& !ft_isquotes(vars->read[*i]) && !ft_isspace(vars->read[*i]))
 			just_alpha(vars, i, str_temp, envir);

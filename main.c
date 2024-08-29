@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 17:31:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 18:04:03 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->pipe = 0;
 	vars->numofpipes = 0;
 	vars->heredoc_fd = 0;
+	vars->flag_splite = 0;
 	strcpy_env(envir, env);
 }
 

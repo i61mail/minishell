@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 11:38:37 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:51:48 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	t_list	*curr;
 	int		hold;
 	char	temp[2];
+	int		type;
 
 	init_vars(&str_temp, &curr, &hold);
 	temp[1] = '\0';
+	type = 0;
 	vars->catsh = *i;
 	vars->befor_sing = *i;
 	while (vars->read[*i])
@@ -90,10 +92,12 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		{
 			if (vars->read[*i] == '$')
 			{
+				if (*i > 0 && vars->read[*i - 1] != '=')
+					type = SPLITED;
 				hold = ft_dollar(vars, i, &str_temp, envir);
 				if (hold == 2)
 					return (2);
-				replace_expand(curr, str_temp, comm, 0);
+				replace_expand(curr, str_temp, comm, type);
 				return (0);
 			}
 			else

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 13:52:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:59:11 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ int	double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	while (vars->read[*i] && vars->read[*i] != 34)
 	{
 		if (vars->read[*i] == '$')
+		{
+			if (*i > 0 && vars->read[*i - 1] != '=')
+				vars->flag_splite = SPLITED;
 			dollar(vars, i, str_temp, envir);
+		}
 		else if (vars->read[*i] != 34)
 		{
 			temp[0] = vars->read[*i];
@@ -113,7 +117,10 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		check = dollar_quotes(vars, i, &str_temp, envir);
 		if (check == -1)
 			return (-1);
-		replace_expand(curr, str_temp, comm, 0);
+		if (vars->flag_splite == SPLITED)
+			replace_expand(curr, str_temp, comm, SPLITED);
+		else
+			replace_expand(curr, str_temp, comm, 0);
 		if (check == 2)
 			break ;
 	}
