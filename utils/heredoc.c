@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/28 11:27:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 11:46:26 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,9 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 			heredoc_char(vars, i, &str_temp);
 	}
 	if (var == 1)
-		replace_expand(curr, str_temp, comm, 7);
+		replace_expand(curr, str_temp, comm, HEREDOC_DEL_Q);
 	else
-		replace_expand(curr, str_temp, comm, 8);
+		replace_expand(curr, str_temp, comm, HEREDOC_DEL_U);
 	return (0);
 }
 
@@ -305,7 +305,7 @@ char	*expand_heredoc(t_heredoc *herdoc, t_env **envir, int delimiter)
 	i = 0;
 	while (herdoc->here_line[i])
 	{
-		if (delimiter == 7)
+		if (delimiter == HEREDOC_DEL_Q)
 		{
 			all_of_it(&str_temp, &i, herdoc->here_line);
 		}

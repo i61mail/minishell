@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 08:52:53 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 11:45:01 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef enum s_token
 	RED_APPEND,
 	HEREDOC,
 	PIP,
-	QUOT,
 	HEREDOC_DEL_Q,
 	HEREDOC_DEL_U,
 	AMBIGUOUS

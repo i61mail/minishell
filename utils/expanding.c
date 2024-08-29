@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/28 12:07:40 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/29 13:53:37 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	replace_expand(t_list *curr, char *str_temp, t_list **comm, int type)
 		str_temp = ft_strdup("");
 	}
 	else if (!str_temp)
+	{
 		str_temp = ft_strdup("");
+	}
 	curr = ft_lstnew(ft_strdup(str_temp), type);
 	ft_lstadd_back(comm, curr);
 	free(str_temp);
@@ -44,7 +46,7 @@ char	*ft_check_env(t_env **envir, char *comp)
 		}
 		temp = temp->next;
 	}
-	return (free(comp), ft_strdup(""));
+	return (free(comp), NULL);
 }
 
 char *expand_exit_status(t_vars *vars, char *comp)
@@ -78,6 +80,8 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	}
 	comp = ft_check_env(envir, comp);
 	*str_temp = ft_strjoin(*str_temp, comp);
+	if (*str_temp[0] == '\0')
+		*str_temp = NULL;
 	return (free(comp), 0);
 }
 
