@@ -1,50 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/27 05:58:12 by mait-lah         ###   ########.fr       */
+/*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
+/*   Updated: 2024/08/28 04:25:17 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_isflag(char *str)
+void	ft_unset(t_list *command, t_env *envir)
 {
-	if (!str || !(*str) || *str != '-')
-		return (0);
-	str++;
-	while (*str)
-	{
-		if (*str != 'n')
-			return (0);
-		str++;
-	}
-	return (1);
-}
+	t_env *temp;
+	t_env *prev;
+	t_env *to_free;
 
-int	ft_echo(t_list *command)
-{
-	int		is_n;
-
-	is_n = 1;
 	command = command->next;
-	while (command && ft_isflag(command->content))
-	{
-		is_n = 0;
-		command = command->next;
-	}
 	while (command)
 	{
-		printf("%s", command->content);
-		if (command->next)
-			printf(" ");
+		temp = envir;
+		while (temp)
+		{
+			if (!ft_strcmp(command->content ,temp->key))
+			{
+				to_free = prev->next;
+				prev->next = temp->next;
+				free(to_free->value);
+				free(to_free->key);
+				free(to_free);
+			}
+			prev = temp;
+			temp = temp->next;
+		}
 		command = command->next;
 	}
-	if (is_n)
-		printf("\n");
-	return (0);
 }
