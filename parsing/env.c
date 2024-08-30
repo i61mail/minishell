@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:04:43 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/19 09:53:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/30 08:07:06 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ static char	*add_to_value(char *env, int len, int j)
 	return (value);
 }
 
-static int	add_to_node(char *key, char *value, t_env **envir)
+int	add_to_node(char *key, char *value, t_env **envir)
 {
 	t_env	*new_node;
 
+	if (!key || !value)
+		return (-1);
 	new_node = ft_lstenv(key, value);
 	if (!new_node)
 		return (free(key), free(value), -1);

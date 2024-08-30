@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 17:54:46 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/30 08:02:10 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int			process_heredoc(t_list *temp, t_vars *vars, t_env **envir);
 int			heredoc_delimiter(t_vars *vars, int *i, t_list **comm);
 int			ft_isprint(int c);
 char   		*get_next_line(int fd);
+int			add_to_node(char *key, char *value, t_env **envir);
 
 /*        utils       */
 
