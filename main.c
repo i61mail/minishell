@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/30 15:39:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/30 15:42:45 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	three_vars(t_env **envir)
 	add_to_node(ft_strdup("PWD"), ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
 	add_to_node(ft_strdup("SHLVL"), ft_strdup("1"), envir);
 	add_to_node(ft_strdup("_"), ft_strdup("/usr/bin/env"), envir);
-	add_to_node(ft_strdup("OLDPWD"), ft_strdup(""), envir);
+	add_to_node(ft_strdup("OLDPWD"), NULL, envir);
 	return (0);
 }
 
