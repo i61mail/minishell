@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/30 08:08:01 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/30 15:31:36 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,32 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 
 int	three_vars(t_env **envir)
 {
-	add_to_node(ft_strdup("PWD"),ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
-	add_to_node(ft_strdup("SHLVL"),ft_strdup("1"), envir);
-	add_to_node(ft_strdup("_"),ft_strdup("/usr/bin/env"), envir);
+	add_to_node(ft_strdup("PWD"), ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
+	add_to_node(ft_strdup("SHLVL"), ft_strdup("1"), envir);
+	add_to_node(ft_strdup("_"), ft_strdup("/usr/bin/env"), envir);
 	add_to_node(ft_strdup("OLDPWD"), ft_strdup(""), envir);
+	return (0);
+}
+
+int	shell_level(t_env **envir)
+{
+	t_env *env;
+	int	increm;
+	int		old_increm;
+
+	increm = 1;
+	old_increm = 0;
+	env = *envir;
+	while (env)
+	{
+		if (ft_strcmp(env->key, "SHLVL") == 0)
+		{
+			old_increm = ft_atoi(env->value);
+			increm = old_increm + 1;
+			env->value = ft_itoa(increm);
+		}
+		env = env->next;
+	}
 	return (0);
 }
 
@@ -68,9 +90,8 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->flag_splite = 0;
 	strcpy_env(envir, env);
 	if (!*envir)
-	{
 		three_vars(envir);
-	}
+	shell_level(envir);
 }
 
 int	pars_exec(t_vars vars, t_list *comm, t_env *envir)
