@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/30 15:31:36 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/30 15:39:48 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	shell_level(t_env **envir)
 	int	increm;
 	int		old_increm;
 
-	increm = 1;
+	increm = 0;
 	old_increm = 0;
 	env = *envir;
 	while (env)
