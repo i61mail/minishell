@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 19:48:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 22:12:22 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
 	int		i;
-	// t_list	*temp;
 	i = 0;
 	while (vars->read[i] != '\0')
 	{
@@ -32,6 +31,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
 	}
+	// t_list	*temp;
 	// temp = *comm;
 	// while (temp)
 	// {
@@ -104,6 +104,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->heredoc_fd = 0;
 	vars->flag_splite = 0;
 	vars->quoted = 0;
+	vars->del_type = 0;
 	strcpy_env(envir, env);
 	if (!*envir)
 		three_vars(envir);
@@ -123,7 +124,6 @@ int	pars_exec(t_vars vars, t_list *comm, t_env *envir)
 		// }
 		if (comm && comm->content[0] != '\0')
 			ft_execute(&vars, comm, envir);
-		ft_lstfree(&comm);
 		free(vars.read);
 	}
 	else

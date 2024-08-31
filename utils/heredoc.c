@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 17:30:36 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 20:55:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,15 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 			heredoc_char(vars, i, &str_temp);
 	}
 	if (var == 1)
+	{
+		vars->del_type = HEREDOC_DEL_Q;
 		replace_expand(curr, str_temp, comm, HEREDOC_DEL_Q);
+	}
 	else
+	{
+		vars->del_type = HEREDOC_DEL_Q;
 		replace_expand(curr, str_temp, comm, HEREDOC_DEL_U);
+	}
 	return (0);
 }
 
@@ -366,7 +372,7 @@ char	*expand_heredoc(t_heredoc *herdoc, t_env **envir, int delimiter)
 	return (expand);
 }
 
-int	store_here(t_heredoc *herdoc, t_list *temp, t_env **envir)
+int	store_here(t_heredoc *herdoc, t_list *temp, t_env **envir, t_vars *vars)
 {
 	char	*value;
 
@@ -375,7 +381,7 @@ int	store_here(t_heredoc *herdoc, t_list *temp, t_env **envir)
 	{
 		if (ft_strcmp(herdoc->here_line, temp->next->content) == 0)
 			exit(0);
-		value = expand_heredoc(herdoc, envir, temp->next->type);
+		value = expand_heredoc(herdoc, envir, vars->del_type);
 		if (!value)
 			value = ft_strdup("\0");
 		ft_putstr_fd(value , herdoc->fd);
@@ -463,39 +469,29 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 	t_heredoc	herdoc;
 
 	init_heredoc(&herdoc);
-	while (temp)
+	if (gen_file_name(&herdoc) == -1)
+		return (-1);
+	herdoc.return_fork = fork();
+	if (herdoc.return_fork < 0)
+		return (-1);
+	if (herdoc.return_fork == 0)
 	{
-		if (temp->type == HEREDOC)
+		while (1)
 		{
-			herdoc.fd = open("/dev/random", O_RDONLY);
-			if (herdoc.fd < 0)
-				return (-1);
-			if (gen_file_name(&herdoc) == -1)
-				return (-1);
-			herdoc.return_fork = fork();
-			if (herdoc.return_fork < 0)
-				return (-1);
-			if (herdoc.return_fork == 0)
+			herdoc.here_line = readline("> ");
+			if (!herdoc.here_line)
 			{
-				while (1)
-				{
-					herdoc.here_line = readline("> ");
-					if (!herdoc.here_line)
-					{
-						free(herdoc.here_line);
-						break ;
-					}
-					store_here(&herdoc, temp, envir);
-				}
-				exit(0);
+				free(herdoc.here_line);
+				break ;
 			}
-			else
-				child_exitstatus(&herdoc, vars);
-			close(herdoc.fd);
-			vars->heredoc_fd = herdoc.passed_fd;
+			store_here(&herdoc, temp, envir, vars);
 		}
-		temp = temp->next;
+		exit(0);
 	}
+	else
+		child_exitstatus(&herdoc, vars);
+	close(herdoc.fd);
+	vars->heredoc_fd = herdoc.passed_fd;
 	return (0);
 }
 

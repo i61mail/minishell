@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 17:57:25 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 21:23:50 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	{
 		if (vars->read[*i] == 34)
 		{
-			vars->quoted = 1;
 			(*i)++;
 			double_quo(vars, i, str_temp, envir);
 		}
