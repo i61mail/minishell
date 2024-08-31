@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_func4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 10:48:32 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/27 14:56:14 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/08/31 12:57:46 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	ft_count(int n)
 }
 
 
-char	*ft_int_to_str(long convert, int len_str, char *str)
+char	*ft_int_to_str(long long convert, int len_str, char *str)
 {
 	if (convert < 0)
 	{
@@ -114,12 +114,12 @@ char	*ft_int_to_str(long convert, int len_str, char *str)
 char *ft_itoa(int nbr)
 {
 	char *str;
-	long convert;
+	long long convert;
 	int	sign;
 	int len_str;
 
 	len_str = ft_count(nbr);
-	convert = (long) nbr;
+	convert = (long long) nbr;
 	sign = 0;
 	if (convert < 0)
 		sign = 1;

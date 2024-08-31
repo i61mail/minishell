@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 12:03:36 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 13:34:29 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ int	shell_level(t_env **envir)
 			increm = old_increm + 1;
 			if (increm > 2147483647)
 				increm = 0;
+			else if (increm == 1000)
+			{
+				env->value = "";
+				increm = 0;
+				break ;
+			}
 			else if (increm > 1000)
 			{
 				printf("warning: shell level (%lld) too high, resetting to 1\n", increm);
@@ -95,6 +101,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->numofpipes = 0;
 	vars->heredoc_fd = 0;
 	vars->flag_splite = 0;
+	vars->quoted = 0;
 	strcpy_env(envir, env);
 	if (!*envir)
 		three_vars(envir);

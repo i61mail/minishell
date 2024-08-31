@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 17:59:11 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 13:25:23 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	{
 		if (vars->read[*i] == '$')
 		{
-			if (*i > 0 && vars->read[*i - 1] != '=')
+			if (*i > 0 && vars->read[*i - 1] == '=')
 				vars->flag_splite = SPLITED;
 			dollar(vars, i, str_temp, envir);
 		}
@@ -84,6 +84,7 @@ int	single_quo(t_vars *vars, int *i, char **str_temp)
 	temp[1] = '\0';
 	if (vars->read[*i] == 39)
 	{
+		vars->quoted = 1;
 		(*i)++;
 		while (vars->read[*i] && vars->read[*i] != 39)
 		{
@@ -119,6 +120,8 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 			return (-1);
 		if (vars->flag_splite == SPLITED)
 			replace_expand(curr, str_temp, comm, SPLITED);
+		else if (vars->quoted == 1)
+			replace_expand(curr, str_temp, comm, QUOTES);
 		else
 			replace_expand(curr, str_temp, comm, 0);
 		if (check == 2)

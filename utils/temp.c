@@ -6,12 +6,12 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:03:29 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 13:40:23 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 13:04:23 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-//$1"" || $s"" || $""
+
 int	append_dollar2(t_vars *vars, int *i, char **temp, t_env **envir)
 {
 	if (!ft_isdigit(vars->read[*i]) && !ft_isalpha(vars->read[*i])

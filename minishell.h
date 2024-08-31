@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/30 16:55:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 13:15:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_vars
 	char	*read;
 	int		catsh;
 	int		befor_sing;
+	int		quoted;
 	int		exit_status;
 	int		pfd[2];
 	int		old_fd;
@@ -81,7 +82,8 @@ typedef enum s_token
 	HEREDOC_DEL_Q,
 	HEREDOC_DEL_U,
 	AMBIGUOUS,
-	SPLITED
+	SPLITED,
+	QUOTES
 }	t_token;
 
 /*              utils  linked list       */

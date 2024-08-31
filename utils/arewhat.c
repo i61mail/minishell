@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 17:51:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 13:22:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		{
 			if (vars->read[*i] == '$')
 			{
-				if (*i > 0 && vars->read[*i - 1] != '=')
+				if (*i > 0 && (ft_isalpha(vars->read[*i - 1]) || vars->read[*i - 1] == '_'))
 					type = SPLITED;
 				hold = ft_dollar(vars, i, &str_temp, envir);
 				if (hold == 2)
