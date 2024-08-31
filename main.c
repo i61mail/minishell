@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 13:34:29 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 19:48:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	three_vars(t_env **envir)
 
 int	shell_level(t_env **envir)
 {
-	t_env *env;
+	t_env 		*env;
 	long long	increm;
-	long long old_increm;
+	long long 	old_increm;
 
 	increm = 0;
 	old_increm = 0;
@@ -78,7 +78,9 @@ int	shell_level(t_env **envir)
 				printf("warning: shell level (%lld) too high, resetting to 1\n", increm);
 				increm = 1;
 			}
+			free(env->value);
 			env->value = ft_itoa(increm);
+			
 		}
 		env = env->next;
 	}
@@ -119,7 +121,9 @@ int	pars_exec(t_vars vars, t_list *comm, t_env *envir)
 		// 	printf("gnl == %s", str);
 		// 	str = get_next_line(vars.heredoc_fd);
 		// }
-		ft_execute(&vars, comm, envir);
+		if (comm && comm->content[0] != '\0')
+			ft_execute(&vars, comm, envir);
+		ft_lstfree(&comm);
 		free(vars.read);
 	}
 	else

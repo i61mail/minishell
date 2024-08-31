@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 13:22:51 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 17:57:25 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	comp = ft_check_env(envir, comp);
 	*str_temp = ft_strjoin(*str_temp, comp);
 	if (*str_temp[0] == '\0')
+	{
+		free(*str_temp);
 		*str_temp = NULL;
+	}
 	return (free(comp), 0);
 }
 

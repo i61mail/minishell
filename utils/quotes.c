@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 13:25:23 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 17:47:18 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	{
 		if (vars->read[*i] == '$')
 		{
-			if (*i > 0 && vars->read[*i - 1] == '=')
+			if (*i > 0 && (ft_isalpha(vars->read[*i - 1]) || vars->read[*i - 1] == '_'))
 				vars->flag_splite = SPLITED;
 			dollar(vars, i, str_temp, envir);
 		}
