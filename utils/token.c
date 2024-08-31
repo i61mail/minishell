@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/22 12:11:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 00:38:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	str = NULL;
 	temp[1] = '\0';
 	while (vars->read[*i] && vars->read[*i] != '$'
-		&& !ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i]))
+		&& !ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i]) && !ft_isspace(vars->read[*i]))
 	{
 		temp[0] = vars->read[*i];
 		str = ft_strjoin(str, temp);

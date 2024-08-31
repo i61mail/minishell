@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 21:30:44 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 23:57:54 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			temp = ft_substr(vars->read, vars->start, vars->len - 1);
 		else
 			temp = ft_substr(vars->read, vars->start, vars->len);
-		*str_temp = ft_strjoin(*str_temp, temp);
+		if (temp)
+			*str_temp = ft_strjoin(*str_temp, temp);
 		if (*str_temp && *str_temp[0] == '\0')
 			*str_temp = NULL;
 	}

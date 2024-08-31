@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 23:36:02 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 23:58:21 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -474,7 +474,6 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 	init_heredoc(&herdoc);
 	if (gen_file_name(&herdoc) == -1)
 		return (-1);
-	printf("%s\n", herdoc.file_name);
 	herdoc.return_fork = fork();
 	if (herdoc.return_fork < 0)
 		return (-1);

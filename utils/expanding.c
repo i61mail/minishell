@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 21:23:50 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 23:56:56 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_check_env(t_env **envir, char *comp)
 		}
 		temp = temp->next;
 	}
-	return (free(comp), NULL);
+	return (free(comp), ft_strdup(""));
 }
 
 char *expand_exit_status(t_vars *vars, char *comp)
@@ -79,7 +79,8 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		return (0);
 	}
 	comp = ft_check_env(envir, comp);
-	*str_temp = ft_strjoin(*str_temp, comp);
+	if (comp)
+		*str_temp = ft_strjoin(*str_temp, comp);
 	if (*str_temp[0] == '\0')
 	{
 		free(*str_temp);

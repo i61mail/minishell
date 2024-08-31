@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 22:11:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 00:34:02 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			temp = ft_substr(vars->read, vars->start, vars->len - 1);
 		else
 			temp = ft_substr(vars->read, vars->start, vars->len);
-		*str_temp = ft_strjoin(*str_temp, temp);
+		if (temp)
+			*str_temp = ft_strjoin(*str_temp, temp);
 		free(temp);
 		if (join_afterdollar(vars, i, str_temp) == -1)
 			return (-1);
@@ -114,3 +115,4 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 }
 //export > $a
 //$$$''
+//as
