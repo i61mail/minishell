@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 22:12:22 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 23:38:31 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	*envir = NULL;
 	*comm = NULL;
 	vars->read = NULL;
+	vars->token = NULL;
 	vars->catsh = 0;
 	vars->befor_sing = 0;
 	vars->bef_spac = 0;

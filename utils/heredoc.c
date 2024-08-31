@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 20:55:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 23:36:02 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,13 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 	if (var == 1)
 	{
 		vars->del_type = HEREDOC_DEL_Q;
+		vars->token = ft_strdup(str_temp);
 		replace_expand(curr, str_temp, comm, HEREDOC_DEL_Q);
 	}
 	else
 	{
-		vars->del_type = HEREDOC_DEL_Q;
+		vars->del_type = HEREDOC_DEL_U;
+		vars->token = ft_strdup(str_temp);
 		replace_expand(curr, str_temp, comm, HEREDOC_DEL_U);
 	}
 	return (0);
@@ -377,9 +379,10 @@ int	store_here(t_heredoc *herdoc, t_list *temp, t_env **envir, t_vars *vars)
 	char	*value;
 
 	value = NULL;
+	(void)temp;
 	if (herdoc->here_line)
 	{
-		if (ft_strcmp(herdoc->here_line, temp->next->content) == 0)
+		if (ft_strcmp(herdoc->here_line, vars->token) == 0)
 			exit(0);
 		value = expand_heredoc(herdoc, envir, vars->del_type);
 		if (!value)
@@ -471,6 +474,7 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 	init_heredoc(&herdoc);
 	if (gen_file_name(&herdoc) == -1)
 		return (-1);
+	printf("%s\n", herdoc.file_name);
 	herdoc.return_fork = fork();
 	if (herdoc.return_fork < 0)
 		return (-1);
