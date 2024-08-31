@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 23:21:35 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 21:47:09 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ typedef struct s_vars
 	int		befor_sing;
 	int		quoted;
 	int		exit_status;
-	int		del_type;
-	char 	*token;
 	int		pfd[2];
 	int		old_fd;
 	int		pipe;
@@ -56,6 +54,7 @@ typedef struct s_vars
 	int		start;
 	int		heredoc_fd;
 	int		flag_splite;
+	int		builtin;
 }	t_vars;
 
 typedef struct s_env
@@ -84,7 +83,8 @@ typedef enum s_token
 	HEREDOC_DEL_Q,
 	HEREDOC_DEL_U,
 	AMBIGUOUS,
-	SPLITED
+	SPLITED,
+	QUOTES
 }	t_token;
 
 /*              utils  linked list       */
@@ -176,13 +176,13 @@ void		ft_env_free(t_env **env);
 void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);
 
 /*        builtins        */
-int			ft_echo(t_list *command);
+int			ft_echo(t_list *command, t_vars *vars);
 int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
-int			ft_pwd(void);
-int			ft_exit(int exit_status, int is_pipd);
-int			ft_export(t_env *envir, t_list *command);
-void		ft_env(t_env *envir);
-void		ft_unset(t_list *command, t_env *envir);
+int			ft_pwd(t_vars *vars, t_env *envir);
+int			ft_exit(t_vars *vars);
+int			ft_export(t_env *envir,t_vars *vars, t_list *command);
+void		ft_env(t_env *envir, t_vars *vars);
+void		ft_unset(t_list *command, t_env **envir);
 
 /* 		  exec utils	*/
 int			ft_env_length(t_env *envir);
@@ -194,5 +194,6 @@ char		**ft_2denv(t_env *envir);
 char		**ft_2dcomm(t_list *comm);
 t_list		*ft_split_pipe(t_list **new_comm, t_vars *vars);
 int 		ft_split_2(const char *str, const char *sep, char **k, char **v);
+int			ft_isred(int	t);
 
 #endif
