@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/30 15:42:45 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/08/31 12:03:36 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	three_vars(t_env **envir)
 int	shell_level(t_env **envir)
 {
 	t_env *env;
-	int	increm;
-	int		old_increm;
+	long long	increm;
+	long long old_increm;
 
 	increm = 0;
 	old_increm = 0;
@@ -65,6 +65,13 @@ int	shell_level(t_env **envir)
 		{
 			old_increm = ft_atoi(env->value);
 			increm = old_increm + 1;
+			if (increm > 2147483647)
+				increm = 0;
+			else if (increm > 1000)
+			{
+				printf("warning: shell level (%lld) too high, resetting to 1\n", increm);
+				increm = 1;
+			}
 			env->value = ft_itoa(increm);
 		}
 		env = env->next;
