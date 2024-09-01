@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 10:43:31 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 12:03:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,13 @@ int	ft_echo(t_list *command, t_vars *vars, t_env *envir)
 		check = 1; 	
 		command = ft_check4red(command, vars);
 	}
-	if (command->type == PIP)
+	if (command && command->type == PIP)
 	{
 		ft_run(vars, command, envir);
 		return (0);
 	}
 	if (is_n && check == 0)
 	{
-		puts("asd");
 		ft_putstr_fd("\n", vars->pfd[1]);
 	}
 	return (0);
