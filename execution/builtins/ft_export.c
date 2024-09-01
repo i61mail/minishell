@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/31 21:19:48 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/29 05:39:59 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,8 @@ void	ft_free_2d_array(void **array)
 	}
 	free(array);
 }
-void	ft_print_env(t_env *envir,t_vars *vars)
-{
-	ft_putstr_fd("declare -x ", vars->pfd[1]);
-	ft_putstr_fd(envir->key, vars->pfd[1]);
-	if (envir->value)
-	{
-		ft_putstr_fd("=\"", vars->pfd[1]);
-		ft_putstr_fd(envir->value,vars->pfd[1]);
-		ft_putstr_fd("\"", vars->pfd[1]);
-	}
-	ft_putstr_fd("\n",vars->pfd[1]);
-}
-void	ft_dump_env(t_env *envir, t_vars *vars)
+
+void	ft_dump_env(t_env *envir)
 {	
 	t_env *temp;
 	char **sorted;
@@ -110,14 +99,19 @@ void	ft_dump_env(t_env *envir, t_vars *vars)
 
 	sorted = ft_sort_env(ft_2envkeys(envir));
 	i = 0;
-
+	
 	while(sorted && sorted[i])
 	{
 		temp = envir;
 		while(temp)
 		{
-			if (!ft_strcmp(temp->key,sorted[i]) && ft_strcmp(temp->key,"_\0"))
-				ft_print_env(temp, vars);
+			if (!ft_strcmp(temp->key,sorted[i]))
+			{
+				printf("declare -x %s",temp->key);
+				if (temp->value)
+					printf("=\"%s\"",temp->value);
+				printf("\n");
+			}
 			temp = temp->next;
 		}
 		i++;
@@ -160,19 +154,13 @@ int	ft_put_error(char *before, char *sep, char *after)
 	ft_putstr_fd("\n", 2);
 	return (1);
 }
-int	not_valid(char *err)
-{
-	ft_put_error("minishell: export: `", err, "': not a valid identifier");
-	return (1);
-}
+
 int	ft_invalid_char(char *kandv)
 {
 	//char c;
 	int i;
 
 	i = 0;
-	if (kandv && kandv[i] && (!ft_isalpha(kandv[i]) && kandv[i] != '_'))
-		return (not_valid(kandv));
 	while(kandv && kandv[i] && (ft_isdigit(kandv[i]) || ft_isalpha(kandv[i]) || kandv[i] == '_' ))
 		i++;
 	if (kandv[i] == '=' || !kandv[i])
@@ -180,10 +168,18 @@ int	ft_invalid_char(char *kandv)
 	else if (kandv[i] == '+')
 	{
 		if (kandv[i + 1] != '=')
-			return (not_valid(kandv));
+		{
+			ft_put_error("minishell: export: `",
+				kandv, "': not a valid identifier");
+			return (1);
+		}
 	}
 	else
-		return (not_valid(kandv));
+	{
+		ft_put_error("minishell: export: `",
+			kandv, "': not a valid identifier");
+		return (1);
+	}
 	return (0);
 }
 
@@ -196,13 +192,14 @@ int	ft_var_type(char *var)
 		else if (*var == '=' && *(var + 1) == '\0')
 			return(3); // empty but with equal a=
 		if(*var == '+' && *(var + 1) == '=')
-			return (1); // append a+=b z
+			return (1); // append a+=b 
+		
 		var++;
 	}
 	return (4); //no value var export a
 }
 
-int	ft_export(t_env *envir,t_vars *vars, t_list *command)
+int	ft_export(t_env *envir, t_list *command)
 {
 	t_list *temp;
 	char *key;
@@ -211,7 +208,7 @@ int	ft_export(t_env *envir,t_vars *vars, t_list *command)
 	
 	temp = command->next;
 	if(!ft_strncmp(command->content,"export\0",7) && (!command->next || *(command->next->content) == '\0'))
-		ft_dump_env(envir, vars);
+		ft_dump_env(envir);
 	else
 	{
 		while(temp)

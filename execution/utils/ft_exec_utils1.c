@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:23:32 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/30 16:19:43 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/29 05:42:47 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**ft_2dcomm(t_list *comm)
 	_2dcomm = malloc(sizeof(char *) * (ft_comm_length(comm) + 1));
 	if (!_2dcomm)
 		return (NULL);
-	while (comm && !comm->type) // .
+	while (comm)
 	{
 		_2dcomm[i] = comm->content;
 		comm = comm->next;
