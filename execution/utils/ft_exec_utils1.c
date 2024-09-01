@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:23:32 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/29 05:42:47 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/01 10:44:24 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ t_list	*ft_split_pipe(t_list **new_comm, t_vars *vars)
 	if (temp)
 	{
 		vars->pipe = 1;
-		prev->next = NULL;
+		if (prev)
+			prev->next = NULL;
 		// free pipe node !
 		return (temp->next);
 	}

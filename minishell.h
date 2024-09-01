@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 08:40:52 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 11:37:36 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,13 +177,13 @@ void		ft_env_free(t_env **env);
 void		ft_execute(t_vars *vars, t_list *comm, t_env **envir);
 
 /*        builtins        */
-int			ft_echo(t_list *command, t_vars *vars);
+int			ft_echo(t_list *command, t_vars *vars, t_env *envir);
 int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
-int			ft_pwd(t_vars *vars, t_env *envir);
-int			ft_exit(t_vars *vars);
-int			ft_export(t_env *envir,t_vars *vars, t_list *command);
-void		ft_env(t_env *envir, t_vars *vars);
-void		ft_unset(t_list *command, t_env **envir);
+int			ft_pwd(t_vars *vars, t_env *envir, t_list *comm);
+int			ft_exit(t_vars *vars, t_env **envir, t_list *comm);
+int			ft_export(t_env **envir,t_vars *vars, t_list *command);
+void		ft_env(t_env *envir, t_vars *vars, t_list *command);
+void		ft_unset(t_list *command, t_env **envir, t_vars *vars);
 
 /* 		  exec utils	*/
 int			ft_env_length(t_env *envir);

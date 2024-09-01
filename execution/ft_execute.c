@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 09:54:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 11:38:22 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,19 @@ void	ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 	if (comm && !ft_strncmp(comm->content, "cd\0", 5))
 		ft_cd(vars, comm, *envir);
 	else if (comm && !ft_strncmp(comm->content, "echo\0", 7))
-		ft_echo(comm, vars);
+		ft_echo(comm, vars, *envir);
 	else if (comm && !ft_strncmp(comm->content, "env\0", 7))
 	{
-		ft_env(*envir, vars);
+		ft_env(*envir, vars, comm);
 	}
 	else if (comm && !ft_strncmp(comm->content, "exit\0", 7))
-		ft_exit(vars);
+		ft_exit(vars, envir, comm);
 	else if (comm && !ft_strncmp(comm->content, "export\0", 7))
-		ft_export(*envir, vars, comm);
+		ft_export(envir, vars, comm);
 	else if (comm && !ft_strncmp(comm->content, "pwd\0", 7))
-		ft_pwd(vars, *envir);
+		ft_pwd(vars, *envir, comm);
 	else if (comm && !ft_strncmp(comm->content, "unset\0", 7))
-		ft_unset(comm, envir);
+		ft_unset(comm, envir, vars);
 	else
 		ft_run(vars, comm, *envir);
 }
@@ -188,12 +188,12 @@ void ft_exec_command(t_vars *vars, t_list *comm, t_env *envir)
 {
     if (!comm || !comm->content)
         return;
-    // if (ft_is_builtin(comm->content))
-    // {
-    //     vars->builtin = 1;
-    //     ft_builtin(comm, envir, vars);
-    // }
-    // else
+    if (ft_is_builtin(comm->content))
+    {
+        vars->builtin = 1;
+        ft_builtin(comm, &envir, vars);
+    }
+    else
 	ft_child(vars, comm, envir);
     exit(vars->exit_status);
 }

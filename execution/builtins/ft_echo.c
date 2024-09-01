@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 04:55:07 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 10:43:31 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_isflag(char *str)
 	return (1);
 }
 
-int	ft_echo(t_list *command, t_vars *vars)
+int	ft_echo(t_list *command, t_vars *vars, t_env *envir)
 {
 	int		is_n;
 	int		check;
@@ -39,7 +39,7 @@ int	ft_echo(t_list *command, t_vars *vars)
 		is_n = 0;
 		command = command->next;
 	}
-	while (command && !ft_isred(command->type))
+	while (command && !ft_isred(command->type) && command->type != PIP)
 	{
 		if (command->type == HEREDOC)
 		{
@@ -53,12 +53,20 @@ int	ft_echo(t_list *command, t_vars *vars)
 			ft_putstr_fd(" ", vars->pfd[1]);
 		command = command->next;
 	}
-	if (command && ft_isred(command->type))
+	if (command && ft_isred(command->type) && command->type != PIP)
 	{
 		check = 1; 	
 		command = ft_check4red(command, vars);
 	}
+	if (command->type == PIP)
+	{
+		ft_run(vars, command, envir);
+		return (0);
+	}
 	if (is_n && check == 0)
+	{
+		puts("asd");
 		ft_putstr_fd("\n", vars->pfd[1]);
+	}
 	return (0);
 }
