@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/20 14:30:23 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/01 06:16:57 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ char	*ft_locate_bin(char *command, char *path)
 	if (!command)
 		return (NULL);
 	if (ft_strchr(command, '/'))
-		return (command);
+		return (ft_strdup(command));
 	_path = ft_split(path, ':');
-	while (*_path)
+	while (_path && *_path)
 	{
 		temp = ft_strjoin(*_path, "/");
 		temp1 = ft_strjoin(temp, ft_strdup(command));

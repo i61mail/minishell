@@ -6,15 +6,15 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 10:48:32 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 12:57:46 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 04:26:50 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ft_check(unsigned long long result, int i, char *str, int sign)
+static int	ft_check(long long result, int i, char *str, int sign)
 {
-	if (sign == -1 && result == 9223372036854775808ULL)
+	if (sign == -1 && result == 9223372036854775807)
 	{
 		if (ft_isdigit(str[i]) == 1)
 			return (-1);
@@ -27,7 +27,7 @@ static int	ft_check(unsigned long long result, int i, char *str, int sign)
 
 long long	ft_atoi(char *str)
 {
-	unsigned long long	result;
+	long long	result;
 	int					i;
 	int					sign;
 

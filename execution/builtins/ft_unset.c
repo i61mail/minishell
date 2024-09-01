@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 01:13:42 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 09:00:21 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,28 @@ void	ft_unset(t_list *command, t_env **envir)
 	t_env *to_free;
 
 	command = command->next;
-	prev = NULL;
 	while (command)
 	{
 		temp = *envir;
+		prev = NULL;
 		while (temp)
 		{
-			if (!ft_strcmp(command->content ,temp->key))
+			if (!ft_strcmp(command->content, temp->key))
 			{
-				//if(!prev)
-				//{
-				//	puts("here");
-				//	*envir = temp->next;
-				//}
-				to_free = prev->next;
-				prev->next = temp->next;
+				if (!prev)
+				{
+					*envir = temp->next;
+					to_free = temp;
+				}
+				else
+				{
+					to_free = temp;
+					prev->next = temp->next;
+				}
 				free(to_free->value);
 				free(to_free->key);
 				free(to_free);
+				break;
 			}
 			prev = temp;
 			temp = temp->next;
@@ -44,3 +48,4 @@ void	ft_unset(t_list *command, t_env **envir)
 		command = command->next;
 	}
 }
+

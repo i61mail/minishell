@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 01:10:57 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 08:40:52 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ t_env		*ft_lstenvlast(t_env *lst);
 void		ft_env_free(t_env **env);
 
 /*       execution      */
-void		ft_execute(t_vars *vars, t_list *comm, t_env *envir);
+void		ft_execute(t_vars *vars, t_list *comm, t_env **envir);
 
 /*        builtins        */
 int			ft_echo(t_list *command, t_vars *vars);
@@ -196,5 +196,7 @@ char		**ft_2dcomm(t_list *comm);
 t_list		*ft_split_pipe(t_list **new_comm, t_vars *vars);
 int 		ft_split_2(const char *str, const char *sep, char **k, char **v);
 int			ft_isred(int	t);
+void		ft_run(t_vars *vars, t_list *comm, t_env *envir);
+t_list		*ft_check4red(t_list *comm, t_vars *vars);
 
 #endif

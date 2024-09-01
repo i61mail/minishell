@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 01:13:26 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 10:01:19 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_free_2d_array(void **array)
 void	ft_print_env(t_env *envir,t_vars *vars)
 {
 	ft_putstr_fd("declare -x ", vars->pfd[1]);
-	ft_putstr_fd(envir->key, vars->pfd[1]);
+	ft_putstr_fd(envir->key, vars->pfd[1]);	
 	if (envir->value)
 	{
 		ft_putstr_fd("=\"", vars->pfd[1]);

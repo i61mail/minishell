@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 01:17:44 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 08:59:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 int	three_vars(t_env **envir)
 {
 	add_to_node(ft_strdup("PWD"), ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
+	add_to_node(ft_strdup("PATH"), ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin"), envir);
 	add_to_node(ft_strdup("SHLVL"), ft_strdup("1"), envir);
 	add_to_node(ft_strdup("_"), ft_strdup("/usr/bin/env"), envir);
 	add_to_node(ft_strdup("OLDPWD"), NULL, envir);
@@ -55,17 +56,20 @@ int	shell_level(t_env **envir)
 	t_env 		*env;
 	long long	increm;
 	long long 	old_increm;
+	int			is;
 
 	increm = 0;
+	is = 0;
 	old_increm = 0;
 	env = *envir;
 	while (env)
 	{
 		if (ft_strcmp(env->key, "SHLVL") == 0)
 		{
+			is = 1;
 			old_increm = ft_atoi(env->value);
 			increm = old_increm + 1;
-			if (increm > 2147483647)
+			if (increm > 2147483647 || increm < 0)
 				increm = 0;
 			else if (increm == 1000)
 			{
@@ -84,6 +88,8 @@ int	shell_level(t_env **envir)
 		}
 		env = env->next;
 	}
+	if (is == 0)
+		add_to_node(ft_strdup("SHLVL"), ft_strdup("1"), envir);
 	return (0);
 }
 
@@ -112,10 +118,10 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	shell_level(envir);
 }
 
-int	pars_exec(t_vars vars, t_list *comm, t_env *envir)
+int	pars_exec(t_vars vars, t_list *comm, t_env **envir)
 {
 	add_history(vars.read);
-	if (ft_pars_comm(&vars, &comm, &envir) != -1)
+	if (ft_pars_comm(&vars, &comm, envir) != -1)
 	{
 		// char *str = get_next_line(vars.heredoc_fd);
 		// while (str)
@@ -152,7 +158,7 @@ int	main(int ac, char **av, char **env)
 				free_all(vars.read, &comm, &envir);
 				break ;
 			}
-			pars_exec(vars, comm, envir);
+			pars_exec(vars, comm, &envir);
 		}
 		else
 		{

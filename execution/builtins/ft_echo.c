@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 01:12:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 04:55:07 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ int	ft_isflag(char *str)
 int	ft_echo(t_list *command, t_vars *vars)
 {
 	int		is_n;
+	int		check;
 
+	check = 0;
 	is_n = 1;
 	command = command->next;
 	while (command && ft_isflag(command->content))
@@ -51,7 +53,12 @@ int	ft_echo(t_list *command, t_vars *vars)
 			ft_putstr_fd(" ", vars->pfd[1]);
 		command = command->next;
 	}
-	if (is_n)
+	if (command && ft_isred(command->type))
+	{
+		check = 1; 	
+		command = ft_check4red(command, vars);
+	}
+	if (is_n && check == 0)
 		ft_putstr_fd("\n", vars->pfd[1]);
 	return (0);
 }
