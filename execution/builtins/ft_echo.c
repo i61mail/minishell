@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/27 05:58:12 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/08/31 22:00:17 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_isflag(char *str)
 	return (1);
 }
 
-int	ft_echo(t_list *command)
+int	ft_echo(t_list *command, t_vars *vars)
 {
 	int		is_n;
 
@@ -37,14 +37,21 @@ int	ft_echo(t_list *command)
 		is_n = 0;
 		command = command->next;
 	}
-	while (command)
+	while (command && !ft_isred(command->type))
 	{
-		printf("%s", command->content);
+		if (command->type == HEREDOC)
+		{
+			command = command->next;
+			if(command->next)
+				command = command->next;
+			continue;
+		}
+		ft_putstr_fd(command->content, vars->pfd[1]);
 		if (command->next)
-			printf(" ");
+			ft_putstr_fd(" ", vars->pfd[1]);
 		command = command->next;
 	}
 	if (is_n)
-		printf("\n");
+		ft_putstr_fd("\n", vars->pfd[1]);
 	return (0);
 }
