@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 12:02:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/01 12:09:17 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,7 @@ void	ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 	else
 		ft_run(vars, comm, *envir);
 }
-void	ft_parent(t_vars *vars, t_list *comm,t_env *envir)
-{
-	int	pid;
-	(void)envir;
-	(void)comm;
-	wait(&pid);
-	if (WIFEXITED(pid))
-		vars->exit_status = WEXITSTATUS(pid);
-}
+
 int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 {
 	(void)vars;
@@ -222,12 +214,6 @@ void ft_run(t_vars *vars, t_list *comm, t_env *envir)
         }
         if (!id)
             ft_exec_command(vars, comm, envir);
-        else
-            ft_parent(vars, comm, envir);
-		int pid = 0;
-		wait(&pid);
-		if (WIFEXITED(pid))
-		vars->exit_status = WEXITSTATUS(pid);
         if (vars->old_fd)
             close(vars->old_fd);
         vars->old_fd = vars->pfd[0];
@@ -235,6 +221,10 @@ void ft_run(t_vars *vars, t_list *comm, t_env *envir)
             close(vars->pfd[1]);
         comm = new_comm;
     }
+	int pid = 0;
+	wait(&pid);
+	if (WIFEXITED(pid))
+	vars->exit_status = WEXITSTATUS(pid);
     // Restore stdin and stdout
     dup_and_close(_stdout, 1);
     dup_and_close(_stdin, 0);
