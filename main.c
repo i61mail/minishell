@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 00:41:04 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 01:02:07 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->catsh = 0;
 	vars->befor_sing = 0;
 	vars->bef_spac = 0;
+	vars->builtin = 0;
 	vars->len = 0;
 	vars->start = 0;
 	vars->exit_status = 0;
@@ -112,28 +113,29 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	shell_level(envir);
 }
 
-int	pars_exec(t_vars vars, t_list *comm, t_env *envir)
+int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 {
-	add_history(vars.read);
-	if (ft_pars_comm(&vars, &comm, &envir) != -1)
+	add_history(vars->read);
+	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
-		// char *str = get_next_line(vars.heredoc_fd);
+		// char *str = get_next_line(vars->heredoc_fd);
 		// while (str)
 		// {
 		// 	printf("gnl == %s", str);
-		// 	str = get_next_line(vars.heredoc_fd);
+		// 	str = get_next_line(vars->heredoc_fd);
 		// }
 		if (comm && comm->content[0] != '\0')
 		{
-			ft_execute(&vars, comm, envir);
+			ft_execute(vars, comm, envir);
 			ft_lstfree(&comm);
 		}
-		free(vars.read);
+		free(vars->read);
 	}
 	else
-		free(vars.read);
+		free(vars->read);
 	return (0);
 }
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -153,7 +155,7 @@ int	main(int ac, char **av, char **env)
 				free_all(vars.read, &comm, &envir);
 				break ;
 			}
-			pars_exec(vars, comm, envir);
+			pars_exec(&vars, comm, &envir);
 		}
 		else
 		{
@@ -161,5 +163,5 @@ int	main(int ac, char **av, char **env)
 			break ;
 		}
 	}
-	return (0);
+	exit(vars.exit_status);
 }

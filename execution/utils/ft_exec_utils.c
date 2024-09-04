@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/08/20 14:30:23 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/04 01:02:36 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	ft_pipe_num(t_list *comm)
 
 void	dup_and_close(int oldfd, int newfd)
 {
+	if(oldfd == newfd)
+		return;
 	dup2(oldfd, newfd);
 	if (oldfd != 0 && oldfd != 1)
 		close(oldfd);

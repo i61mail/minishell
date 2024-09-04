@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 01:12:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 01:01:56 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ int	ft_echo(t_list *command, t_vars *vars)
 	}
 	if (is_n)
 		ft_putstr_fd("\n", vars->pfd[1]);
+	vars->exit_status = 0;
 	return (0);
 }
