@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/04 01:06:44 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/04 18:15:17 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ void ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	comm->content = binary;
 	_2denv = ft_2denv(envir);
 	execve(binary, ft_2dcomm(comm), (char *const *)_2denv);
+	ft_putstr_fd("$", 2);
 	perror(comm->content);
-	vars->exit_status = errno;	
+	vars->exit_status = errno;
 	exit(vars->exit_status);
 }
 
@@ -96,6 +97,8 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 			vars->exit_status = 1;
 			return (-1);
 		}
+		if(vars->pfd[1] != 1)
+			close(vars->pfd[1]);
 		vars->pfd[1] = fd;
 	}
 	if (node->type == RED_APPEND)
@@ -109,6 +112,8 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 			vars->exit_status = 1;
 			return (-1);
 		}
+		if(vars->pfd[1] != 1)
+			close(vars->pfd[1]);
 		vars->pfd[1] = fd;
 	}
 	if (node->type == RED_IN)
@@ -145,7 +150,7 @@ t_list *ft_check4red(t_list *comm, t_vars *vars)
 		if (ft_isred(temp->type))
 		{
 			if (ft_handle_redir(temp, temp->next, vars) == -1)
-				break;
+				return (NULL);/// need to free new comm at exit
 			temp = temp->next;
 			if (temp)
 				temp = temp->next;
@@ -194,7 +199,6 @@ void ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		if (vars->old_fd)
 			close(vars->old_fd);
 		vars->old_fd = vars->pfd[0];
-		// close(vars->pfd[0]);
 		if (vars->pfd[1] != 1)
 			close(vars->pfd[1]);
 		comm = new_comm;
@@ -206,10 +210,6 @@ void ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		vars->exit_status = WEXITSTATUS(pid);
 	while (wait(NULL) > 0)
 		;
-
-	// close(vars->pfd[1]);
-	// close(vars->pfd[0]);
-	// close(vars->old_fd);
 }
 
 void ft_execute(t_vars *vars, t_list *comm, t_env **envir)
