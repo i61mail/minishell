@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:23:32 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 10:44:24 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/02 16:20:04 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,16 @@ t_list	*ft_split_pipe(t_list **new_comm, t_vars *vars)
 		// free pipe node !
 		return (temp->next);
 	}
+	else if (temp == NULL && vars->old_pipe == 1)
+	{
+		vars->pipe = 2;
+		return (NULL);
+	}
 	else
 	{
 		vars->pipe = 0;
 		return (NULL);
-	}	
+	}
 }
 
 char	*ft_strchr_2(const char *str, const char *sep)

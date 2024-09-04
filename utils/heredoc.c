@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 23:58:21 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 17:30:57 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -452,8 +452,8 @@ int	gen_file_name(t_heredoc *herdoc)
 	if (read_devrandom(herdoc->fd, &herdoc->file_name) == -1)
 		return (-1);
 	close(herdoc->fd);
-	herdoc->fd = open(herdoc->file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	herdoc->passed_fd = open(herdoc->file_name, O_RDWR | O_TRUNC, 0644);
+	herdoc->fd = open(herdoc->file_name, O_CREAT | O_RDWR, 0644);
+	herdoc->passed_fd = open(herdoc->file_name, O_RDONLY, 0644);
 	unlink(herdoc->file_name);
 	if (herdoc->fd < 0 || herdoc->passed_fd < 0)
 		return (-1);

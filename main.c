@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 08:59:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 13:21:16 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,9 @@ int	pars_exec(t_vars vars, t_list *comm, t_env **envir)
 		free(vars.read);
 	}
 	else
+	{
 		free(vars.read);
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 11:37:36 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 17:47:34 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_vars
 	int		pfd[2];
 	int		old_fd;
 	int		pipe;
+	int		old_pipe;
 	int		numofpipes;
 	int		bef_spac;
 	int		len;
@@ -57,6 +58,12 @@ typedef struct s_vars
 	int		heredoc_fd;
 	int		flag_splite;
 	int		builtin;
+	int 	_stdout;
+    int 	_stdin;
+	int		fd_buil;
+	int		not_red;
+	int 	not_enter;
+	int		red_built;
 }	t_vars;
 
 typedef struct s_env
@@ -189,14 +196,14 @@ void		ft_unset(t_list *command, t_env **envir, t_vars *vars);
 int			ft_env_length(t_env *envir);
 int			ft_comm_length(t_list *comm);
 int			ft_pipe_num(t_list *comm);
-void		dup_and_close(int oldfd, int newfd);
 char		*ft_locate_bin(char *command, char *path);
 char		**ft_2denv(t_env *envir);
 char		**ft_2dcomm(t_list *comm);
 t_list		*ft_split_pipe(t_list **new_comm, t_vars *vars);
 int 		ft_split_2(const char *str, const char *sep, char **k, char **v);
 int			ft_isred(int	t);
-void		ft_run(t_vars *vars, t_list *comm, t_env *envir);
+int		ft_run(t_vars *vars, t_list *comm, t_env *envir);
 t_list		*ft_check4red(t_list *comm, t_vars *vars);
+void		ft_child(t_vars *vars, t_list *comm, t_env *envir);
 
 #endif

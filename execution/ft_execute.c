@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 12:09:17 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 17:47:47 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,22 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	char	*binary;
 	char	**_2denv;
 
-	dup_and_close(vars->pfd[1], 1);
-	dup_and_close(vars->old_fd, 0);
+	if (vars->not_red == 1 && vars->not_enter == 2)
+	{
+		dup2(vars->fd_buil, 1);
+	}
+	if (vars->pipe == 1 || vars->old_pipe == 2)
+	{
+		close(vars->pfd[0]);
+	}
+	else
+	{
+		dup2(vars->pfd[1], vars->_stdout);
+		dup2(vars->old_fd, vars->_stdin);
+	}
 	binary = ft_locate_bin(comm->content, getenv("PATH"));
 	if (binary == NULL)
 	{
-		// close(vars->pfd[1]);
 		close(vars->old_fd);
 		printf("minishell: %s: command not found\n", comm->content);
 		vars->exit_status = 127;
@@ -47,30 +57,28 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 
 void	ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 {
-	if (comm && !ft_strncmp(comm->content, "cd\0", 5))
+	if (ft_strncmp(comm->content, "cd\0", 3) == 0)
 		ft_cd(vars, comm, *envir);
-	else if (comm && !ft_strncmp(comm->content, "echo\0", 7))
+	else if (ft_strncmp(comm->content, "echo\0", 5) == 0)
 		ft_echo(comm, vars, *envir);
-	else if (comm && !ft_strncmp(comm->content, "env\0", 7))
-	{
+	else if (ft_strncmp(comm->content, "env\0", 4) == 0)
 		ft_env(*envir, vars, comm);
-	}
-	else if (comm && !ft_strncmp(comm->content, "exit\0", 7))
+	else if (ft_strncmp(comm->content, "exit\0", 5) == 0)
 		ft_exit(vars, envir, comm);
-	else if (comm && !ft_strncmp(comm->content, "export\0", 7))
+	else if (ft_strncmp(comm->content, "export\0", 7) == 0)
 		ft_export(envir, vars, comm);
-	else if (comm && !ft_strncmp(comm->content, "pwd\0", 7))
+	else if (ft_strncmp(comm->content, "pwd\0", 4) == 0)
 		ft_pwd(vars, *envir, comm);
-	else if (comm && !ft_strncmp(comm->content, "unset\0", 7))
+	else if (ft_strncmp(comm->content, "unset\0", 6) == 0)
 		ft_unset(comm, envir, vars);
 	else
 		ft_run(vars, comm, *envir);
+	return ;
 }
 
 int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 {
-	(void)vars;
-	if(!node || !next_node)
+	if (!node || !next_node)
 	{
 		printf("i should'nt get here\n");
 		return (-1);
@@ -81,9 +89,7 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		vars->exit_status =  errno;
 		return (-1);
 	}
-	if(node->type != PIP && node->type != RED_IN)
-		vars->pipe = 0;
-	if(node->type == RED_OUT)
+	if (node->type == RED_OUT)
 	{
 		int fd = open(next_node->content, O_WRONLY  | O_CREAT | O_TRUNC, 0644);
 		if(fd == -1)
@@ -92,22 +98,26 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 			perror(next_node->content);
 			vars->exit_status =  errno;
 			return (-1);
-			// exit(vars->exit_status);
 		}
-		dup_and_close(fd, 1);
+		if (vars->not_red == 1)
+			vars->fd_buil = 1;
+		dup2(fd, vars->fd_buil);
+		close(fd);
 	}
-	if(node->type == RED_APPEND)
+	if (node->type == RED_APPEND)
 	{
 		int fd = open(next_node->content, O_WRONLY  | O_CREAT | O_APPEND, 0644);
-		if(fd == -1)
+		if (fd == -1)
 		{
 			ft_putstr_fd("minishell: ",2);
 			perror(next_node->content);
-			vars->exit_status =  errno;
+			vars->exit_status = errno;
 			return (-1);
-			// exit(vars->exit_status);	
 		}
-		dup_and_close(fd, 1);
+		if (vars->not_red == 1)
+			vars->fd_buil = 1;
+		dup2(fd, vars->fd_buil);
+		close(fd);
 	}
 	if(node->type == RED_IN)
 	{
@@ -118,9 +128,10 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 			perror(next_node->content);
 			vars->exit_status =  errno;
 			return (-1);
-			// exit(vars->exit_status);
 		}
-		dup_and_close(fd, 0);
+		vars->red_built = 1;
+		dup2(fd, 0);
+		close(fd);
 	}
 	if(node->type == HEREDOC)
 	{
@@ -130,9 +141,10 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 			perror(next_node->content);
 			vars->exit_status =  errno;
 			return (-1);
-			// exit(vars->exit_status);
 		}
-		dup_and_close(vars->heredoc_fd, 0);
+		vars->fd_buil = 1;
+		dup2(vars->heredoc_fd, 0);
+		close(vars->heredoc_fd);
 	}
 	return (0);
 }
@@ -156,8 +168,13 @@ t_list *ft_check4red(t_list *comm, t_vars *vars)
     {
         if (ft_isred(temp->type))
         {
+			if (temp->type == RED_OUT)
+				vars->not_enter = 2;
+			vars->not_red = 1;
             if (ft_handle_redir(temp, temp->next, vars) == -1)
+			{
 				return (NULL);
+			}
             if (prev)
                 prev->next = temp->next->next;
             else
@@ -169,65 +186,103 @@ t_list *ft_check4red(t_list *comm, t_vars *vars)
             first_command = temp;
         prev = temp;
         temp = temp->next;
+		vars->not_red = 0;
 	}
     return (comm);
 }
 
-
-void ft_exec_command(t_vars *vars, t_list *comm, t_env *envir)
+int ft_exec_command(t_vars *vars, t_list *comm, t_env *envir)
 {
+	t_list *command;
+
+	command = NULL;
     if (!comm || !comm->content)
-        return;
+        return (-1);
+	if (vars->not_enter == 0)
+	{
+		command = ft_check4red(comm, vars);
+		if (!command)
+		{
+			return (-1);
+		}
+		if (command)
+			comm = command;
+	}
     if (ft_is_builtin(comm->content))
     {
-        vars->builtin = 1;
         ft_builtin(comm, &envir, vars);
+        exit(vars->exit_status); 
     }
     else
-	ft_child(vars, comm, envir);
+    {
+		ft_child(vars, comm, envir);
+    }
     exit(vars->exit_status);
 }
 
-void ft_run(t_vars *vars, t_list *comm, t_env *envir)
+int ft_run(t_vars *vars, t_list *comm, t_env *envir)
 {
     int id;
     t_list *new_comm;
-    int _stdout;
-    int _stdin;
 
-	new_comm = NULL;
-	_stdout = dup(1);
-	_stdin = dup(0);
+    vars->_stdout = dup(1);
+    vars->_stdin = dup(0);
     while (comm)
     {
         vars->pfd[0] = vars->old_fd;
-        vars->pfd[1] = 1;
+        if (vars->pipe == 1)
+        {
+            vars->old_pipe = vars->pipe;
+        }
         new_comm = ft_split_pipe(&comm, vars);
-        if (vars->pipe)
-            pipe(vars->pfd);
-        comm = ft_check4red(comm, vars);
+        if (vars->pipe == 1)
+        {
+            if (pipe(vars->pfd) == -1)
+            {
+                perror("minishell: pipe:");
+                return(-1);
+            }
+        }
         id = fork();
         if (id == -1)
         {
             perror("minishell: fork:");
-            return;
+            return(-1);
         }
-        if (!id)
-            ft_exec_command(vars, comm, envir);
-        if (vars->old_fd)
-            close(vars->old_fd);
-        vars->old_fd = vars->pfd[0];
-        if (vars->pfd[1] != 1)
-            close(vars->pfd[1]);
-        comm = new_comm;
+        if (id == 0)
+        {
+            if (vars->pipe && vars->fd_buil == 0)
+            {
+                dup2(vars->pfd[1], 1);
+            }
+            if (vars->old_fd != 0)
+            {
+                dup2(vars->old_fd, 0);
+            }
+            if (ft_exec_command(vars, comm, envir) == -1)
+				return -1;
+        }
+        else
+        {
+            if (vars->pipe)
+            {
+                close(vars->pfd[1]);
+            }
+            if (vars->old_fd)
+            {
+                close(vars->old_fd);
+            }
+            vars->old_fd = vars->pfd[0];
+            comm = new_comm;
+        }
     }
-	int pid = 0;
-	wait(&pid);
-	if (WIFEXITED(pid))
-	vars->exit_status = WEXITSTATUS(pid);
-    // Restore stdin and stdout
-    dup_and_close(_stdout, 1);
-    dup_and_close(_stdin, 0);
+    while (wait(NULL) > 0)
+        ;
+    dup2(vars->_stdout, 1);
+    dup2(vars->_stdin, 0);
+    close(vars->_stdout);
+    close(vars->_stdin);
+	return (0);
 }
 
 void	ft_execute(t_vars *vars, t_list *comm, t_env **envir)
@@ -235,9 +290,66 @@ void	ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	vars->numofpipes = ft_pipe_num(comm);
 	vars->builtin = 0;
 	vars->old_fd = 0;
+	vars->old_pipe = 0;
 	vars->pfd[1] = 1;
+	vars->_stdout = 1;
+    vars->_stdin = 0;
+    vars->not_red = 0;
+	vars->fd_buil = 0;
+	vars->not_enter = 0;
+	vars->red_built = 0;
+	// int	restore = 0;
 	if (!comm)
 		return ;
-	ft_builtin(comm, envir, vars);
-	// ft_run(vars, comm, envir);
+	t_list *command = NULL;
+	if (vars->numofpipes == 0 && (ft_is_builtin(comm->content) || ft_isred(comm->type)))
+	{
+		vars->not_enter = 1;
+		command  = ft_check4red(comm, vars);
+		if (command)
+			comm = command;
+		else if (!command)
+		{
+			dup2(1, vars->fd_buil);
+			return ;
+		}
+	}
+	if (ft_is_builtin(comm->content) && vars->numofpipes == 0)
+	{
+		ft_builtin(comm, envir, vars);
+		dup2(1, vars->fd_buil);
+		return ;
+	}
+	else
+	{
+		ft_run(vars, comm, *envir);
+		dup2(1, vars->fd_buil);
+		return ;
+	}
 }
+
+//cat > a | << $USER
+//ls > a | cat
+//ls > a | whoami
+//""
+//echo > a | ls
+//cd execution > a | cat
+// cd execution > a | ls | ls > a
+//echo | ls > a
+//ls > a | echo > b
+//ls > a | echo
+//echo hello | ls > /dev/stdin
+//echo > a
+//env ls
+//< Makefile
+//<< a
+//cat < Makefile
+//echo < Makefile
+//< Makefile cat
+//cat | cat | ls > a | echo < Makefile
+//echo "jfhgkjhg" > file | cat << a
+//ls  | cat > a
+//cat > a
+//cat > a | ls
+//> a
+//>> a

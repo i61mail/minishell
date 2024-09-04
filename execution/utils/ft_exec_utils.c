@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 06:16:57 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/02 13:28:42 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,10 @@ int	ft_pipe_num(t_list *comm)
 	return (n);
 }
 
-void	dup_and_close(int oldfd, int newfd)
-{
-	dup2(oldfd, newfd);
-	if (oldfd != 0 && oldfd != 1)
-		close(oldfd);
-}
+// void	dup_and_close(int oldfd, int newfd)
+// {
+// 	dup2(oldfd, newfd);
+// }
 
 char	*ft_locate_bin(char *command, char *path)
 {

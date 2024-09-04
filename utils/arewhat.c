@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 00:34:02 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 13:13:55 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,5 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		return (-1);
 	return (free(str_temp), 0);
 }
-//export > $a
+
 //$$$''
-//as

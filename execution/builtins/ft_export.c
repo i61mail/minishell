@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 11:29:53 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 11:54:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,15 @@ void	ft_free_2d_array(void **array)
 }
 void	ft_print_env(t_env *envir,t_vars *vars)
 {
-	ft_putstr_fd("declare -x ", vars->pfd[1]);
-	ft_putstr_fd(envir->key, vars->pfd[1]);	
+	ft_putstr_fd("declare -x ", vars->fd_buil);
+	ft_putstr_fd(envir->key, vars->fd_buil);	
 	if (envir->value)
 	{
-		ft_putstr_fd("=\"", vars->pfd[1]);
-		ft_putstr_fd(envir->value,vars->pfd[1]);
-		ft_putstr_fd("\"", vars->pfd[1]);
+		ft_putstr_fd("=\"", vars->fd_buil);
+		ft_putstr_fd(envir->value,vars->fd_buil);
+		ft_putstr_fd("\"", vars->fd_buil);
 	}
-	ft_putstr_fd("\n",vars->pfd[1]);
+	ft_putstr_fd("\n",vars->fd_buil);
 }
 void	ft_dump_env(t_env *envir, t_vars *vars)
 {	
@@ -214,8 +214,16 @@ int	ft_export(t_env **envir,t_vars *vars, t_list *command)
 		temp = temp->next;
 	if (temp && temp->type == PIP)
 	{
-		ft_run(vars, temp, *envir);
+		ft_run(vars, command, *envir);
 		return (0);
+	}
+	if (vars->not_red == 0 || (vars->not_enter == 1 && vars->red_built == 1))
+	{
+		dup2(1, vars->fd_buil);
+	}
+	else if (vars->red_built == 1 && vars->numofpipes > 0)
+	{
+		dup2(vars->pfd[1], vars->fd_buil);
 	}
 	temp = command->next;
 	if(!ft_strncmp(command->content,"export\0",7) && (!command->next || *(command->next->content) == '\0'))

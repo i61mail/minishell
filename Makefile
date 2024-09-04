@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address 
 
 TARGET = minishell
 
@@ -23,7 +23,7 @@ OBJ_MAN = ${SRC_MAN:.c=.o}
 all : $(TARGET)
 
 $(TARGET) : $(OBJ_MAN)
-	$(CC) $(CFLAGS) $(OBJ_MAN) -o $(TARGET) -lreadline
+	$(CC) -lreadline $(CFLAGS) $(OBJ_MAN) -o $(TARGET)
 
 clean :
 	rm -f $(OBJ_MAN)

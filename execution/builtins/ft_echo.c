@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 12:03:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 11:59:28 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,32 @@ int	ft_isflag(char *str)
 int	ft_echo(t_list *command, t_vars *vars, t_env *envir)
 {
 	int		is_n;
-	int		check;
+	t_list *temp;
+	t_list *temp1;
 
-	check = 0;
 	is_n = 1;
+	temp = command;
+	temp1 = command;
+	while (temp && temp->type != PIP)
+		temp = temp->next;
+	if (temp && temp->type == PIP)
+	{
+		ft_run(vars, command, envir);
+		return (0);
+	}
 	command = command->next;
 	while (command && ft_isflag(command->content))
 	{
 		is_n = 0;
 		command = command->next;
+	}
+	if (vars->not_red == 0 || (vars->not_enter == 1 && vars->red_built == 1))
+	{
+		dup2(1, vars->fd_buil);
+	}
+	else if (vars->red_built == 1 && vars->pipe > 0)
+	{
+		dup2(vars->pfd[1], vars->fd_buil);
 	}
 	while (command && !ft_isred(command->type) && command->type != PIP)
 	{
@@ -48,24 +65,14 @@ int	ft_echo(t_list *command, t_vars *vars, t_env *envir)
 				command = command->next;
 			continue;
 		}
-		ft_putstr_fd(command->content, vars->pfd[1]);
+		ft_putstr_fd(command->content, vars->fd_buil);
 		if (command->next)
-			ft_putstr_fd(" ", vars->pfd[1]);
+			ft_putstr_fd(" ", vars->fd_buil);
 		command = command->next;
 	}
-	if (command && ft_isred(command->type) && command->type != PIP)
+	if (is_n)
 	{
-		check = 1; 	
-		command = ft_check4red(command, vars);
-	}
-	if (command && command->type == PIP)
-	{
-		ft_run(vars, command, envir);
-		return (0);
-	}
-	if (is_n && check == 0)
-	{
-		ft_putstr_fd("\n", vars->pfd[1]);
+		ft_putstr_fd("\n", vars->fd_buil);
 	}
 	return (0);
 }
