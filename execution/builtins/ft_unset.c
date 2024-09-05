@@ -6,18 +6,17 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 11:35:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 15:58:37 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_unset(t_list *command, t_env **envir, t_vars *vars)
+void	ft_unset(t_list *command, t_env **envir,t_vars *vars)
 {
 	t_env *temp;
 	t_env *prev;
-	t_env *to_free;
-	t_list *comm;
+	//t_env *to_free;
 
 	comm = command;
 	while (comm && comm->type != PIP)
@@ -30,26 +29,32 @@ void	ft_unset(t_list *command, t_env **envir, t_vars *vars)
 	command = command->next;
 	while (command)
 	{
+		if (ft_invalid_char(command->content, vars, 0)) 
+		{
+			command = command->next;
+			continue;
+		}
 		temp = *envir;
 		prev = NULL;
 		while (temp)
 		{
 			if (!ft_strcmp(command->content, temp->key))
 			{
-				if (!prev)
+				if(!prev)
 				{
+					printf("aa %s\n",temp->next->key);
 					*envir = temp->next;
-					to_free = temp;
+					//for (t_env *temp = *envir; temp->next ; temp = temp->next)
+					//	printf("aa %s\n",temp->key);
 				}
 				else
 				{
-					to_free = temp;
+						//to_free = prev->next;
 					prev->next = temp->next;
+					//free(to_free->value);
+					//free(to_free->key);
+					//free(to_free);
 				}
-				free(to_free->value);
-				free(to_free->key);
-				free(to_free);
-				break;
 			}
 			prev = temp;
 			temp = temp->next;

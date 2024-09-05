@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 11:29:53 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 15:58:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,9 @@ void	ft_add_env(char *key, char *value, t_env **envir, int type)
 		}
 		temp = temp->next;
 	}
-	
+
 	new = malloc(sizeof(t_env));
-	new->key = key;
+	new->key = ft_strdup(key);
 	new->value = value;
 	if(type == 3)
 		new->value = ft_strdup("");
@@ -160,30 +160,35 @@ int	ft_put_error(char *before, char *sep, char *after)
 	ft_putstr_fd("\n", 2);
 	return (1);
 }
-int	not_valid(char *err)
+int	not_valid(char *err, t_vars *vars)
 {
 	ft_put_error("minishell: export: `", err, "': not a valid identifier");
+	vars->exit_status = 1;
 	return (1);
 }
-int	ft_invalid_char(char *kandv)
+int	ft_invalid_char(char *kandv, t_vars *vars, int is_export)
 {
 	//char c;
 	int i;
+	(void)is_export;
 
 	i = 0;
-	if (kandv && kandv[i] && (!ft_isalpha(kandv[i]) && kandv[i] != '_'))
-		return (not_valid(kandv));
+	
+	if(!kandv || !kandv[i])
+		return(not_valid(kandv, vars));
+	if ((kandv && kandv[i] && !(ft_isalpha(kandv[i]) || kandv[i] == '_')) || i++)
+		return (not_valid(kandv, vars));
 	while(kandv && kandv[i] && (ft_isdigit(kandv[i]) || ft_isalpha(kandv[i]) || kandv[i] == '_' ))
 		i++;
-	if (kandv[i] == '=' || !kandv[i])
-		return (0);
-	else if (kandv[i] == '+')
+	if (kandv && (!kandv[i] || kandv[i] == '='))
+		return (vars->exit_status = 0);
+	else if (kandv && kandv[i] == '+' && is_export)
 	{
-		if (kandv[i + 1] != '=')
-			return (not_valid(kandv));
+		if (kandv && kandv[i + 1] != '=')
+			return (not_valid(kandv, vars));
 	}
 	else
-		return (not_valid(kandv));
+		return (not_valid(kandv, vars));
 	return (0);
 }
 
@@ -228,7 +233,7 @@ int	ft_export(t_env **envir,t_vars *vars, t_list *command)
 		{   
 			key = NULL;
 			value = NULL;
-			if (ft_invalid_char(temp->content))
+			if (ft_invalid_char(temp->content, vars, 1))
 			{
 				temp = temp->next;
 				continue;

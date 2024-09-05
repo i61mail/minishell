@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/05 15:52:09 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 15:56:00 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->catsh = 0;
 	vars->befor_sing = 0;
 	vars->bef_spac = 0;
+	vars->builtin = 0;
 	vars->len = 0;
 	vars->start = 0;
 	vars->exit_status = 0;
@@ -112,27 +113,30 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->flag_splite = 0;
 	vars->quoted = 0;
 	vars->del_type = 0;
+	vars->cmd_num = 0;
+	vars->cd = 0;
 	strcpy_env(envir, env);
 	if (!*envir)
 		three_vars(envir);
 	shell_level(envir);
 }
 
-int	pars_exec(t_vars vars, t_list *comm, t_env **envir)
+int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 {
-	add_history(vars.read);
-	if (ft_pars_comm(&vars, &comm, envir) != -1)
+	add_history(vars->read);
+	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
 		if (comm)
 		{
-			ft_execute(&vars, comm, envir);
+			ft_execute(vars, comm, envir);
 		}
-		free(vars.read);
+		free(vars->read);
 	}
 	else
-		free(vars.read);
+		free(vars->read);
 	return (0);
 }
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -152,7 +156,7 @@ int	main(int ac, char **av, char **env)
 				free_all(vars.read, &comm, &envir);
 				break ;
 			}
-			pars_exec(vars, comm, &envir);
+			pars_exec(&vars, comm, &envir);
 		}
 		else
 		{
@@ -160,5 +164,5 @@ int	main(int ac, char **av, char **env)
 			break ;
 		}
 	}
-	return (0);
+	exit(vars.exit_status);
 }

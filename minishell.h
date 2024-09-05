@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 11:37:36 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 15:56:18 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <signal.h>
+
 
 typedef struct s_heredoc
 {
@@ -57,6 +58,8 @@ typedef struct s_vars
 	int		heredoc_fd;
 	int		flag_splite;
 	int		builtin;
+	int		cmd_num;
+	int		cd;
 }	t_vars;
 
 typedef struct s_env
@@ -177,12 +180,12 @@ void		ft_env_free(t_env **env);
 void		ft_execute(t_vars *vars, t_list *comm, t_env **envir);
 
 /*        builtins        */
-int			ft_echo(t_list *command, t_vars *vars, t_env *envir);
-int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
-int			ft_pwd(t_vars *vars, t_env *envir, t_list *comm);
-int			ft_exit(t_vars *vars, t_env **envir, t_list *comm);
-int			ft_export(t_env **envir,t_vars *vars, t_list *command);
-void		ft_env(t_env *envir, t_vars *vars, t_list *command);
+int			ft_echo(t_list *command, t_vars *vars);
+int			ft_cd(t_vars *vars, t_list *comm, t_env **envir);
+int			ft_pwd(t_vars *vars, t_env **envir);
+int			ft_exit(t_list *comm, t_vars *vars);
+int			ft_export(t_env *envir,t_vars *vars, t_list *command);
+void		ft_env(t_env *envir, t_vars *vars);
 void		ft_unset(t_list *command, t_env **envir, t_vars *vars);
 
 /* 		  exec utils	*/
@@ -196,7 +199,6 @@ char		**ft_2dcomm(t_list *comm);
 t_list		*ft_split_pipe(t_list **new_comm, t_vars *vars);
 int 		ft_split_2(const char *str, const char *sep, char **k, char **v);
 int			ft_isred(int	t);
-void		ft_run(t_vars *vars, t_list *comm, t_env *envir);
-t_list		*ft_check4red(t_list *comm, t_vars *vars);
-
+int			ft_invalid_char(char *kandv, t_vars *vars, int is_export);
+int 		ft_isred(int t);
 #endif

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 06:16:57 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 15:58:49 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	ft_pipe_num(t_list *comm)
 
 void	dup_and_close(int oldfd, int newfd)
 {
+	if(oldfd == newfd)
+		return;
 	dup2(oldfd, newfd);
 	if (oldfd != 0 && oldfd != 1)
 		close(oldfd);
@@ -65,7 +67,7 @@ char	*ft_locate_bin(char *command, char *path)
 	char	*temp;
 	char	*temp1;
 
-	if (!command)
+	if (!command || !(*command))
 		return (NULL);
 	if (ft_strchr(command, '/'))
 		return (ft_strdup(command));

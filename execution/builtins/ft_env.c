@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:36:11 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 11:00:07 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 15:57:45 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,7 @@ void	ft_env(t_env *envir, t_vars *vars, t_list *command)
 	temp = envir;
 	while (temp)
 	{
-		while (command && command->type != PIP)
-			command = command->next;
-		if (command && command->type == PIP)
-		{
-			ft_run(vars, command, envir);
-			return ;
-		}
-		if (temp->value && ft_strcmp(temp->key,"OLDPWD\0"))
+		if (temp->value && ft_strncmp(temp->key, "_PWD\0", 5) != 0)
 		{
 			ft_putstr_fd(temp->key, vars->pfd[1]);
 			ft_putchar_fd('=', vars->pfd[1]);
