@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 17:30:31 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 17:40:52 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,19 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 			if (var_chdir == 0)
 				printf("%s\n", old_pwd);
 			else if (var_chdir == -1)
+			{
+				vars->exit_status = 1;
 				printf("bash: %s: OLDPWD not set\n", comm->content);
+			}
 			
 		}
 		else if (ft_strncmp(comm->content, "~\0", 2) == 0)
 		{
 			if (chdir("/Users/isrkik"))
+			{
+				vars->exit_status = 1;
 				printf("minishell: cd: %s: No such file or directory\n", comm->content);
+			}
 		}
 		else
 		{
@@ -131,13 +137,19 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 					update_pwd(envir, 0, old_pwd);
 			}
 			else
+			{
+				vars->exit_status = 1;
 				printf("minishell: cd: %s: No such file or directory\n", comm->content);
+			}
 		}
 	}
 	else if (comm && !comm->next)
 	{
 		if (chdir("/Users/isrkik"))
+		{
+			vars->exit_status = 1;
 			printf("minishell: cd: %s: No such file or directory\n", comm->content);
+		}
 	}
 	if (var_chdir != -1)
 		old_pwd = update_old_pwd(envir);
