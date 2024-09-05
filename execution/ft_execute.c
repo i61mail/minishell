@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 07:01:56 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:43:21 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void ft_child(t_vars *vars, t_list *comm, t_env *envir)
 void ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 {
 	if (comm && !ft_strncmp(comm->content, "cd\0", 5))
-		ft_cd(vars, comm, *envir);
+		ft_cd(vars, comm, envir);
 	else if (comm && !ft_strncmp(comm->content, "echo\0", 7))
 		ft_echo(comm, vars);
 	else if (comm && !ft_strncmp(comm->content, "env\0", 7))
@@ -64,7 +64,7 @@ void ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 	else if (comm && !ft_strncmp(comm->content, "export\0", 7))
 		ft_export(*envir, vars, comm);
 	else if (comm && !ft_strncmp(comm->content, "pwd\0", 7))
-		ft_pwd(vars, *envir);
+		ft_pwd(vars, envir);
 	else if (comm && !ft_strncmp(comm->content, "unset\0", 7))
 		ft_unset(comm, envir, vars);
 }
@@ -137,6 +137,18 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		}
 		vars->old_fd = fd;
 	}
+	if(node->type == HEREDOC)
+	{
+		if(vars->heredoc_fd == -1)
+		{
+			ft_putstr_fd("minishell: ",2);
+			perror(next_node->content);
+			vars->exit_status =  errno;
+			return (-1);
+		}
+		vars->old_fd = vars->heredoc_fd;
+		close(vars->heredoc_fd);
+	}
 	return (fd);
 }
 
@@ -158,7 +170,7 @@ t_list *ft_check4red(t_list *comm, t_vars *vars)
 		if (ft_isred(temp->type))
 		{
 			if (ft_handle_redir(temp, temp->next, vars) == -1)
-				return (NULL);/// need to free new comm at exit
+				return (NULL); // need to free new comm at exit
 			temp = temp->next;
 			if (temp)
 				temp = temp->next;

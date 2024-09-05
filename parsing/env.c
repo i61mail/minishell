@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:04:43 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/30 15:42:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 13:53:32 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,15 @@ int	strcpy_env(t_env **envir, char **env)
 		value = add_to_value(env[i], len, j);
 		if (!value)
 			return (free(key), -1);
+		if (ft_strncmp(key, "PWD\0", 7) == 0)
+		{
+			add_to_node(ft_strdup("_PWD"), ft_strdup(value), envir);
+		}
+		if (ft_strncmp(key, "OLDPWD\0", 7) == 0)
+			value = NULL;
 		if (add_to_node(key, value, envir) == -1)
 			return (-1);
 		i++;
 	}
-	// while (*envir)
-	// {
-	// 	printf("%s = %s\n", (*envir)->key, (*envir)->value);
-	// 	(*envir) = (*envir)->next;
-	// }
 	return (0);
 }

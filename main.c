@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/05 03:21:23 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:05:13 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->quoted = 0;
 	vars->del_type = 0;
 	vars->cmd_num = 0;
+	vars->cd = 0;
 	strcpy_env(envir, env);
 	if (!*envir)
 		three_vars(envir);
@@ -119,16 +120,9 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	add_history(vars->read);
 	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
-		// char *str = get_next_line(vars->heredoc_fd);
-		// while (str)
-		// {
-		// 	printf("gnl == %s", str);
-		// 	str = get_next_line(vars->heredoc_fd);
-		// }
 		if (comm)
 		{
 			ft_execute(vars, comm, envir);
-			//ft_lstfree(&comm);
 		}
 		free(vars->read);
 	}
