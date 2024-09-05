@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 18:07:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 18:18:13 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,9 @@ void ft_run(t_vars *vars, t_list *comm, t_env **envir)
 					return;
 				}
 				if (!id)
+				{
 					ft_child(vars, comm, *envir);
+				}
 			}
 			else
 				ft_builtin(comm, envir, vars);

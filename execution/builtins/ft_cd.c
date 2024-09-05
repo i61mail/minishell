@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 17:40:52 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 22:07:33 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*update_old_pwd(t_env **envir)
 	return (pwd);
 }
 
-int	update_pwd(t_env **envir, int bool, char *pwd)
+int	update_pwd(t_env **envir, int bool, char **pwd)
 {
 	t_env 		*env;
 
@@ -72,14 +72,14 @@ int	update_pwd(t_env **envir, int bool, char *pwd)
 		{
 			if (ft_strcmp(env->key, "2PWD") == 0)
 			{
-				env->value = ft_strdup(pwd);
+				env->value = ft_strdup(*pwd);
 				env->value = ft_strjoin(env->value, "/..");
 			}
 			else if (ft_strcmp(env->key, "PWD") == 0)
 			{
-				env->value = ft_strdup(pwd);
+				env->value = ft_strdup(*pwd);
 				env->value = ft_strjoin(env->value, "/..");
-				pwd = ft_strdup(env->value);
+				*pwd = ft_strdup(env->value);
 			}
 			env = env->next;
 		}
@@ -103,13 +103,14 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 		{
 			var_chdir  = chdir(old_pwd);
 			if (var_chdir == 0)
+			{
 				printf("%s\n", old_pwd);
+			}
 			else if (var_chdir == -1)
 			{
 				vars->exit_status = 1;
 				printf("bash: %s: OLDPWD not set\n", comm->content);
 			}
-			
 		}
 		else if (ft_strncmp(comm->content, "~\0", 2) == 0)
 		{
@@ -129,12 +130,16 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 				{
 					if (ft_strncmp(comm->content, "..\0", 3) == 0)
 					{
-						update_pwd(envir, 2, old_pwd);
+						old_pwd = update_old_pwd(envir);
+						update_pwd(envir, 2, &old_pwd);
 						printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
 					}
 				}
 				else
-					update_pwd(envir, 0, old_pwd);
+				{
+					old_pwd = update_old_pwd(envir);
+					update_pwd(envir, 0, &old_pwd);
+				}
 			}
 			else
 			{
@@ -151,7 +156,5 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 			printf("minishell: cd: %s: No such file or directory\n", comm->content);
 		}
 	}
-	if (var_chdir != -1)
-		old_pwd = update_old_pwd(envir);
 	return (0);
 }
