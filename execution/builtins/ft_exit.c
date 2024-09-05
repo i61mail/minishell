@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:50:06 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 15:58:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 17:57:29 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		 ft_exit_err(t_list *comm,t_vars *vars)
 		vars->exit_status = 1;
 		return (1);
 	}
-	return status;
+	return (status);
 }
 int	ft_exit(t_list *comm, t_vars *vars)
 {
@@ -73,8 +73,8 @@ int	ft_exit(t_list *comm, t_vars *vars)
 	}
 	else
 	{
-		if(!status)
-			ft_putstr_fd("exit\n",vars->pfd[1]);
+		// if(!status) // ana li 7ydtha hit la exiti b chi haja mn ghir 0 makatprintach exit
+		ft_putstr_fd("exit\n",vars->pfd[1]);
 		exit(status);
 	}
 	return (0);
