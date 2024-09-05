@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:28:00 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 15:58:24 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 17:30:08 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	get_my_pwd(t_env **envir, char **save_pwd)
 	temp = *envir;
 	while (temp)
 	{
-		if (ft_strcmp(temp->key, "_PWD") == 0)
+		if (temp->key && ft_strcmp(temp->key, "2PWD") == 0)
 			*save_pwd = ft_strdup(temp->value);
 		temp = temp->next;
 	}

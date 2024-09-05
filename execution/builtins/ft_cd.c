@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 15:56:46 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 17:30:31 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*update_old_pwd(t_env **envir)
 	env1 = *envir;
 	while (env1)
 	{
-		if (ft_strncmp(env1->key, "_PWD\0", 5) == 0)
+		if (ft_strncmp(env1->key, "2PWD\0", 5) == 0)
 		{
 			pwd = ft_strdup(env1->value);
 			if (!pwd)
@@ -55,7 +55,7 @@ int	update_pwd(t_env **envir, int bool, char *pwd)
 	{
 		while (env)
 		{
-			if (ft_strcmp(env->key, "_PWD") == 0)
+			if (ft_strcmp(env->key, "2PWD") == 0)
 			{
 				env->value = ft_strdup(getcwd(NULL, 0));
 			}
@@ -70,7 +70,7 @@ int	update_pwd(t_env **envir, int bool, char *pwd)
 	{
 		while (env)
 		{
-			if (ft_strcmp(env->key, "_PWD") == 0)
+			if (ft_strcmp(env->key, "2PWD") == 0)
 			{
 				env->value = ft_strdup(pwd);
 				env->value = ft_strjoin(env->value, "/..");

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/05 16:12:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 17:33:59 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,3 +159,5 @@ int	main(int ac, char **av, char **env)
 	}
 	exit(vars.exit_status);
 }
+//export a="d f"
+//export > $a 
