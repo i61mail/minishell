@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/31 23:58:21 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:34:00 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 	str_temp = NULL;
 	var = 0;
 	if (even_odd(vars->read) == 0)
-		return (ft_error(comm), -1);
+		return (ft_error(comm, vars), -1);
 	isthere_quotes(vars->read, i, &var);
 	while (vars->read[*i] && !ft_isspace(vars->read[*i]) && !ft_issep(vars->read[*i]))
 	{

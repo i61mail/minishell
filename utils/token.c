@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 00:38:12 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:32:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	ft_token(t_vars *vars, int i, t_list **comm, int type)
 	return (0);
 }
 
-void	ft_error(t_list **comm)
+void	ft_error(t_list **comm, t_vars *vars)
 {
+	vars->exit_status = 258;
 	ft_putstr_fd("minishell: syntax error\n", 2);
 	ft_lstfree(comm);
 	return ;

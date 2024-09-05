@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/05 15:56:18 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:33:08 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ char		*ft_itoa(int nbr);
 
 int			even_odd(char *read);
 int			ft_redircmp(char *s1, char *s2, int *i);
-void		ft_error(t_list **comm);
+void		ft_error(t_list **comm, t_vars *vars);
 int			ft_check_type(char *read, int *i, int *type);
 int			ft_pipe(t_vars *vars, int *i, t_list **comm);
 int			ft_append(t_vars *vars, int *i, t_list **comm);

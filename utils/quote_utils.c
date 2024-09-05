@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/08/29 16:04:39 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:34:24 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	quotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	{
 		if (even_odd(vars->read) == 0)
 		{
-			ft_error(comm);
+			ft_error(comm, vars);
 			return (-1);
 		}
 		ft_arequotes(vars, i, comm, envir);
