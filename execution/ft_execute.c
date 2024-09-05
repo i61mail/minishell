@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 16:24:57 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 18:07:48 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,8 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 			return (-1);
 		}
 		vars->old_fd = vars->heredoc_fd;
-		close(vars->heredoc_fd);
+		// close(vars->heredoc_fd);
+		return (vars->heredoc_fd);
 	}
 	return (fd);
 }
