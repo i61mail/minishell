@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 08:59:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 15:52:09 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,7 @@ int	pars_exec(t_vars vars, t_list *comm, t_env **envir)
 	add_history(vars.read);
 	if (ft_pars_comm(&vars, &comm, envir) != -1)
 	{
-		// char *str = get_next_line(vars.heredoc_fd);
-		// while (str)
-		// {
-		// 	printf("gnl == %s", str);
-		// 	str = get_next_line(vars.heredoc_fd);
-		// }
-		if (comm && comm->content[0] != '\0')
+		if (comm)
 		{
 			ft_execute(&vars, comm, envir);
 		}
