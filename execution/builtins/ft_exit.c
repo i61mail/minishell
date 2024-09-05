@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:50:06 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 07:58:04 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/05 08:08:08 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_isalldegit(char *str)
 {
 	while (str && *str)
 	{
-		if (!ft_isdigit(*str))
+		if (!ft_isdigit(*str) && *str != '"' && *str != '+' && *str != '-')
 			return (0);
 		str++;
 	}
@@ -46,7 +46,7 @@ int		 ft_exit_err(t_list *comm,t_vars *vars)
 	{
 		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 		vars->exit_status = 1;
-		return (-1);
+		return (1);
 	}
 	return status;
 }
@@ -60,6 +60,8 @@ int	ft_exit(t_list *comm, t_vars *vars)
 		return (-1);
 	comm = comm->next;
 	status  = ft_exit_err(comm, vars);
+	if(status == 1)
+		return (-1);
 	if (vars->numofpipes)
 	{
 		id = fork();
