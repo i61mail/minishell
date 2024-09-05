@@ -6,11 +6,25 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 16:06:04 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:24:57 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*my_getenv(char *str, t_env *envir)
+{
+	t_env	*temp;
+
+	temp = envir;
+	while (temp)
+	{
+		if (ft_strcmp(temp->key, str) == 0)
+			return (temp->value);
+		temp = temp->next;
+	}
+	return (NULL);
+}
 
 int ft_is_builtin(char *command)
 {
@@ -33,7 +47,7 @@ void ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	dup_and_close(vars->old_fd, 0);
 	if (vars->pfd[0] != 0 && vars->pfd[0] != 1)
 		close(vars->pfd[0]);
-	binary = ft_locate_bin(comm->content, getenv("PATH"));
+	binary = ft_locate_bin(comm->content, my_getenv("PATH", envir));
 	if (binary == NULL)
 	{
 		// close(vars->pfd[1]);
