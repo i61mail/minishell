@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 01:12:44 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/04 18:52:55 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env *envir)
 	(void)vars;
 	(void)comm;
 	(void)envir;
+	if(vars->numofpipes)
+		return (0);
 	if (comm && comm->next)
 	{
 		comm = comm->next;

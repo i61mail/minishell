@@ -3,31 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:50:06 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/01 01:13:12 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 07:58:04 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_exit(t_vars *vars)
+int	ft_isalldegit(char *str)
+{
+	while (str && *str)
+	{
+		if (!ft_isdigit(*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
+int		 ft_exit_err(t_list *comm,t_vars *vars)
+{
+	long long status;
+
+	status = 0;
+	if (!comm)
+		return (0);
+	if (!ft_isalldegit(comm->content))
+	{
+		ft_putstr_fd("exit\nminishell: exit: numeric argument required\n", 2);
+		vars->exit_status = 1;
+		return (-1);
+	}
+	status = ft_atoi(comm->content);
+	if(status == -1)
+	{
+		ft_putstr_fd("exit\nminishell: exit: numeric argument required\n", 2);
+		vars->exit_status = 255;
+		return (-1);
+	}
+	if (comm->next)
+	{
+		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
+		vars->exit_status = 1;
+		return (-1);
+	}
+	return status;
+}
+int	ft_exit(t_list *comm, t_vars *vars)
 {
 	int	id;
+	int	status;
 
+	id = 0;
+	if (!comm)
+		return (-1);
+	comm = comm->next;
+	status  = ft_exit_err(comm, vars);
 	if (vars->numofpipes)
 	{
 		id = fork();
 		if (!id)
-			exit(vars->exit_status);
+			exit(status);
 		else
 			wait(NULL);
+		return (0);
 	}
 	else
 	{
-		ft_putstr_fd("exit\n",vars->pfd[1]);
-		exit(vars->exit_status);
+		if(!status)
+			ft_putstr_fd("exit\n",vars->pfd[1]);
+		exit(status);
 	}
 	return (0);
 }

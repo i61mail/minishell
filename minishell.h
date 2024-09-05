@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/04 01:05:48 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/05 07:01:42 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_vars
 	int		heredoc_fd;
 	int		flag_splite;
 	int		builtin;
+	int		cmd_num;
 }	t_vars;
 
 typedef struct s_env
@@ -181,7 +182,7 @@ void		ft_execute(t_vars *vars, t_list *comm, t_env **envir);
 int			ft_echo(t_list *command, t_vars *vars);
 int			ft_cd(t_vars *vars, t_list *comm, t_env *envir);
 int			ft_pwd(t_vars *vars, t_env *envir);
-int			ft_exit(t_vars *vars);
+int			ft_exit(t_list *comm, t_vars *vars);
 int			ft_export(t_env *envir,t_vars *vars, t_list *command);
 void		ft_env(t_env *envir, t_vars *vars);
 void		ft_unset(t_list *command, t_env **envir, t_vars *vars);

@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/04 18:15:17 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/05 07:01:56 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	comm->content = binary;
 	_2denv = ft_2denv(envir);
 	execve(binary, ft_2dcomm(comm), (char *const *)_2denv);
-	ft_putstr_fd("$", 2);
 	perror(comm->content);
 	vars->exit_status = errno;
 	exit(vars->exit_status);
@@ -61,7 +60,7 @@ void ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 	else if (comm && !ft_strncmp(comm->content, "env\0", 7))
 		ft_env(*envir, vars);
 	else if (comm && !ft_strncmp(comm->content, "exit\0", 7))
-		ft_exit(vars);
+		ft_exit(comm , vars);
 	else if (comm && !ft_strncmp(comm->content, "export\0", 7))
 		ft_export(*envir, vars, comm);
 	else if (comm && !ft_strncmp(comm->content, "pwd\0", 7))
@@ -78,17 +77,26 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		printf("i should'nt get here\n");
 		return (-1);
 	}
-	// if (next_node->type == AMBIGUOUS)
-	//{
-	//	printf("minishell: %s: ambiguous redirect", next_node->content);
-	//	vars->exit_status =  errno;
-	//	return ;
-	// }
+	 if (next_node->type == AMBIGUOUS)
+	{
+		ft_putstr_fd("minishell: ", 2); // fix for test (echo a | ls > /dev/stdin )
+		ft_putstr_fd(next_node->content, 2);
+		ft_putstr_fd("ambiguous redirect\n", 2);
+		return (-1);
+	 }
 	if (node->type != PIP && node->type != RED_IN)
 		vars->pipe = 0;
 	if (node->type == RED_OUT)
 	{
-		fd = open(next_node->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (!access(next_node->content, W_OK) && vars->cmd_num)
+		{
+			ft_putstr_fd("minishell: ", 2); // fix for test (echo a | ls > /dev/stdin )
+			ft_putstr_fd(next_node->content, 2);
+			ft_putstr_fd("Permission denied\n", 2);
+			vars->exit_status = 1;
+			return (-1);
+		}
+		fd = open(next_node->content, O_CREAT | O_WRONLY | O_TRUNC, 0622);
 		//printf("outfile: %s\n", next_node->content);
 		if (fd == -1)
 		{
@@ -103,7 +111,7 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 	}
 	if (node->type == RED_APPEND)
 	{
-		fd = open(next_node->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(next_node->content, O_WRONLY | O_CREAT | O_APPEND, 0622);
 		//printf("file: %s\n", next_node->content);
 		if (fd == -1)
 		{
@@ -202,6 +210,7 @@ void ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		if (vars->pfd[1] != 1)
 			close(vars->pfd[1]);
 		comm = new_comm;
+		vars->cmd_num++;
 		// dup_and_close(_stdout, 1);
 	}
 
