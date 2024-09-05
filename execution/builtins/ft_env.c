@@ -6,13 +6,13 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:36:11 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 15:57:45 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:08:58 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_env(t_env *envir, t_vars *vars, t_list *command)
+void	ft_env(t_env *envir, t_vars *vars)
 {
 	t_env *temp;
 

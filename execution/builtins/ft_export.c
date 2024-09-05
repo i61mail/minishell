@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 15:58:12 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:08:17 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_free_2d_array(void **array)
 void	ft_print_env(t_env *envir,t_vars *vars)
 {
 	ft_putstr_fd("declare -x ", vars->pfd[1]);
-	ft_putstr_fd(envir->key, vars->pfd[1]);	
+	ft_putstr_fd(envir->key, vars->pfd[1]);
 	if (envir->value)
 	{
 		ft_putstr_fd("=\"", vars->pfd[1]);
@@ -207,26 +207,16 @@ int	ft_var_type(char *var)
 	return (4); //no value var export a
 }
 
-int	ft_export(t_env **envir,t_vars *vars, t_list *command)
+int	ft_export(t_env *envir,t_vars *vars, t_list *command)
 {
 	t_list *temp;
 	char *key;
 	char *value;
 	int type;
 	
-	temp = command;
-	while (temp && temp->type != PIP)
-		temp = temp->next;
-	if (temp && temp->type == PIP)
-	{
-		ft_run(vars, temp, *envir);
-		return (0);
-	}
 	temp = command->next;
 	if(!ft_strncmp(command->content,"export\0",7) && (!command->next || *(command->next->content) == '\0'))
-	{
-		ft_dump_env(*envir, vars);
-	}
+		ft_dump_env(envir, vars);
 	else
 	{
 		while(temp)
@@ -245,7 +235,7 @@ int	ft_export(t_env **envir,t_vars *vars, t_list *command)
 				ft_split_2(temp->content, "+=", &key , &value);
 			if (type == 4)
 				key = temp->content;
-			ft_add_env(key, value, envir , type);
+			ft_add_env(key, value, &envir , type);
 			temp = temp->next;
 		}
 	}

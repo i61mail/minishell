@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 15:58:37 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:09:24 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,8 @@ void	ft_unset(t_list *command, t_env **envir,t_vars *vars)
 	t_env *prev;
 	//t_env *to_free;
 
-	comm = command;
-	while (comm && comm->type != PIP)
-		comm = comm->next;
-	if (comm && comm->type == PIP)
-	{
-		ft_run(vars, comm, *envir);
-		return ;
-	}
 	command = command->next;
+	prev = NULL;
 	while (command)
 	{
 		if (ft_invalid_char(command->content, vars, 0)) 
@@ -35,10 +28,9 @@ void	ft_unset(t_list *command, t_env **envir,t_vars *vars)
 			continue;
 		}
 		temp = *envir;
-		prev = NULL;
 		while (temp)
 		{
-			if (!ft_strcmp(command->content, temp->key))
+			if (!ft_strcmp(command->content ,temp->key))
 			{
 				if(!prev)
 				{

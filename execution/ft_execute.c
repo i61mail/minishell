@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 15:59:22 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 16:06:04 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void ft_child(t_vars *vars, t_list *comm, t_env *envir)
 void ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 {
 	if (comm && !ft_strncmp(comm->content, "cd\0", 5))
-		ft_cd(vars, comm, *envir);
+		ft_cd(vars, comm, envir);
 	else if (comm && !ft_strncmp(comm->content, "echo\0", 7))
-		ft_echo(comm, vars, *envir);
+		ft_echo(comm, vars);
 	else if (comm && !ft_strncmp(comm->content, "env\0", 7))
 		ft_env(*envir, vars);
 	else if (comm && !ft_strncmp(comm->content, "exit\0", 7))
@@ -64,7 +64,7 @@ void ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 	else if (comm && !ft_strncmp(comm->content, "export\0", 7))
 		ft_export(*envir, vars, comm);
 	else if (comm && !ft_strncmp(comm->content, "pwd\0", 7))
-		ft_pwd(vars, *envir, comm);
+		ft_pwd(vars, envir);
 	else if (comm && !ft_strncmp(comm->content, "unset\0", 7))
 		ft_unset(comm, envir, vars);
 }
