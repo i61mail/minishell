@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 11:42:38 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 15:12:30 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,15 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	return (0);
 }
 
+void	handle_signal(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0); 
+    rl_redisplay();
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_list	*comm;
@@ -138,6 +147,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	init_vars(&comm, &vars, &envir, env);
+	signal(SIGINT, handle_signal);
 	rl_catch_signals = 0;
 	while (1)
 	{
@@ -159,5 +169,5 @@ int	main(int ac, char **av, char **env)
 	}
 	exit(vars.exit_status);
 }
-//export a="d f"
+
 //export > $a 
