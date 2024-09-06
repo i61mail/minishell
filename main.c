@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/05 11:05:13 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/05 22:34:45 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	init_vars(&comm, &vars, &envir, env);
+	rl_catch_signals = 0;
 	while (1)
 	{
 		if (ac == 1)

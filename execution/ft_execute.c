@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 14:43:21 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 01:45:14 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,37 @@ int ft_is_builtin(char *command)
 	return (0);
 }
 
+int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
+{
+	struct stat path;
+	if(!binary)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(comm->content, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		vars->exit_status = 127;
+		return (1);
+	}
+	stat(binary, &path);// new function
+	if (S_ISDIR(path.st_mode))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(binary, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		vars->exit_status = 126;
+		return (1);
+	}
+	if (S_ISREG(path.st_mode) && access(binary, X_OK))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(binary, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		vars->exit_status = 126;
+		return (1);
+	}
+	return (0);
+		
+}
 void ft_child(t_vars *vars, t_list *comm, t_env *envir)
 {
 	char *binary;
@@ -34,14 +65,11 @@ void ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	if (vars->pfd[0] != 0 && vars->pfd[0] != 1)
 		close(vars->pfd[0]);
 	binary = ft_locate_bin(comm->content, getenv("PATH"));
-	if (!binary)
+	if (ft_invalid_bin(binary, comm, vars))
 	{
 		close(vars->pfd[1]);
 		close(vars->old_fd);
-		ft_putstr_fd("#minishell: ", 2);
-		ft_putstr_fd(comm->content, 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit(127);
+		exit(vars->exit_status);
 	}
 	comm->content = binary;
 	_2denv = ft_2denv(envir);
@@ -82,6 +110,7 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		ft_putstr_fd("minishell: ", 2); // fix for test (echo a | ls > /dev/stdin )
 		ft_putstr_fd(next_node->content, 2);
 		ft_putstr_fd("ambiguous redirect\n", 2);
+		vars->exit_status = 1;
 		return (-1);
 	 }
 	if (node->type != PIP && node->type != RED_IN)
