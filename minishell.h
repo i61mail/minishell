@@ -6,15 +6,13 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 08:16:57 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 11:39:55 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -24,6 +22,8 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <sys/stat.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_heredoc
 {
