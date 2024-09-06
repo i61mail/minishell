@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 08:28:39 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 10:21:24 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ int	ft_export(t_env *envir,t_vars *vars, t_list *command)
 	int 	i;
 
 	i = 0;
-	if(vars->numofpipes)
+	if (vars->numofpipes)
 		return(0);
 	temp = command->next;
 	if(!ft_strncmp(command->content,"export\0",7) && (!command->next || *(command->next->content) == '\0'))

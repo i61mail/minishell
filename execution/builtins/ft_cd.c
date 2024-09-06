@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 10:15:38 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 10:28:39 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ char	*update_old_pwd(t_env **envir)
 int	update_pwd(t_env **envir, int bool, char **pwd)
 {
 	t_env 		*env;
+	char		*points;
 
+	points = NULL;
 	env = *envir;
 	if (bool == 0)
 	{
@@ -66,19 +68,23 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 			env = env->next;
 		}
 	}
-	else if (bool == 2)
+	else if (bool == 2 || bool == 3)
 	{
+		if (bool == 2)
+			points = "/..";
+		else
+			points = "/.";
 		while (env)
 		{
 			if (ft_strcmp(env->key, "2PWD") == 0)
 			{
 				env->value = ft_strdup(*pwd);
-				env->value = ft_strjoin(env->value, "/..");
+				env->value = ft_strjoin(env->value, points);
 			}
 			else if (ft_strcmp(env->key, "PWD") == 0)
 			{
 				env->value = ft_strdup(*pwd);
-				env->value = ft_strjoin(env->value, "/..");
+				env->value = ft_strjoin(env->value, points);
 				*pwd = ft_strdup(env->value);
 			}
 			env = env->next;
@@ -138,6 +144,12 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 					{
 						old_pwd = update_old_pwd(envir);
 						update_pwd(envir, 2, &old_pwd);
+						printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+					}
+					else if (ft_strncmp(comm->content, ".\0", 2) == 0)
+					{
+						old_pwd = update_old_pwd(envir);
+						update_pwd(envir, 3, &old_pwd);
 						printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
 					}
 				}
