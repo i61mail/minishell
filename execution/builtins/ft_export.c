@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 08:15:13 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 08:28:39 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	ft_dump_env(t_env *envir, t_vars *vars)
 		temp = envir;
 		while(temp)
 		{
-			if (!ft_strcmp(temp->key,sorted[i]) && ft_strcmp(temp->key,"_\0"))
+			if (!ft_strcmp(temp->key,sorted[i]) && ft_strcmp(temp->key,"_\0") && ft_strcmp(temp->key, "2PWD\0"))
 				ft_print_env(temp, vars);
 			temp = temp->next;
 		}
