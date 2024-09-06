@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 22:07:33 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 10:15:38 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,12 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 		}
 		else
 		{
+			if (*comm->content == '\0')
+			{
+				old_pwd = update_old_pwd(envir);
+				update_pwd(envir, 0, &old_pwd);
+				return (0);
+			}
 			var_chdir = chdir(comm->content);
 			if (var_chdir != -1)
 			{
