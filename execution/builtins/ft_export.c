@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 10:21:24 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 17:44:04 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,8 +233,8 @@ int	ft_export(t_env *envir,t_vars *vars, t_list *command)
 		{   
 			key = NULL;
 			value = NULL;
-			ft_putstr_fd(temp->content , 2 );
-			ft_putchar_fd('\n',2);
+			// ft_putstr_fd(temp->content , 2 );
+			// ft_putchar_fd('\n',2);
 			if (ft_invalid_char(temp->content, vars, 1) == 1)
 			{
 				temp = temp->next;

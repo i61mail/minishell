@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 11:39:55 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 17:14:49 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <sys/stat.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -60,6 +61,7 @@ typedef struct s_vars
 	int		builtin;
 	int		cmd_num;
 	int		cd;
+	struct termios reset;
 }	t_vars;
 
 typedef struct s_env
@@ -155,6 +157,8 @@ long long	ft_atoi(char *str);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strchr(const char *str, int c);
 char		*ft_itoa(int nbr);
+void	handle_ctrlc(int sig);
+int catch(int type, int value);
 
 /*    utils check*/
 

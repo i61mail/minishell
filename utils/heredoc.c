@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/05 16:34:00 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 17:17:29 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -465,6 +465,28 @@ void	child_exitstatus(t_heredoc *herdoc, t_vars *vars)
 	wait(&herdoc->child_status);
 	if (WIFEXITED(herdoc->child_status))
 		vars->exit_status = WEXITSTATUS(herdoc->child_status);
+	catch(0, -1);
+	tcsetattr(0, 0, &vars->reset);
+}
+
+void	heredoc_signal(int sig)
+{
+	(void)sig;
+	exit(0);
+}
+
+int catch(int type, int value)
+{
+	static int var = -1;
+
+	if (type == 0)
+	{
+		var = value;
+		return var;
+	}
+	else if (type == 1)
+		return var;
+	return -1;
 }
 
 int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
@@ -477,8 +499,10 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 	herdoc.return_fork = fork();
 	if (herdoc.return_fork < 0)
 		return (-1);
+	catch(0, 0);
 	if (herdoc.return_fork == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		while (1)
 		{
 			herdoc.here_line = readline("> ");
@@ -489,10 +513,11 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 			}
 			store_here(&herdoc, temp, envir, vars);
 		}
-		exit(0);
+		// exit(0);
 	}
 	else
 		child_exitstatus(&herdoc, vars);
+	tcsetattr(0, 0, &vars->reset);
 	close(herdoc.fd);
 	vars->heredoc_fd = herdoc.passed_fd;
 	return (0);

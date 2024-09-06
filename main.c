@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 15:42:38 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 17:15:50 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void	handle_ctrlc(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
+	if (catch(1, 0) == 0)
+		return ;
     rl_on_new_line();
     rl_replace_line("", 0); 
     rl_redisplay();
@@ -147,11 +149,13 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	init_vars(&comm, &vars, &envir, env);
+	tcgetattr(0, &vars.reset);
 	signal(SIGINT, handle_ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
 	while (1)
 	{
+		tcsetattr(0, 0, &vars.reset);
 		if (ac == 1)
 		{
 			vars.read = readline("minishell> ");
