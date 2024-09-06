@@ -23,7 +23,7 @@ OBJ_MAN = ${SRC_MAN:.c=.o}
 all : $(TARGET)
 
 $(TARGET) : $(OBJ_MAN) 
-	$(CC) $(CFLAGS) $(OBJ_MAN) -o $(TARGET) -lreadline -L ~/.brew/Cellar/readline/8.2.13/lib
+	$(CC) $(CFLAGS) $(OBJ_MAN) -o $(TARGET) -lreadline -L ~/brew/Cellar/readline/8.2.13/lib
 
 clean :
 	rm -f $(OBJ_MAN)
