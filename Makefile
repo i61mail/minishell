@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address 
+CFLAGS = -Wall -Werror -Wextra -g  -I ~/.brew/Cellar/readline/8.2.13/include -fsanitize=address 
 
 TARGET = minishell
 
@@ -18,12 +18,12 @@ SRC_MAN =  $(EXEC_MAN)  main.c utils/list_utils.c utils/lib_func.c utils/lib_fun
 OBJ_MAN = ${SRC_MAN:.c=.o}
 
 %.o : %.c minishell.h
-	$(CC) $(CFLAGS) -c $< -o $@  
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 all : $(TARGET)
 
-$(TARGET) : $(OBJ_MAN)
-	$(CC) $(CFLAGS) $(OBJ_MAN) -o $(TARGET) -lreadline
+$(TARGET) : $(OBJ_MAN) 
+	$(CC) $(CFLAGS) $(OBJ_MAN) -o $(TARGET) -lreadline -L ~/.brew/Cellar/readline/8.2.13/lib
 
 clean :
 	rm -f $(OBJ_MAN)

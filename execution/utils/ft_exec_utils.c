@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 15:58:49 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 08:15:56 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ char	*ft_locate_bin(char *command, char *path)
 	if (!command || !(*command))
 		return (NULL);
 	if (ft_strchr(command, '/'))
-		return (ft_strdup(command));
+	{
+		
+		return (command);
+	}	
 	_path = ft_split(path, ':');
 	while (_path && *_path)
 	{

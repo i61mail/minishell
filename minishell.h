@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/05 16:33:08 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 08:16:57 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <signal.h>
-
+# include <sys/stat.h>
 
 typedef struct s_heredoc
 {

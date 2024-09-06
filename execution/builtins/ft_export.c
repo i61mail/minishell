@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 16:20:30 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 08:15:13 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,11 @@ int	ft_invalid_char(char *kandv, t_vars *vars, int is_export)
 		i++;
 	if (kandv && (!kandv[i] || kandv[i] == '='))
 		return (vars->exit_status = 0);
+	else if(kandv && kandv[i] == ' ')
+	{
+		vars->exit_status = 0;
+		return(2);
+	}
 	else if (kandv && kandv[i] == '+' && is_export)
 	{
 		if (kandv && kandv[i + 1] != '=')
@@ -213,7 +218,12 @@ int	ft_export(t_env *envir,t_vars *vars, t_list *command)
 	char *key;
 	char *value;
 	int type;
-	
+	char **splited;
+	int 	i;
+
+	i = 0;
+	if(vars->numofpipes)
+		return(0);
 	temp = command->next;
 	if(!ft_strncmp(command->content,"export\0",7) && (!command->next || *(command->next->content) == '\0'))
 		ft_dump_env(envir, vars);
@@ -223,8 +233,21 @@ int	ft_export(t_env *envir,t_vars *vars, t_list *command)
 		{   
 			key = NULL;
 			value = NULL;
-			if (ft_invalid_char(temp->content, vars, 1))
+			ft_putstr_fd(temp->content , 2 );
+			ft_putchar_fd('\n',2);
+			if (ft_invalid_char(temp->content, vars, 1) == 1)
 			{
+				temp = temp->next;
+				continue;
+			}
+			else if (ft_invalid_char(temp->content, vars, 1) == 2)
+			{
+				splited = ft_split(temp->content, ' ');
+				while(splited && splited[i])
+				{
+					ft_add_env(splited[i], NULL, &envir , 4);
+					i++;
+				}
 				temp = temp->next;
 				continue;
 			}

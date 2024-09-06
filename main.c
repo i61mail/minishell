@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/05 17:33:59 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 08:14:59 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	init_vars(&comm, &vars, &envir, env);
+	// rl_catch_signals = 0;
 	while (1)
 	{
 		if (ac == 1)

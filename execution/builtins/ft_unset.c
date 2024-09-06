@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 16:09:24 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 08:18:36 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_unset(t_list *command, t_env **envir,t_vars *vars)
 
 	command = command->next;
 	prev = NULL;
+	if(vars->numofpipes)
+		return(0);
 	while (command)
 	{
 		if (ft_invalid_char(command->content, vars, 0)) 
