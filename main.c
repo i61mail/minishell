@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 15:12:30 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 15:42:38 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	return (0);
 }
 
-void	handle_signal(int sig)
+void	handle_ctrlc(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
@@ -147,7 +147,8 @@ int	main(int ac, char **av, char **env)
 
 	(void)av;
 	init_vars(&comm, &vars, &envir, env);
-	signal(SIGINT, handle_signal);
+	signal(SIGINT, handle_ctrlc);
+	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
 	while (1)
 	{
@@ -156,6 +157,7 @@ int	main(int ac, char **av, char **env)
 			vars.read = readline("minishell> ");
 			if (!vars.read)
 			{
+				printf("exit\n");
 				free_all(vars.read, &comm, &envir);
 				break ;
 			}
