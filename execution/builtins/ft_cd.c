@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 10:28:39 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 10:49:28 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,10 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 			else
 			{
 				vars->exit_status = 1;
-				printf("minishell: cd: %s: No such file or directory\n", comm->content);
+				if (access(comm->content, F_OK) == -1)
+					printf("minishell: cd: %s: No such file or directory\n", comm->content);
+				else
+					printf("minishell: cd: %s: permission denied\n", comm->content);
 			}
 		}
 	}
@@ -176,3 +179,7 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 	}
 	return (0);
 }
+
+// .
+// ..
+// unset $sdfsdf
