@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 10:48:32 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/07 02:20:42 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,18 @@ long long	ft_atoi_2(char *str, t_vars *vars)
 	while (str[i] >= 48 && str[i] <= 57)
 	{
 		result = ft_abs(result * 10 + str[i++] - 48);
-		//printf("%lld\n",result);
+		//printf("%lld\n", result);
 		if ((ft_abs(result) - (sign == -1))  > LLONG_MAX)
 		{
 			//puts("here");
 			vars->atoifail = 1;
 			return (-1);
-		}			
+		}
+			
 	}
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
-	if(str && str[i] && !(str[i] >= 48 && str[i] <= 57))
+	if (str && str[i] && !(str[i] >= 48 && str[i] <= 57))
 		vars->atoifail = 1;
 	return (result * sign);
 }

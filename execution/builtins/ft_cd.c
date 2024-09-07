@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/07 01:12:09 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 	int		var_chdir = 0;
 
 	cwd = NULL;
-	if(vars->numofpipes)
+	if (vars->numofpipes)
 		return (0);
 	if (comm && comm->next)
 	{
@@ -114,7 +114,7 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 			}
 			else if (var_chdir == -1)
 			{
-				ft_put_error("minishell: ",comm->content, ": OLDPWD not set\n");
+				ft_put_error("minishell: ", comm->content, ": OLDPWD not set\n");
 				vars->exit_status = 1;
 			}
 		}
@@ -164,9 +164,9 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 			{
 				vars->exit_status = 1;
 				if (access(comm->content, F_OK) == -1)
-					ft_put_error("minishell: cd:", comm->content,": No such file or directory\n");
+					ft_put_error("minishell: cd:", comm->content, ": No such file or directory\n");
 				else
-					ft_put_error("minishell: cd: ",comm->content, ": permission denied\n");
+					ft_put_error("minishell: cd: ", comm->content, ": permission denied\n");
 			}
 		}
 	}

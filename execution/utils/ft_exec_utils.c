@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 21:31:13 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_pipe_num(t_list *comm)
 
 void	dup_and_close(int oldfd, int newfd)
 {
-	if(oldfd == newfd)
+	if (oldfd == newfd)
 		return;
 	dup2(oldfd, newfd);
 	if (oldfd != 0 && oldfd != 1)
@@ -64,7 +64,7 @@ void	dup_and_close(int oldfd, int newfd)
 int	ft_isalldots(char *str)
 {
 
-	while(str && *str)
+	while (str && *str)
 	{
 		if (*str != '.')
 			return (0);
@@ -82,10 +82,7 @@ char	*ft_locate_bin(char *command, char *path)
 	if (!command || !(*command) | ft_isalldots(command))
 		return (NULL);
 	if (ft_strchr(command, '/'))
-	{
-		
 		return (command);
-	}	
 	_path = ft_split(path, ':');
 	while (_path && *_path)
 	{

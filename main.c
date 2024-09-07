@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/07 01:51:36 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/08 00:53:08 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 		if (comm)
 		{
 			ft_execute(vars, comm, envir);
+			ft_lstfree(&comm);
 		}
 		free(vars->read);
 	}
@@ -138,7 +139,7 @@ void	handle_ctrlc(int sig)
 	if (catch(1, 0) == 0)
 		return ;
     rl_on_new_line();
-    rl_replace_line("", 0); 
+    rl_replace_line("", 0);
     rl_redisplay();
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 17:17:29 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/08 00:53:55 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,7 +387,7 @@ int	store_here(t_heredoc *herdoc, t_list *temp, t_env **envir, t_vars *vars)
 		value = expand_heredoc(herdoc, envir, vars->del_type);
 		if (!value)
 			value = ft_strdup("\0");
-		ft_putstr_fd(value , herdoc->fd);
+		ft_putstr_fd(value, herdoc->fd);
 		ft_putchar_fd('\n', herdoc->fd);
 	}
 	return (0);

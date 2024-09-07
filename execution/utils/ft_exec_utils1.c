@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:23:32 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 15:58:52 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ t_list	*ft_split_pipe(t_list **new_comm, t_vars *vars)
 	{
 		vars->pipe = 0;
 		return (NULL);
-	}	
+	}
+	
 }
 
 char	*ft_strchr_2(const char *str, const char *sep)
@@ -88,9 +89,9 @@ char	*ft_strchr_2(const char *str, const char *sep)
 	int t;
 
 	i = 0;
-	if(!str || !sep)
+	if (!str || !sep)
 		return (NULL);
-	while(str[i])
+	while (str[i])
 	{
 		t = i;
 		j = 0;
@@ -109,7 +110,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	size_t	i;
 	size_t	srclen;
 
-	if(!dst || !src)
+	if (!dst || !src)
 		return (-1);
 	srclen = ft_strlen((char *)src);
 	i = 0;
@@ -125,13 +126,12 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	return (srclen);
 }
 
-
 int	ft_split_2(const char *str, const char *sep, char **k, char **v)
 {
 	char *found_at;
 	
 	found_at = ft_strchr_2(str, sep);
-	if(!found_at)
+	if (!found_at)
 		return (-1);
 	int	key_size = (found_at - str);
 	int	value_size = ft_strlen(found_at + 1);

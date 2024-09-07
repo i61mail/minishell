@@ -6,13 +6,38 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/07 01:00:18 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/08 00:53:55 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_unset(t_list *command, t_env **envir,t_vars *vars)
+int	unset_not_valid(char *err, t_vars *vars)
+{
+	ft_put_error("minishell: unset: `", err, "': not a valid identifier");
+	vars->exit_status = 1;
+	return (1);
+}
+
+int	ft_unset_invalid_char(char *kandv, t_vars *vars)
+{
+	//char c;
+	int i;
+
+	i = 0;
+	
+	if (!kandv || !kandv[i])
+		return(unset_not_valid(kandv, vars));
+	if ((kandv && kandv[i] && !(ft_isalpha(kandv[i]) || kandv[i] == '_')) || i++)
+		return (unset_not_valid(kandv, vars));
+	while (kandv && kandv[i] && (ft_isdigit(kandv[i]) || ft_isalpha(kandv[i]) || kandv[i] == '_' ))
+		i++;
+	if (kandv && kandv[i])
+		return (unset_not_valid(kandv, vars));
+	return (0);
+}
+ 
+void	ft_unset(t_list *command, t_env **envir, t_vars *vars)
 {
 	t_env *temp;
 	t_env *prev;
@@ -21,29 +46,29 @@ void	ft_unset(t_list *command, t_env **envir,t_vars *vars)
 	int i =  0;
 	command = command->next;
 	prev = NULL;
-	if(vars->numofpipes)
+	if (vars->numofpipes)
 		return ;
 	while (command)
 	{
-		if ((command->type == COMM) && ft_invalid_char(command->content, vars, 0)) 
+		if ((command->type == COMM) && ft_unset_invalid_char(command->content, vars)) 
 		{
 			command = command->next;
 			continue;
 		}
 		splitd = ft_split(command->content, ' ');
-		while(splitd && splitd[i])
+		while (splitd && splitd[i])
 		{
 			temp = *envir;
 			while (temp)
 			{
-				if (!ft_strcmp(splitd[i] ,temp->key))
+				if (!ft_strcmp(splitd[i], temp->key))
 				{
-					if(!prev)
+					if (!prev)
 					{
-						printf("aa %s\n",temp->next->key);
+						printf("aa %s\n", temp->next->key);
 						*envir = temp->next;
-						//for (t_env *temp = *envir; temp->next ; temp = temp->next)
-						//	printf("aa %s\n",temp->key);
+						//for (t_env *temp = *envir;temp->next ;temp = temp->next)
+						//	printf("aa %s\n", temp->key);
 					}
 					else
 					{

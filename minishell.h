@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/07 01:50:49 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/08 00:51:21 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef struct s_heredoc
 	int		start;
 	int		fd;
 	int		passed_fd;
-}	t_heredoc;
+}
+	t_heredoc;
 
 typedef struct s_vars
 {
@@ -63,7 +64,8 @@ typedef struct s_vars
 	int		cd;
 	struct termios reset;
 	int		atoifail;
-}	t_vars;
+}
+	t_vars;
 
 typedef struct s_env
 {
@@ -71,28 +73,31 @@ typedef struct s_env
 	char			*value;
 	int				catsh;
 	struct s_env	*next;
-}	t_env;
+}
+	t_env;
 
 typedef struct s_list
 {
 	char			*content;
 	int				type;
 	struct s_list	*next;
-}	t_list;
+}
+	t_list;
 
 typedef enum s_token
 {
-	COMM,
-	RED_IN,
-	RED_OUT,
-	RED_APPEND,
-	HEREDOC,
-	PIP,
-	HEREDOC_DEL_Q,
-	HEREDOC_DEL_U,
-	AMBIGUOUS,
+	COMM, 
+	RED_IN, 
+	RED_OUT, 
+	RED_APPEND, 
+	HEREDOC, 
+	PIP, 
+	HEREDOC_DEL_Q, 
+	HEREDOC_DEL_U, 
+	AMBIGUOUS, 
 	SPLITED
-}	t_token;
+}
+	t_token;
 
 /*              utils  linked list       */
 
@@ -190,7 +195,7 @@ int			ft_echo(t_list *command, t_vars *vars);
 int			ft_cd(t_vars *vars, t_list *comm, t_env **envir);
 int			ft_pwd(t_vars *vars, t_env **envir);
 int			ft_exit(t_list *comm, t_vars *vars);
-int			ft_export(t_env *envir,t_vars *vars, t_list *command);
+int			ft_export(t_env *envir, t_vars *vars, t_list *command);
 void		ft_env(t_env *envir, t_vars *vars);
 void		ft_unset(t_list *command, t_env **envir, t_vars *vars);
 
@@ -205,7 +210,6 @@ char		**ft_2dcomm(t_list *comm);
 t_list		*ft_split_pipe(t_list **new_comm, t_vars *vars);
 int 		ft_split_2(const char *str, const char *sep, char **k, char **v);
 int			ft_isred(int	t);
-int			ft_invalid_char(char *kandv, t_vars *vars, int is_export);
 int 		ft_isred(int t);
 int			ft_put_error(char *before, char *sep, char *after);
 #endif

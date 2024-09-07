@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/07 01:17:43 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/08 00:53:08 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*my_getenv(char *str, t_env *envir)
 	return (NULL);
 }
 
-int ft_is_builtin(char *command)
+int	ft_is_builtin(char *command)
 {
 	if (!ft_strcmp(command, "cd\0") || !ft_strcmp(command, "echo\0") || !ft_strcmp(command, "env\0") ||
 		!ft_strcmp(command, "exit\0") || !ft_strcmp(command, "export\0") ||
@@ -37,9 +37,9 @@ int ft_is_builtin(char *command)
 
 int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 {
-	struct stat path;
+	struct stat	path;
 
-	if(!binary)
+	if (!binary)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(comm->content, 2);
@@ -47,7 +47,7 @@ int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 		vars->exit_status = 127;
 		return (1);
 	}
-	stat(binary, &path);// new function
+	stat(binary, &path);
 	if (S_ISDIR(path.st_mode))
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -56,7 +56,7 @@ int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 		vars->exit_status = 126;
 		return (1);
 	}
-	if (S_ISREG(path.st_mode) && access(binary, X_OK))
+	if (S_ISREG(path.st_mode) && access(binary, X_OK) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(binary, 2);
@@ -64,21 +64,28 @@ int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 		vars->exit_status = 126;
 		return (1);
 	}
+	if (access(binary, F_OK) == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(binary, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		vars->exit_status = 127;
+		return (1);
+	}
 	return (0);
-		
 }
-void ft_child(t_vars *vars, t_list *comm, t_env *envir)
-{
-	char *binary;
-	char **_2denv;
 
-	// ft_putstr_fd("comand id", 2);
-	// printf("child pid :  cd /proc/%d/fd/\n",getpid());
-	// ft_putstr_fd("IN CHILD ???? \n", 2);
+void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
+{
+	char	*binary;
+	char	**_2denv;
+
 	dup_and_close(vars->pfd[1], 1);
 	dup_and_close(vars->old_fd, 0);
 	if (vars->pfd[0] != 0 && vars->pfd[0] != 1)
 		close(vars->pfd[0]);
+	while (comm && comm->type == AMBIGUOUS)
+		comm = comm->next;
 	binary = ft_locate_bin(comm->content, my_getenv("PATH", envir));
 	if (ft_invalid_bin(binary, comm, vars))
 	{
@@ -94,7 +101,7 @@ void ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	exit(vars->exit_status);
 }
 
-void ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
+void	ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 {
 	if (comm && !ft_strncmp(comm->content, "cd\0", 5))
 		ft_cd(vars, comm, envir);
@@ -103,7 +110,7 @@ void ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 	else if (comm && !ft_strncmp(comm->content, "env\0", 7))
 		ft_env(*envir, vars);
 	else if (comm && !ft_strncmp(comm->content, "exit\0", 7))
-		ft_exit(comm , vars);
+		ft_exit(comm, vars);
 	else if (comm && !ft_strncmp(comm->content, "export\0", 7))
 		ft_export(*envir, vars, comm);
 	else if (comm && !ft_strncmp(comm->content, "pwd\0", 7))
@@ -112,31 +119,34 @@ void ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 		ft_unset(comm, envir, vars);
 }
 
-int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
+int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 {
-	int	fd = -1;
+	int	fd;
+	
+	fd = -1;
 	if (!node || !next_node)
 	{
 		printf("i should'nt get here\n");
 		return (-1);
 	}
-	 if (next_node->type == AMBIGUOUS)
+	if (next_node->type == AMBIGUOUS)
 	{
-		ft_putstr_fd("minishell: ", 2); // fix for test (echo a | ls > /dev/stdin )
+		ft_putstr_fd("minishell: ", 2);// fix for test (echo a | ls > /dev/stdin )
 		ft_putstr_fd(next_node->content, 2);
 		ft_putstr_fd("ambiguous redirect\n", 2);
 		vars->exit_status = 1;
 		return (-1);
-	 }
+	}
 	if (node->type != PIP && node->type != RED_IN)
 		vars->pipe = 0;
 	if (node->type == RED_OUT)
 	{
-		//if (!access(next_node->content, W_OK) && vars->cmd_num)
+		//if (access(next_node->content, W_OK) == -1 && vars->cmd_num)
 		//{
-		//	ft_putstr_fd("minishell: ", 2); // fix for test (echo a | ls > /dev/stdin )
+		//	ft_putstr_fd("minishell: ", 2);// fix for test (echo a | ls > /dev/stdin )
 		//	ft_putstr_fd(next_node->content, 2);
-		//	ft_putstr_fd(": Permission denied\n", 2);
+		//	//ft_putstr_fd(": Permission denied\n", 2);
+		//	perror("");
 		//	vars->exit_status = 1;
 		//	return (-1);
 		//}
@@ -149,7 +159,7 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 			vars->exit_status = 1;
 			return (-1);
 		}
-		if(vars->pfd[1] != 1)
+		if (vars->pfd[1] != 1)
 			close(vars->pfd[1]);
 		vars->pfd[1] = fd;
 	}
@@ -164,7 +174,7 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 			vars->exit_status = 1;
 			return (-1);
 		}
-		if(vars->pfd[1] != 1)
+		if (vars->pfd[1] != 1)
 			close(vars->pfd[1]);
 		vars->pfd[1] = fd;
 	}
@@ -181,11 +191,11 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		}
 		vars->old_fd = fd;
 	}
-	if(node->type == HEREDOC)
+	if (node->type == HEREDOC)
 	{
-		if(vars->heredoc_fd == -1)
+		if (vars->heredoc_fd == -1)
 		{
-			ft_putstr_fd("minishell: ",2);
+			ft_putstr_fd("minishell: ", 2);
 			perror(next_node->content);
 			vars->exit_status =  errno;
 			return (-1);
@@ -215,7 +225,7 @@ t_list *ft_check4red(t_list *comm, t_vars *vars)
 		if (ft_isred(temp->type))
 		{
 			if (ft_handle_redir(temp, temp->next, vars) == -1)
-				return (NULL); // need to free new comm at exit
+				return (NULL);// need to free new comm at exit
 			temp = temp->next;
 			if (temp)
 				temp = temp->next;
@@ -287,6 +297,7 @@ void ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	vars->old_fd = 0;
 	vars->pfd[1] = 1;
 	vars->atoifail = 0;
+	//printf("t:%d\n", comm->type);
 	if (!comm)
 		return;
 	ft_run(vars, comm, envir);
