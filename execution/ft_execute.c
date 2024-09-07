@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 08:16:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/07 01:17:43 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int ft_is_builtin(char *command)
 int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 {
 	struct stat path;
+
 	if(!binary)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -131,14 +132,14 @@ int	 ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		vars->pipe = 0;
 	if (node->type == RED_OUT)
 	{
-		if (!access(next_node->content, W_OK) && vars->cmd_num)
-		{
-			ft_putstr_fd("minishell: ", 2); // fix for test (echo a | ls > /dev/stdin )
-			ft_putstr_fd(next_node->content, 2);
-			ft_putstr_fd("Permission denied\n", 2);
-			vars->exit_status = 1;
-			return (-1);
-		}
+		//if (!access(next_node->content, W_OK) && vars->cmd_num)
+		//{
+		//	ft_putstr_fd("minishell: ", 2); // fix for test (echo a | ls > /dev/stdin )
+		//	ft_putstr_fd(next_node->content, 2);
+		//	ft_putstr_fd(": Permission denied\n", 2);
+		//	vars->exit_status = 1;
+		//	return (-1);
+		//}
 		fd = open(next_node->content, O_CREAT | O_WRONLY | O_TRUNC, 0622);
 		//printf("outfile: %s\n", next_node->content);
 		if (fd == -1)
@@ -285,6 +286,7 @@ void ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	vars->builtin = 0;
 	vars->old_fd = 0;
 	vars->pfd[1] = 1;
+	vars->atoifail = 0;
 	if (!comm)
 		return;
 	ft_run(vars, comm, envir);

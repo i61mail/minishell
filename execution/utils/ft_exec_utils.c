@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 08:15:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/06 21:31:13 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,25 @@ void	dup_and_close(int oldfd, int newfd)
 		close(oldfd);
 }
 
+int	ft_isalldots(char *str)
+{
+
+	while(str && *str)
+	{
+		if (*str != '.')
+			return (0);
+		str++;
+	}
+	return(1);
+}
+
 char	*ft_locate_bin(char *command, char *path)
 {
 	char	**_path;
 	char	*temp;
 	char	*temp1;
 
-	if (!command || !(*command))
+	if (!command || !(*command) | ft_isalldots(command))
 		return (NULL);
 	if (ft_strchr(command, '/'))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 17:15:50 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/07 01:51:36 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->del_type = 0;
 	vars->cmd_num = 0;
 	vars->cd = 0;
+	vars->atoifail = 0;
 	strcpy_env(envir, env);
 	if (!*envir)
 		three_vars(envir);

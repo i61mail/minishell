@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 17:14:49 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/07 01:50:49 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_vars
 	int		cmd_num;
 	int		cd;
 	struct termios reset;
+	int		atoifail;
 }	t_vars;
 
 typedef struct s_env
@@ -154,6 +155,7 @@ void		ft_putstr_fd(char *str, int fd);
 void		ft_putchar_fd(char c, int fd);
 int			ft_strcmp(char *s1, char *s2);
 long long	ft_atoi(char *str);
+long long	ft_atoi_2(char *str, t_vars *vars);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strchr(const char *str, int c);
 char		*ft_itoa(int nbr);
@@ -205,4 +207,5 @@ int 		ft_split_2(const char *str, const char *sep, char **k, char **v);
 int			ft_isred(int	t);
 int			ft_invalid_char(char *kandv, t_vars *vars, int is_export);
 int 		ft_isred(int t);
+int			ft_put_error(char *before, char *sep, char *after);
 #endif
