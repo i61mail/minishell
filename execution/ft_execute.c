@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 08:16:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/09 15:19:55 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ void ft_run(t_vars *vars, t_list *comm, t_env **envir)
 
 	id = 0;
 	// int _stdout = dup(1);
+	catch(0, 0);
 	while (comm)
 	{
 		vars->pfd[0] = vars->old_fd;
@@ -273,10 +274,16 @@ void ft_run(t_vars *vars, t_list *comm, t_env **envir)
 	}
 
 	int pid;
-	if (waitpid(id, &pid, 0) > 0 && WIFEXITED(pid))
-		vars->exit_status = WEXITSTATUS(pid);
+	if (waitpid(id, &pid, 0) > 0)
+	{
+    	if (WIFEXITED(pid))
+        	vars->exit_status = WEXITSTATUS(pid);
+		else if (WIFSIGNALED(pid))
+        	vars->exit_status = 128 + WTERMSIG(pid);
+	}
+	catch(0, -1);
 	while (wait(NULL) > 0)
-		;
+    	;
 }
 
 void ft_execute(t_vars *vars, t_list *comm, t_env **envir)

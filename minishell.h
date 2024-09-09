@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 17:14:49 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/09 14:21:38 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int			ft_heredoc(t_vars *vars, int *i, t_list **comm);
 int			ft_redirec(t_vars *vars, int *i, t_list **comm, char c);
 int			ft_token(t_vars *vars, int i, t_list **comm, int type);
 int			after_skip(char *str, int i, char c);
+int 		catch(int type, int value);
 
 /*        env        */
 int			strcpy_env(t_env **envir, char **env);

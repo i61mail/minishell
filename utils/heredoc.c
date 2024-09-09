@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 17:17:29 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/09 14:52:53 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -462,11 +462,13 @@ int	gen_file_name(t_heredoc *herdoc)
 
 void	child_exitstatus(t_heredoc *herdoc, t_vars *vars)
 {
-	wait(&herdoc->child_status);
-	if (WIFEXITED(herdoc->child_status))
-		vars->exit_status = WEXITSTATUS(herdoc->child_status);
-	catch(0, -1);
-	tcsetattr(0, 0, &vars->reset);
+    wait(&herdoc->child_status);
+    if (WIFEXITED(herdoc->child_status))
+        vars->exit_status = WEXITSTATUS(herdoc->child_status);
+    else if (WIFSIGNALED(herdoc->child_status))
+        vars->exit_status = 128 + WTERMSIG(herdoc->child_status);
+    catch(0, -1);
+    tcsetattr(0, 0, &vars->reset);
 }
 
 void	heredoc_signal(int sig)
@@ -513,7 +515,7 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 			}
 			store_here(&herdoc, temp, envir, vars);
 		}
-		// exit(0);
+		exit(0);
 	}
 	else
 		child_exitstatus(&herdoc, vars);

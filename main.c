@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/06 17:15:50 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/09 15:21:35 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
 	int		i;
+
 	i = 0;
 	while (vars->read[i] != '\0')
 	{
@@ -27,6 +28,8 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		{
 			if (ft_aresep(vars, &i, comm, envir) == -1)
 				return (-1);
+			if (vars->exit_status == 130 && (*comm)->type == HEREDOC)
+				break ;
 		}
 		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
@@ -36,19 +39,23 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 
 int	three_vars(t_env **envir)
 {
-	add_to_node(ft_strdup("PWD"), ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
-	add_to_node(ft_strdup("PATH"), ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin"), envir);
-	add_to_node(ft_strdup("SHLVL"), ft_strdup("0"), envir);
-	add_to_node(ft_strdup("_"), ft_strdup("/usr/bin/env"), envir);
+	add_to_node(ft_strdup("PWD"),
+		ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
+	add_to_node(ft_strdup("PATH"),
+		ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin"), envir);
+	add_to_node(ft_strdup("SHLVL"),
+		ft_strdup("0"), envir);
+	add_to_node(ft_strdup("_"),
+		ft_strdup("/usr/bin/env"), envir);
 	add_to_node(ft_strdup("OLDPWD"), NULL, envir);
 	return (0);
 }
 
 int	shell_level(t_env **envir)
 {
-	t_env 		*env;
+	t_env		*env;
 	long long	increm;
-	long long 	old_increm;
+	long long	old_increm;
 	int			is;
 
 	increm = 0;
@@ -76,8 +83,7 @@ int	shell_level(t_env **envir)
 				increm = 1;
 			}
 			free(env->value);
-			env->value = ft_itoa(increm);
-			
+			env->value = ft_itoa(increm);	
 		}
 		env = env->next;
 	}
@@ -122,6 +128,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 		if (comm)
 		{
 			ft_execute(vars, comm, envir);
+			ft_lstfree(&comm);
 		}
 		free(vars->read);
 	}
@@ -135,10 +142,12 @@ void	handle_ctrlc(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	if (catch(1, 0) == 0)
+	{
 		return ;
-    rl_on_new_line();
-    rl_replace_line("", 0); 
-    rl_redisplay();
+	}
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 int	main(int ac, char **av, char **env)
@@ -175,5 +184,3 @@ int	main(int ac, char **av, char **env)
 	}
 	exit(vars.exit_status);
 }
-
-//export > $a 
