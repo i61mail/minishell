@@ -40,19 +40,16 @@ int	ft_echo(t_list *command, t_vars *vars)
 	while (command && !ft_isred(command->type))
 	{
 		if (command->type == HEREDOC)
-		{
 			command = command->next;
+		else
+		{
+			ft_putstr_fd(command->content, vars->pfd[1]);
 			if (command->next)
-				command = command->next;
-			continue;
+				ft_putstr_fd(" ", vars->pfd[1]);
 		}
-		ft_putstr_fd(command->content, vars->pfd[1]);
-		if (command->next)
-			ft_putstr_fd(" ", vars->pfd[1]);
 		command = command->next;
 	}
 	if (is_n)
 		ft_putstr_fd("\n", vars->pfd[1]);
-	vars->exit_status = 0;
-	return (0);
+	return (vars->exit_status = 0);
 }

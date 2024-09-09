@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:28:00 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/09 06:23:55 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_my_pwd(t_env **envir, char **save_pwd)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	temp = *envir;
 	while (temp)
@@ -29,7 +29,8 @@ int	get_my_pwd(t_env **envir, char **save_pwd)
 int	ft_pwd(t_vars *vars, t_env **envir)
 {
 	static char	*save_pwd;
-	char	*pwd;
+	char		*pwd;
+
 	pwd = NULL;
 	pwd = getcwd(pwd, PATH_MAX);
 	if (!pwd)

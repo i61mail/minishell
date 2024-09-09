@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:21 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/09 06:19:56 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,8 +208,24 @@ char		*ft_locate_bin(char *command, char *path);
 char		**ft_2denv(t_env *envir);
 char		**ft_2dcomm(t_list *comm);
 t_list		*ft_split_pipe(t_list **new_comm, t_vars *vars);
-int 		ft_split_2(const char *str, const char *sep, char **k, char **v);
-int			ft_isred(int	t);
-int 		ft_isred(int t);
+int			ft_split_2(const char *str, const char *sep, char **k, char **v);
+int			ft_isred(int t);
 int			ft_put_error(char *before, char *sep, char *after);
+char		*ft_strchr_2(const char *str, const char *sep);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void		ft_free_2d_array(void **array);
+
+/*		export utils 	*/
+int			ft_strcmp_(char *s1, char *s2, char end);
+int			ft_invalid_char(char *kandv, t_vars *vars);
+int			ft_var_type(char *var);
+void		ft_handle_split(t_list *comm, t_env **envir, t_vars *vars);
+void		ft_handle_default(t_list *comm, t_env **envir);
+void		ft_add_env(char *key, char *value, t_env **envir, int type);
+void		ft_dump_env(t_env *envir, t_vars *vars);
+char		**ft_sort_env(char **envir);
+void		ft_print_env(t_env *envir, t_vars *vars);
+char		**ft_2envkeys(t_env *envir);
+
+
 #endif

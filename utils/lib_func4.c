@@ -71,26 +71,18 @@ long long	ft_atoi_2(char *str, t_vars *vars)
 	result = 0;
 	i = 0;
 	sign = 1;
-	if (!str)
-		return (-1);
+	if (!str || !(*str))
+		return (vars->atoifail = 1);
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
-	{
 		if (str[i++] == '-')
 			sign *= -1;
-	}
 	while (str[i] >= 48 && str[i] <= 57)
 	{
 		result = ft_abs(result * 10 + str[i++] - 48);
-		//printf("%lld\n", result);
 		if ((ft_abs(result) - (sign == -1))  > LLONG_MAX)
-		{
-			//puts("here");
-			vars->atoifail = 1;
-			return (-1);
-		}
-			
+			return (vars->atoifail = 1);
 	}
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;

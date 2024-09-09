@@ -14,7 +14,7 @@
 
 void	ft_env(t_env *envir, t_vars *vars)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	temp = envir;
 	while (temp)

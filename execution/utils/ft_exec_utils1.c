@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:23:32 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/09 06:33:07 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,13 @@ t_list	*ft_split_pipe(t_list **new_comm, t_vars *vars)
 		vars->pipe = 0;
 		return (NULL);
 	}
-	
 }
 
 char	*ft_strchr_2(const char *str, const char *sep)
 {
-	int i;
-	int j;
-	int t;
+	int	i;
+	int	j;
+	int	t;
 
 	i = 0;
 	if (!str || !sep)
@@ -98,13 +97,13 @@ char	*ft_strchr_2(const char *str, const char *sep)
 		while (str[t++] == sep[j++])
 		{
 			if (j == ft_strlen((char *)sep))
-				return((char *)&str[i]);
+				return ((char *)&str[i]);
 		}
 		i++;
 	}
 	return (NULL);
-
 }
+
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
@@ -126,18 +125,3 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	return (srclen);
 }
 
-int	ft_split_2(const char *str, const char *sep, char **k, char **v)
-{
-	char *found_at;
-	
-	found_at = ft_strchr_2(str, sep);
-	if (!found_at)
-		return (-1);
-	int	key_size = (found_at - str);
-	int	value_size = ft_strlen(found_at + 1);
-	*k = malloc(sizeof(char) * key_size + 1);
-	*v = malloc(sizeof(char) * value_size + 1);
-	ft_strlcpy(*k, str, key_size + 1);
-	ft_strlcpy(*v, found_at + ft_strlen((char *)sep), value_size + 1);
-    return (0);
-}

@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/09 06:32:46 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,10 @@ int	ft_comm_length(t_list *comm)
 	return (i);
 }
 
-int	ft_pipe_num(t_list *comm)
-{
-	int	n;
-
-	n = 0;
-	while (comm)
-	{
-		if (comm->type == PIP)
-			n++;
-		comm = comm->next;
-	}
-	return (n);
-}
-
 void	dup_and_close(int oldfd, int newfd)
 {
 	if (oldfd == newfd)
-		return;
+		return ;
 	dup2(oldfd, newfd);
 	if (oldfd != 0 && oldfd != 1)
 		close(oldfd);
@@ -63,14 +49,13 @@ void	dup_and_close(int oldfd, int newfd)
 
 int	ft_isalldots(char *str)
 {
-
 	while (str && *str)
 	{
 		if (*str != '.')
 			return (0);
 		str++;
 	}
-	return(1);
+	return (1);
 }
 
 char	*ft_locate_bin(char *command, char *path)
@@ -79,7 +64,7 @@ char	*ft_locate_bin(char *command, char *path)
 	char	*temp;
 	char	*temp1;
 
-	if (!command || !(*command) | ft_isalldots(command))
+	if (!command || !(*command) || ft_isalldots(command))
 		return (NULL);
 	if (ft_strchr(command, '/'))
 		return (command);

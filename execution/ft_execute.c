@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/08 00:53:08 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/09 06:33:27 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ char	*my_getenv(char *str, t_env *envir)
 
 int	ft_is_builtin(char *command)
 {
-	if (!ft_strcmp(command, "cd\0") || !ft_strcmp(command, "echo\0") || !ft_strcmp(command, "env\0") ||
-		!ft_strcmp(command, "exit\0") || !ft_strcmp(command, "export\0") ||
-		!ft_strcmp(command, "pwd\0") || !ft_strcmp(command, "unset\0"))
+	if (!ft_strcmp(command, "cd\0") || !ft_strcmp(command, "echo\0")
+		|| !ft_strcmp(command, "env\0")
+		|| !ft_strcmp(command, "exit\0") || !ft_strcmp(command, "export\0")
+		|| !ft_strcmp(command, "pwd\0") || !ft_strcmp(command, "unset\0"))
 		return (1);
 	return (0);
 }
@@ -86,6 +87,8 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 		close(vars->pfd[0]);
 	while (comm && comm->type == AMBIGUOUS)
 		comm = comm->next;
+	if (!comm)
+		exit(0);
 	binary = ft_locate_bin(comm->content, my_getenv("PATH", envir));
 	if (ft_invalid_bin(binary, comm, vars))
 	{
@@ -122,7 +125,7 @@ void	ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 {
 	int	fd;
-	
+
 	fd = -1;
 	if (!node || !next_node)
 	{
@@ -207,16 +210,16 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 	return (fd);
 }
 
-int ft_isred(int t)
+int	ft_isred(int t)
 {
 	if (t == RED_IN || t == RED_OUT || t == RED_APPEND || t == HEREDOC)
 		return (1);
 	return (0);
 }
-t_list *ft_check4red(t_list *comm, t_vars *vars)
+t_list	*ft_check4red(t_list *comm, t_vars *vars)
 {
-	t_list *temp;
-	t_list *new_comm;
+	t_list	*temp;
+	t_list	*new_comm;
 
 	temp = comm;
 	new_comm = NULL;
@@ -239,14 +242,14 @@ t_list *ft_check4red(t_list *comm, t_vars *vars)
 	return (new_comm);
 }
 
-void ft_run(t_vars *vars, t_list *comm, t_env **envir)
+void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 {
-	int id;
-	t_list *new_comm;
-	new_comm = NULL;
+	int		id;
+	t_list	*new_comm;
+	int		pid;
 
+	new_comm = NULL;
 	id = 0;
-	// int _stdout = dup(1);
 	while (comm)
 	{
 		vars->pfd[0] = vars->old_fd;
@@ -263,7 +266,7 @@ void ft_run(t_vars *vars, t_list *comm, t_env **envir)
 				if (id == -1)
 				{
 					perror("minishell: fork:");
-					return;
+					return ;
 				}
 				if (!id)
 				{
@@ -282,8 +285,6 @@ void ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		vars->cmd_num++;
 		// dup_and_close(_stdout, 1);
 	}
-
-	int pid;
 	if (waitpid(id, &pid, 0) > 0 && WIFEXITED(pid))
 		vars->exit_status = WEXITSTATUS(pid);
 	while (wait(NULL) > 0)
@@ -299,6 +300,6 @@ void ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	vars->atoifail = 0;
 	//printf("t:%d\n", comm->type);
 	if (!comm)
-		return;
+		return ;
 	ft_run(vars, comm, envir);
 }

@@ -14,8 +14,8 @@
 
 char	*update_old_pwd(t_env **envir)
 {
-	t_env 		*env;
-	t_env 		*env1;
+	t_env		*env;
+	t_env		*env1;
 	char		*pwd;
 
 	pwd = NULL;
@@ -48,7 +48,7 @@ char	*update_old_pwd(t_env **envir)
 
 int	update_pwd(t_env **envir, int bool, char **pwd)
 {
-	t_env 		*env;
+	t_env		*env;
 	char		*points;
 
 	points = NULL;
@@ -95,11 +95,12 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 
 int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 {
-	char	*cwd;
-	static char *old_pwd;
-	int		var_chdir = 0;
+	char		*cwd;
+	static char	*old_pwd;
+	int			var_chdir;
 
 	cwd = NULL;
+	var_chdir = 0;
 	if (vars->numofpipes)
 		return (0);
 	if (comm && comm->next)
@@ -107,18 +108,17 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 		comm = comm->next;
 		if (ft_strncmp(comm->content, "-\0", 2) == 0)
 		{
-			var_chdir  = chdir(old_pwd);
+			var_chdir = chdir(old_pwd);
 			if (var_chdir == 0)
 			{
 				printf("%s\n", old_pwd);
 			}
 			else if (var_chdir == -1)
 			{
-				ft_put_error("minishell: ", comm->content, ": OLDPWD not set\n");
+				ft_put_error("minishell: ", comm->content, ": OLDPWD not set");
 				vars->exit_status = 1;
 			}
 		}
-		
 		else if (ft_strncmp(comm->content, "~\0", 2) == 0)
 		{
 			if (chdir(getenv("USER_ZDOTDIR")))
@@ -164,9 +164,9 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 			{
 				vars->exit_status = 1;
 				if (access(comm->content, F_OK) == -1)
-					ft_put_error("minishell: cd:", comm->content, ": No such file or directory\n");
+					ft_put_error("minishell: cd:", comm->content, ": No such file or directory");
 				else
-					ft_put_error("minishell: cd: ", comm->content, ": permission denied\n");
+					ft_put_error("minishell: cd: ", comm->content, ": permission denied");
 			}
 		}
 	}
