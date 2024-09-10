@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:28:00 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/09 06:23:55 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/09 21:50:09 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,3 @@ int	ft_pwd(t_vars *vars, t_env **envir)
 	ft_putchar_fd('\n', vars->pfd[1]);
 	return (0);
 }
-

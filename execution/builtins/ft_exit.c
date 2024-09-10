@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:50:06 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/09 06:23:42 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/09 23:39:20 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_exit_err(t_list *comm, t_vars *vars)
 	vars->atoifail = 0;
 	status = 0;
 	if (!comm)
-		return (0);
+		return (vars->exit_status);
 	status = ft_atoi_2(comm->content, vars);
 	if (vars->atoifail)
 	{

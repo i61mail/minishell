@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/09 06:16:55 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/09 21:33:36 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_handle_split(t_list *comm, t_env **envir, t_vars *vars)
 	splited = ft_split(comm->content, ' ');
 	while (splited && splited[i])
 	{
-		if (ft_invalid_char(splited[i], vars) != 1)
+		if (ft_invalid_char(splited[i], vars) == 0)
 			ft_add_env(splited[i], NULL, envir, 4);
 		i++;
 	}
@@ -49,7 +49,6 @@ void	ft_add_env(char *key, char *value, t_env **envir, int type)
 {
 	t_env	*new;
 	t_env	*temp;
-
 	temp = *envir;
 	while (temp)
 	{

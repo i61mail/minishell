@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/09 06:28:52 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/10 01:47:16 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,49 @@ int	ft_unset_invalid_char(char *kandv, t_vars *vars)
 	return (0);
 }
 
-void	ft_unset(t_list *command, t_env **envir, t_vars *vars)
+t_env	*ft_free_node(t_env *envir)
 {
-	t_env	*temp;
+	t_env	*to_ret;
+
+	to_ret = envir->next;
+	free(envir->value);
+	free(envir->key);
+	free(envir);
+	return (to_ret);
+}
+
+void	ft_unset_vars(t_list *command, t_env **envir)
+{
 	t_env	*prev;
-	//t_env	*to_free;
 	char	**splitd;
 	int		i;
+	t_env	*temp;
 
 	i = 0;
+	splitd = ft_split(command->content, ' ');
+	while (splitd && splitd[i])
+	{
+		temp = *envir;
+		while (temp)
+		{
+			if (!ft_strcmp(splitd[i], temp->key))
+			{
+				if (!prev)
+					*envir = ft_free_node(temp);
+				else
+					prev->next = ft_free_node(temp);
+				break ;
+			}
+			prev = temp;
+			temp = temp->next;
+		}
+		i++;
+	}
+}
+
+void	ft_unset(t_list *command, t_env **envir, t_vars *vars)
+{
 	command = command->next;
-	prev = NULL;
 	if (vars->numofpipes)
 		return ;
 	while (command)
@@ -55,30 +87,7 @@ void	ft_unset(t_list *command, t_env **envir, t_vars *vars)
 		if (!((command->type == COMM)
 				&& ft_unset_invalid_char(command->content, vars)))
 		{
-			splitd = ft_split(command->content, ' ');
-			while (splitd && splitd[i])
-			{
-				temp = *envir;
-				while (temp)
-				{
-					if (!ft_strcmp(splitd[i], temp->key))
-					{
-						if (!prev)
-							*envir = temp->next;
-						else
-						{
-							//to_free = prev->next;
-							prev->next = temp->next;
-							//free(to_free->value);
-							//free(to_free->key);
-							//free(to_free);
-						}
-					}
-					prev = temp;
-					temp = temp->next;
-				}
-				i++;
-			}
+			ft_unset_vars(command, envir);
 		}
 		command = command->next;
 	}
