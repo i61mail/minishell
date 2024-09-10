@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:38:21 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/09 06:32:58 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/10 07:04:34 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,3 +65,23 @@ int	ft_pipe_num(t_list *comm)
 	}
 	return (n);
 }
+
+//t_list *dup_comm(t_list *comm)
+//{
+//	t_list *new_comm;
+//	int i ;
+
+	
+//	while(comm)
+//	{
+//		i = 0;
+//		if(comm->type != SPLITED)
+//			ft_lstadd_back(&comm, new_comm);
+//		else
+//		{
+					
+//		}
+//		comm = comm->next;
+//	}
+//	return (new_comm);
+//}

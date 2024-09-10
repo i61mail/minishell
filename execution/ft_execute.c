@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/09 06:33:27 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/10 03:22:14 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,16 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	if (!comm)
 		exit(0);
 	binary = ft_locate_bin(comm->content, my_getenv("PATH", envir));
-	if (ft_invalid_bin(binary, comm, vars))
+	if (!ft_invalid_bin(binary, comm, vars))
 	{
-		// close(vars->pfd[1]);
-		close(vars->old_fd);
-		exit(vars->exit_status);
+		comm->content = binary;
+		_2denv = ft_2denv(envir);
+		execve(binary, ft_2dcomm(comm), (char *const *)_2denv);
+		perror(comm->content);
+		vars->exit_status = errno;
 	}
-	comm->content = binary;
-	_2denv = ft_2denv(envir);
-	execve(binary, ft_2dcomm(comm), (char *const *)_2denv);
-	perror(comm->content);
-	vars->exit_status = errno;
+	else
+		close(vars->old_fd);
 	exit(vars->exit_status);
 }
 
