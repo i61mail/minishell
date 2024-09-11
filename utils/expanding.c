@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/09 15:14:35 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/11 11:37:51 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	*ft_check_env(t_env **envir, char *comp)
 
 char *expand_exit_status(t_vars *vars, char *comp)
 {
-	printf("%d\n", vars->exit_status);
 	comp = ft_itoa(vars->exit_status);
 	return (comp);
 }
@@ -123,3 +122,5 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	}
 	return (0);
 }
+//export > $a
+//export $a' -la'

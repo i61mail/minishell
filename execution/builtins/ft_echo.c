@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 16:07:46 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,16 @@ int	ft_echo(t_list *command, t_vars *vars)
 	while (command && !ft_isred(command->type))
 	{
 		if (command->type == HEREDOC)
-		{
 			command = command->next;
-			if(command->next)
-				command = command->next;
-			continue;
+		else
+		{
+			ft_putstr_fd(command->content, vars->pfd[1]);
+			if (command->next)
+				ft_putstr_fd(" ", vars->pfd[1]);
 		}
-		ft_putstr_fd(command->content, vars->pfd[1]);
-		if (command->next)
-			ft_putstr_fd(" ", vars->pfd[1]);
 		command = command->next;
 	}
 	if (is_n)
 		ft_putstr_fd("\n", vars->pfd[1]);
-	vars->exit_status = 0;
-	return (0);
+	return (vars->exit_status = 0);
 }

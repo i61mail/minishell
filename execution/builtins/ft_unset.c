@@ -3,57 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 08:19:59 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/10 01:47:16 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_unset(t_list *command, t_env **envir,t_vars *vars)
+int	unset_not_valid(char *err, t_vars *vars)
 {
-	t_env *temp;
-	t_env *prev;
-	//t_env *to_free;
+	ft_put_error("minishell: unset: `", err, "': not a valid identifier");
+	vars->exit_status = 1;
+	return (1);
+}
 
-	command = command->next;
-	prev = NULL;
-	if(vars->numofpipes)
-		return ;
-	while (command)
+int	ft_unset_invalid_char(char *kandv, t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	if (!kandv || !kandv[i])
+		return (unset_not_valid(kandv, vars));
+	if ((kandv && kandv[i]
+			&& !(ft_isalpha(kandv[i]) || kandv[i] == '_')) || i++)
+		return (unset_not_valid(kandv, vars));
+	while (kandv && kandv[i]
+		&& (ft_isdigit(kandv[i]) || ft_isalpha(kandv[i]) || kandv[i] == '_' ))
+		i++;
+	if (kandv && kandv[i])
+		return (unset_not_valid(kandv, vars));
+	return (0);
+}
+
+t_env	*ft_free_node(t_env *envir)
+{
+	t_env	*to_ret;
+
+	to_ret = envir->next;
+	free(envir->value);
+	free(envir->key);
+	free(envir);
+	return (to_ret);
+}
+
+void	ft_unset_vars(t_list *command, t_env **envir)
+{
+	t_env	*prev;
+	char	**splitd;
+	int		i;
+	t_env	*temp;
+
+	i = 0;
+	splitd = ft_split(command->content, ' ');
+	while (splitd && splitd[i])
 	{
-		if (ft_invalid_char(command->content, vars, 0)) 
-		{
-			command = command->next;
-			continue;
-		}
 		temp = *envir;
 		while (temp)
 		{
-			if (!ft_strcmp(command->content ,temp->key))
+			if (!ft_strcmp(splitd[i], temp->key))
 			{
-				if(!prev)
-				{
-					printf("aa %s\n",temp->next->key);
-					*envir = temp->next;
-					//for (t_env *temp = *envir; temp->next ; temp = temp->next)
-					//	printf("aa %s\n",temp->key);
-				}
+				if (!prev)
+					*envir = ft_free_node(temp);
 				else
-				{
-						//to_free = prev->next;
-					prev->next = temp->next;
-					//free(to_free->value);
-					//free(to_free->key);
-					//free(to_free);
-				}
+					prev->next = ft_free_node(temp);
+				break ;
 			}
 			prev = temp;
 			temp = temp->next;
 		}
-		command = command->next;
+		i++;
 	}
 }
 
+void	ft_unset(t_list *command, t_env **envir, t_vars *vars)
+{
+	command = command->next;
+	if (vars->numofpipes)
+		return ;
+	while (command)
+	{
+		if (!((command->type == COMM)
+				&& ft_unset_invalid_char(command->content, vars)))
+		{
+			ft_unset_vars(command, envir);
+		}
+		command = command->next;
+	}
+}

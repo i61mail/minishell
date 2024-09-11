@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:28:00 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/05 17:30:08 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/09 21:50:09 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_my_pwd(t_env **envir, char **save_pwd)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	temp = *envir;
 	while (temp)
@@ -29,7 +29,8 @@ int	get_my_pwd(t_env **envir, char **save_pwd)
 int	ft_pwd(t_vars *vars, t_env **envir)
 {
 	static char	*save_pwd;
-	char	*pwd;
+	char		*pwd;
+
 	pwd = NULL;
 	pwd = getcwd(pwd, PATH_MAX);
 	if (!pwd)
@@ -42,4 +43,3 @@ int	ft_pwd(t_vars *vars, t_env **envir)
 	ft_putchar_fd('\n', vars->pfd[1]);
 	return (0);
 }
-

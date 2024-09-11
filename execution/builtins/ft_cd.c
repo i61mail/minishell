@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/06 10:49:28 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*update_old_pwd(t_env **envir)
 {
-	t_env 		*env;
-	t_env 		*env1;
+	t_env		*env;
+	t_env		*env1;
 	char		*pwd;
 
 	pwd = NULL;
@@ -48,7 +48,7 @@ char	*update_old_pwd(t_env **envir)
 
 int	update_pwd(t_env **envir, int bool, char **pwd)
 {
-	t_env 		*env;
+	t_env		*env;
 	char		*points;
 
 	points = NULL;
@@ -95,35 +95,36 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 
 int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 {
-	char	*cwd;
-	static char *old_pwd;
-	int		var_chdir = 0;
+	char		*cwd;
+	static char	*old_pwd;
+	int			var_chdir;
 
 	cwd = NULL;
-	if(vars->numofpipes)
+	var_chdir = 0;
+	if (vars->numofpipes)
 		return (0);
 	if (comm && comm->next)
 	{
 		comm = comm->next;
 		if (ft_strncmp(comm->content, "-\0", 2) == 0)
 		{
-			var_chdir  = chdir(old_pwd);
+			var_chdir = chdir(old_pwd);
 			if (var_chdir == 0)
 			{
 				printf("%s\n", old_pwd);
 			}
 			else if (var_chdir == -1)
 			{
+				ft_put_error("minishell: ", comm->content, ": OLDPWD not set");
 				vars->exit_status = 1;
-				printf("bash: %s: OLDPWD not set\n", comm->content);
 			}
 		}
 		else if (ft_strncmp(comm->content, "~\0", 2) == 0)
 		{
-			if (chdir("/Users/isrkik"))
+			if (chdir(getenv("USER_ZDOTDIR")))
 			{
+				ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 				vars->exit_status = 1;
-				printf("minishell: cd: %s: No such file or directory\n", comm->content);
 			}
 		}
 		else
@@ -144,13 +145,13 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 					{
 						old_pwd = update_old_pwd(envir);
 						update_pwd(envir, 2, &old_pwd);
-						printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+						ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
 					}
 					else if (ft_strncmp(comm->content, ".\0", 2) == 0)
 					{
 						old_pwd = update_old_pwd(envir);
 						update_pwd(envir, 3, &old_pwd);
-						printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+						ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
 					}
 				}
 				else
@@ -163,18 +164,18 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 			{
 				vars->exit_status = 1;
 				if (access(comm->content, F_OK) == -1)
-					printf("minishell: cd: %s: No such file or directory\n", comm->content);
+					ft_put_error("minishell: cd:", comm->content, ": No such file or directory");
 				else
-					printf("minishell: cd: %s: permission denied\n", comm->content);
+					ft_put_error("minishell: cd: ", comm->content, ": permission denied");
 			}
 		}
 	}
 	else if (comm && !comm->next)
 	{
-		if (chdir("/Users/isrkik"))
+		if (chdir(getenv("USER_ZDOTDIR")))
 		{
 			vars->exit_status = 1;
-			printf("minishell: cd: %s: No such file or directory\n", comm->content);
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		}
 	}
 	return (0);

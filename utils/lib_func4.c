@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_func4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 10:48:32 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/01 04:26:50 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:24:40 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,47 @@ long long	ft_atoi(char *str)
 	{
 		result = result * 10 + str[i++] - 48;
 		if (ft_check(result, i, str, sign) == -1)
+		{
 			return (-1);
+		}
 		else if (ft_check(result, i, str, sign) == 1)
 			return (result * sign);
 	}
+	return (result * sign);
+}
+unsigned long long ft_abs(unsigned long long num)
+{
+	//if (num < 0)
+	//	return (num * -1);
+	return (num);
+}
+
+long long	ft_atoi_2(char *str, t_vars *vars)
+{
+	long long	result;
+	int					i;
+	int					sign;
+
+	result = 0;
+	i = 0;
+	sign = 1;
+	if (!str || !(*str))
+		return (vars->atoifail = 1);
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		if (str[i++] == '-')
+			sign *= -1;
+	while (str[i] >= 48 && str[i] <= 57)
+	{
+		result = ft_abs(result * 10 + str[i++] - 48);
+		if ((ft_abs(result) - (sign == -1))  > LLONG_MAX)
+			return (vars->atoifail = 1);
+	}
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str && str[i] && !(str[i] >= 48 && str[i] <= 57))
+		vars->atoifail = 1;
 	return (result * sign);
 }
 

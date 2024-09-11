@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/09 14:52:53 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/11 11:28:38 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,7 +387,7 @@ int	store_here(t_heredoc *herdoc, t_list *temp, t_env **envir, t_vars *vars)
 		value = expand_heredoc(herdoc, envir, vars->del_type);
 		if (!value)
 			value = ft_strdup("\0");
-		ft_putstr_fd(value , herdoc->fd);
+		ft_putstr_fd(value, herdoc->fd);
 		ft_putchar_fd('\n', herdoc->fd);
 	}
 	return (0);

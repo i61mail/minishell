@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/09 14:21:38 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/11 11:31:00 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef struct s_heredoc
 	int		start;
 	int		fd;
 	int		passed_fd;
-}	t_heredoc;
+}
+	t_heredoc;
 
 typedef struct s_vars
 {
@@ -62,7 +63,9 @@ typedef struct s_vars
 	int		cmd_num;
 	int		cd;
 	struct termios reset;
-}	t_vars;
+	int		atoifail;
+}
+	t_vars;
 
 typedef struct s_env
 {
@@ -70,28 +73,31 @@ typedef struct s_env
 	char			*value;
 	int				catsh;
 	struct s_env	*next;
-}	t_env;
+}
+	t_env;
 
 typedef struct s_list
 {
 	char			*content;
 	int				type;
 	struct s_list	*next;
-}	t_list;
+}
+	t_list;
 
 typedef enum s_token
 {
-	COMM,
-	RED_IN,
-	RED_OUT,
-	RED_APPEND,
-	HEREDOC,
-	PIP,
-	HEREDOC_DEL_Q,
-	HEREDOC_DEL_U,
-	AMBIGUOUS,
+	COMM, 
+	RED_IN, 
+	RED_OUT, 
+	RED_APPEND, 
+	HEREDOC, 
+	PIP, 
+	HEREDOC_DEL_Q, 
+	HEREDOC_DEL_U, 
+	AMBIGUOUS, 
 	SPLITED
-}	t_token;
+}
+	t_token;
 
 /*              utils  linked list       */
 
@@ -154,6 +160,7 @@ void		ft_putstr_fd(char *str, int fd);
 void		ft_putchar_fd(char c, int fd);
 int			ft_strcmp(char *s1, char *s2);
 long long	ft_atoi(char *str);
+long long	ft_atoi_2(char *str, t_vars *vars);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strchr(const char *str, int c);
 char		*ft_itoa(int nbr);
@@ -189,7 +196,7 @@ int			ft_echo(t_list *command, t_vars *vars);
 int			ft_cd(t_vars *vars, t_list *comm, t_env **envir);
 int			ft_pwd(t_vars *vars, t_env **envir);
 int			ft_exit(t_list *comm, t_vars *vars);
-int			ft_export(t_env *envir,t_vars *vars, t_list *command);
+int			ft_export(t_env *envir, t_vars *vars, t_list *command);
 void		ft_env(t_env *envir, t_vars *vars);
 void		ft_unset(t_list *command, t_env **envir, t_vars *vars);
 
@@ -202,8 +209,25 @@ char		*ft_locate_bin(char *command, char *path);
 char		**ft_2denv(t_env *envir);
 char		**ft_2dcomm(t_list *comm);
 t_list		*ft_split_pipe(t_list **new_comm, t_vars *vars);
-int 		ft_split_2(const char *str, const char *sep, char **k, char **v);
-int			ft_isred(int	t);
-int			ft_invalid_char(char *kandv, t_vars *vars, int is_export);
-int 		ft_isred(int t);
+int			ft_split_2(const char *str, const char *sep, char **k, char **v);
+int			ft_isred(int t);
+int			ft_put_error(char *before, char *sep, char *after);
+char		*ft_strchr_2(const char *str, const char *sep);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void		ft_free_2d_array(char **array);
+t_list		*ft_dup_comm(t_list *comm);
+
+/*		export utils 	*/
+int			ft_strcmp_(char *s1, char *s2, char end);
+int			ft_invalid_char(char *kandv, t_vars *vars);
+int			ft_var_type(char *var);
+void		ft_handle_split(t_list *comm, t_env **envir, t_vars *vars);
+void		ft_handle_default(t_list *comm, t_env **envir);
+void		ft_add_env(char *key, char *value, t_env **envir, int type);
+void		ft_dump_env(t_env *envir, t_vars *vars);
+char		**ft_sort_env(char **envir);
+void		ft_print_env(t_env *envir, t_vars *vars);
+char		**ft_2envkeys(t_env *envir);
+
+
 #endif
