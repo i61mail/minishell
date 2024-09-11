@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:27:36 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/10 05:44:51 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/10 23:58:20 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,7 @@ int	ft_export(t_env *envir, t_vars *vars, t_list *command)
 	{
 		while (temp)
 		{
-			if (temp->type == SPLITED)
-				ft_handle_split(temp, &envir, vars);
-			else if (ft_invalid_char(temp->content, vars) == 0)
+			if (ft_invalid_char(temp->content, vars) == 0)
 				ft_handle_default(temp, &envir);
 			temp = temp->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 10:48:32 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/09 06:53:09 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/11 01:24:40 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ long long	ft_atoi(char *str)
 }
 unsigned long long ft_abs(unsigned long long num)
 {
-	if (num < 0)
-		return (num * -1);
+	//if (num < 0)
+	//	return (num * -1);
 	return (num);
 }
 

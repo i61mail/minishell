@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/09 06:19:56 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/11 01:33:12 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,8 @@ int			ft_isred(int t);
 int			ft_put_error(char *before, char *sep, char *after);
 char		*ft_strchr_2(const char *str, const char *sep);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void		ft_free_2d_array(void **array);
+void		ft_free_2d_array(char **array);
+t_list		*ft_dup_comm(t_list *comm);
 
 /*		export utils 	*/
 int			ft_strcmp_(char *s1, char *s2, char end);

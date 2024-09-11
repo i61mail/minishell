@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/10 03:22:14 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:40:29 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(comm->content, 2);
 		ft_putstr_fd(": command not found\n", 2);
+		free(comm->content);
+		free(comm);
 		vars->exit_status = 127;
 		return (1);
 	}
@@ -286,8 +288,7 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 	}
 	if (waitpid(id, &pid, 0) > 0 && WIFEXITED(pid))
 		vars->exit_status = WEXITSTATUS(pid);
-	while (wait(NULL) > 0)
-		;
+	while (wait(NULL) > 0)		;
 }
 
 void ft_execute(t_vars *vars, t_list *comm, t_env **envir)
@@ -300,5 +301,21 @@ void ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	//printf("t:%d\n", comm->type);
 	if (!comm)
 		return ;
+	//puts("before");
+	
+	//t_list *temp = comm;
+	//while(temp)
+	//{
+	//	printf("content: %s, type %d\n",temp->content, temp->type);
+	//	temp = temp->next;		
+	//}
+	//puts("after");
+	comm = ft_dup_comm(comm);
+	//temp = comm;
+	//while(temp)
+	//{
+	//	printf("content: %s, type %d\n",temp->content, temp->type);
+	//	temp = temp->next;		
+	//}
 	ft_run(vars, comm, envir);
 }

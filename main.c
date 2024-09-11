@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/10 03:38:06 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/11 06:47:05 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 		//t_list *temp = comm; // rem
 		//while(temp)
 		//{
-		//	printf("content:%s|type:%d\n",temp->content, temp->type);
+		//	printf("content:%s  |   type:%d\n",temp->content, temp->type);
 		//	temp = temp->next;
 		//}
 		if (comm)
