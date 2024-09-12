@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:11:49 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,12 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	if (*i > 0 && !ft_isspace(vars->read[*i - 1])
 		&& !ft_issep(vars->read[*i - 1]))
 		*i = vars->befor_sing;
+	str_temp = NULL;
+	if (before_quotes(vars, i, &str_temp) == -1)
+		return (-1);
 	while (vars->read[*i])
 	{
-		str_temp = NULL;
-		if (before_quotes(vars, i, &str_temp) == -1)
-			return (-1);
+		// str_temp = NULL;
 		check = dollar_quotes(vars, i, &str_temp, envir);
 		if (check == -1)
 			return (-1);

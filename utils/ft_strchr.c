@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 19:30:37 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:10:00 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,30 @@ char	*ft_strchr(const char *str, int c)
 	if (str && str[i] == chr)
 		return ((char *)&str[i]);
 	return (NULL);
+}
+
+
+char	*ft_strstr(char *str, char *to_find, int *b)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (to_find[j] == '\0')
+		return (str);
+	while (str[i] != '\0')
+	{
+		while (str[i + j] == to_find[j] && str[i + j] != '\0')
+			j++;
+		if (to_find[j] == '\0')
+		{
+			printf("i strstr== %d\n", i);
+			*b = i;
+			return (str + i);
+		}
+		i++;
+		j = 0;
+	}
+	return (0);
 }

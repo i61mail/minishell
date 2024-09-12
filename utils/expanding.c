@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/11 11:37:51 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:30:11 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	}
 	comp = ft_check_env(envir, comp);
 	if (comp)
+	{
 		*str_temp = ft_strjoin(*str_temp, comp);
+	}
 	if (*str_temp[0] == '\0')
 	{
 		free(*str_temp);

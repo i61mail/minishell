@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arewhat.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:11:31 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,58 @@ static void	init_vars(char **str_temp, t_list **curr, int *hold)
 		return ;
 }
 
+int	check_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (ft_isspace(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	double_pointer(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	copie_to_node(char **str, t_list **comm, t_vars *vars)
+{
+	int b;
+	char	*token = NULL;
+
+	b = 0;
+	char **s = ft_split(*str, ' ');
+	int i = double_pointer(s);
+	while (i - 1 > 0 && s[b])
+	{
+		token = ft_strdup(s[b]);
+		ft_lstadd_back(comm, ft_lstnew(token, COMM));
+		b++;
+		i--;
+	}
+	char *string = ft_strstr(*str, s[b], &b);
+		vars->befor_sing = vars->catsh + b;
+	char	*temp2 = NULL;
+		temp2 = ft_strjoin(temp2, string);
+		b++;
+	free(*str);
+	*str = ft_strdup("");
+	*str = ft_strjoin(*str, temp2);
+}
+
+
 int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	char	*str_temp;
@@ -99,7 +151,16 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 					type = SPLITED;
 				hold = ft_dollar(vars, i, &str_temp, envir);
 				if (hold == 2)
+				{
+					int k = check_space(str_temp);
+					if (k == 1)
+					{
+						vars->befo_qu = *i;
+						copie_to_node(&str_temp, comm, vars);
+						vars->befor = ft_strdup(str_temp);
+					}
 					return (2);
+				}
 				replace_expand(curr, str_temp, comm, type);
 				return (0);
 			}

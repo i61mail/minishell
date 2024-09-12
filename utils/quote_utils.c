@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:15:51 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,25 @@ int	before_quotes(t_vars *vars, int *i, char **str_temp)
 	char	temp[2];
 
 	temp[1] = '\0';
-	while (vars->read[*i] && !ft_isquotes(vars->read[*i])
-		&& vars->read[*i] != '$')
+	if (!vars->befor)
 	{
-		temp[0] = vars->read[*i];
-		*str_temp = ft_strjoin(*str_temp, temp);
+		while (vars->read[*i] && !ft_isquotes(vars->read[*i])
+			&& vars->read[*i] != '$')
+		{
+			temp[0] = vars->read[*i];
+			*str_temp = ft_strjoin(*str_temp, temp);
+			if (!*str_temp)
+				return (-1);
+			(*i)++;
+		}
+	}
+	else
+	{
+		*str_temp = ft_strdup(vars->befor);
 		if (!*str_temp)
 			return (-1);
-		(*i)++;
+		vars->befor = NULL;
+		*i = vars->befo_qu;
 	}
 	return (0);
 }

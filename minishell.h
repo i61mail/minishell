@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/11 11:31:00 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/12 19:16:59 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct s_vars
 	int		cd;
 	struct termios reset;
 	int		atoifail;
+	char  	*befor;
+	int		befo_qu;
 }
 	t_vars;
 
@@ -145,6 +147,7 @@ int			heredoc_delimiter(t_vars *vars, int *i, t_list **comm);
 int			ft_isprint(int c);
 char   		*get_next_line(int fd);
 int			add_to_node(char *key, char *value, t_env **envir);
+char		*ft_strstr(char *str, char *to_find, int *b);
 
 /*        utils       */
 
@@ -164,8 +167,8 @@ long long	ft_atoi_2(char *str, t_vars *vars);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strchr(const char *str, int c);
 char		*ft_itoa(int nbr);
-void	handle_ctrlc(int sig);
-int catch(int type, int value);
+void		handle_ctrlc(int sig);
+int 		catch(int type, int value);
 
 /*    utils check*/
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   temp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:03:29 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:53:35 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	address_quote(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	if (vars->read[*i] == '$')
 		return (ft_dollar(vars, i, str_temp, envir));
 	if (ft_isquotes(vars->read[*i]))
-		return (free(*str_temp), 2);
+		return (2);
 	return (0);
 }
 

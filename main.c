@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/11 11:30:42 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/12 19:12:32 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,18 +124,12 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 {
 	add_history(vars->read);
-	if (ft_pars_comm(vars, &comm, envir) != -1)
+	if (ft_pars_comm(vars, &comm, envir) != -1)//$a''
 	{
-		//t_list *temp = comm; // rem
-		//while(temp)
-		//{
-		//	printf("content:%s  |   type:%d\n",temp->content, temp->type);
-		//	temp = temp->next;
-		//}
 		if (comm)
 		{
 			ft_execute(vars, comm, envir);
-			ft_lstfree(&comm);
+			// ft_lstfree(&comm);
 		}
 		free(vars->read);
 	}
