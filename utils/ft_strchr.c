@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 19:30:37 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/12 18:10:00 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/13 09:18:07 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char	*ft_strstr(char *str, char *to_find, int *b)
 			j++;
 		if (to_find[j] == '\0')
 		{
-			printf("i strstr== %d\n", i);
 			*b = i;
 			return (str + i);
 		}
