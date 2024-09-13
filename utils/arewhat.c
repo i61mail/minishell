@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arewhat.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/12 19:11:31 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/13 08:33:46 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	init_vars(&str_temp, &curr, &hold);
 	temp[1] = '\0';
 	type = 0;
+	vars->befor = NULL;
 	vars->catsh = *i;
 	vars->befor_sing = *i;
 	while (vars->read[*i])
@@ -169,7 +170,7 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		}
 	}
 	if (vars->read[*i] && ft_isquotes(vars->read[*i]))
-		return (free(str_temp), 2);
+		return (2);
 	if (ft_token(vars, *i, comm, COMM) == -1)
 		return (-1);
 	return (free(str_temp), 0);
