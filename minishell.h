@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/12 19:16:59 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:50:19 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strchr(const char *str, int c);
 char		*ft_itoa(int nbr);
 void		handle_ctrlc(int sig);
-int 		catch(int type, int value);
+int 		ft_catch(int type, int value);
 
 /*    utils check*/
 
@@ -182,7 +182,6 @@ int			ft_heredoc(t_vars *vars, int *i, t_list **comm);
 int			ft_redirec(t_vars *vars, int *i, t_list **comm, char c);
 int			ft_token(t_vars *vars, int i, t_list **comm, int type);
 int			after_skip(char *str, int i, char c);
-int 		catch(int type, int value);
 
 /*        env        */
 int			strcpy_env(t_env **envir, char **env);

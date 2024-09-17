@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/13 10:39:39 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:54:02 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 void	handle_ctrlc(int sig)
 {
 	(void)sig;
-	if (catch(1, 0) == 0)
+	if (ft_catch(1, 0) == 0)
 		return ;
 	write(1, "\n", 1);
 	rl_on_new_line();
@@ -183,3 +183,7 @@ int	main(int ac, char **av, char **env)
 	}
 	exit(vars.exit_status);
 }
+
+//1. ctrl ^'\' 
+//2. ngad env -i chkhas yban w chno la
+//3. export a ./minishell export
