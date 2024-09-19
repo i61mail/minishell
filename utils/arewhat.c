@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arewhat.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/13 08:33:46 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/19 12:48:37 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ void	copie_to_node(char **str, t_list **comm, t_vars *vars)
 	*str = ft_strjoin(*str, temp2);
 }
 
-
 int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	char	*str_temp;
@@ -130,7 +129,6 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	init_vars(&str_temp, &curr, &hold);
 	temp[1] = '\0';
 	type = 0;
-	vars->befor = NULL;
 	vars->catsh = *i;
 	vars->befor_sing = *i;
 	while (vars->read[*i])
@@ -162,6 +160,8 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 					}
 					return (2);
 				}
+				if (sspace(str_temp) == 0 && vars->check_ambiguous == 1)
+					type = AMBIGUOUS;
 				replace_expand(curr, str_temp, comm, type);
 				return (0);
 			}
@@ -175,6 +175,3 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		return (-1);
 	return (free(str_temp), 0);
 }
-//export > $a
-//$$$''
-//as

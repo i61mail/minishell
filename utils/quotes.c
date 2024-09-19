@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/12 19:11:49 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 12:35:52 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,20 @@ int	single_quo(t_vars *vars, int *i, char **str_temp)
 	return (0);
 }
 
+int	sspace(char *str_temp)
+{
+	int	i;
+
+	i = 0;
+	while (str_temp[i])
+	{
+		if (ft_isspace(str_temp[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	char	*str_temp;
@@ -112,11 +126,10 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		&& !ft_issep(vars->read[*i - 1]))
 		*i = vars->befor_sing;
 	str_temp = NULL;
-	if (before_quotes(vars, i, &str_temp) == -1)
+	if (before_quotes(vars, i, &str_temp, envir) == -1)
 		return (-1);
 	while (vars->read[*i])
 	{
-		// str_temp = NULL;
 		check = dollar_quotes(vars, i, &str_temp, envir);
 		if (check == -1)
 			return (-1);

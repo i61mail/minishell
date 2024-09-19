@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/17 16:50:19 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 12:47:15 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_vars
 	int		atoifail;
 	char  	*befor;
 	int		befo_qu;
+	int		check_ambiguous;
 }
 	t_vars;
 
@@ -132,7 +133,7 @@ void		init_va(int *check, char **temp);
 void		check_dollar(t_vars *vars, int *i, char **str_temp);
 int			dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir);
-int			before_quotes(t_vars *vars, int *i, char **str_temp);
+int			before_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir);
 void		skip_digit(t_vars *vars, int *i, int *check);
 int			ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			append_dollar2(t_vars *vars, int *i, char **temp, t_env **envir);
@@ -148,6 +149,7 @@ int			ft_isprint(int c);
 char   		*get_next_line(int fd);
 int			add_to_node(char *key, char *value, t_env **envir);
 char		*ft_strstr(char *str, char *to_find, int *b);
+int	sspace(char *str_temp);
 
 /*        utils       */
 
