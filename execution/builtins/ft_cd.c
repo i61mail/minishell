@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:51:53 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 	}
 	else if (comm && !comm->next)
 	{
-		if (chdir(getenv("USER_ZDOTDIR")))
+		if (chdir(getenv("HOME")))
 		{
 			vars->exit_status = 1;
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
@@ -180,7 +180,3 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 	}
 	return (0);
 }
-
-// .
-// ..
-// unset $sdfsdf

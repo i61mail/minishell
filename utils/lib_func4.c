@@ -55,10 +55,10 @@ long long	ft_atoi(char *str)
 	}
 	return (result * sign);
 }
-unsigned long long ft_abs(unsigned long long num)
+unsigned long long ft_abs(long long num)
 {
-	//if (num < 0)
-	//	return (num * -1);
+	if (num < 0)
+		return (num * -1);
 	return (num);
 }
 
@@ -80,8 +80,8 @@ long long	ft_atoi_2(char *str, t_vars *vars)
 			sign *= -1;
 	while (str[i] >= 48 && str[i] <= 57)
 	{
-		result = ft_abs(result * 10 + str[i++] - 48);
-		if ((ft_abs(result) - (sign == -1))  > LLONG_MAX)
+		result = ft_abs(result * 10 + str[i++] - 48);	
+		if ((ft_abs((unsigned long long)result) - (sign == -1))  > LLONG_MAX)
 			return (vars->atoifail = 1);
 	}
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))

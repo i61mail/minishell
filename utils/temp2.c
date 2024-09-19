@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:12:05 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/11 11:29:39 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 12:50:28 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	ft_aresep3(t_vars *vars, int *i, int type, t_list **comm)
 		}
 		else
 		{
+			vars->check_ambiguous = 1;
 			check = ft_redirec(vars, i, comm, RED_OUT);
 			if (check == 2)
 				return (2);
@@ -60,6 +61,7 @@ int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 	check = 0;
 	if (type == RED_APPEND)
 	{
+		vars->check_ambiguous = 1;
 		vars->catsh = *i;
 		check = ft_append(vars, i, comm);
 		if (check == 2)

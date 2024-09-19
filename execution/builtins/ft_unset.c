@@ -56,7 +56,7 @@ void	ft_unset_vars(t_list *command, t_env **envir)
 	t_env	*temp;
 
 	i = 0;
-	splitd = ft_split(command->content, ' ');
+	splitd = ft_split_space(command->content);
 	while (splitd && splitd[i])
 	{
 		temp = *envir;

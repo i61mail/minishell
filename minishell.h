@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/11 11:31:00 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 22:39:49 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ typedef struct s_vars
 	int		cd;
 	struct termios reset;
 	int		atoifail;
+	char  	*befor;
+	int		befo_qu;
+	int		check_ambiguous;
 }
 	t_vars;
 
@@ -130,7 +133,7 @@ void		init_va(int *check, char **temp);
 void		check_dollar(t_vars *vars, int *i, char **str_temp);
 int			dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir);
-int			before_quotes(t_vars *vars, int *i, char **str_temp);
+int			before_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir);
 void		skip_digit(t_vars *vars, int *i, int *check);
 int			ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			append_dollar2(t_vars *vars, int *i, char **temp, t_env **envir);
@@ -145,6 +148,8 @@ int			heredoc_delimiter(t_vars *vars, int *i, t_list **comm);
 int			ft_isprint(int c);
 char   		*get_next_line(int fd);
 int			add_to_node(char *key, char *value, t_env **envir);
+char		*ft_strstr(char *str, char *to_find, int *b);
+int	sspace(char *str_temp);
 
 /*        utils       */
 
@@ -155,7 +160,8 @@ char		*ft_strnjoin(char *s1, char *s2, size_t n);
 char		*ft_strjoin(char *s1, char *s2);
 void		*ft_memset(void *b, int c, size_t len);
 char		*ft_strncpy(char *dst, char *src, int n);
-char		**ft_split(char *s, char c);
+char		**ft_split_space(char *s);
+char		**ft_split_char(char *s, char c);
 void		ft_putstr_fd(char *str, int fd);
 void		ft_putchar_fd(char c, int fd);
 int			ft_strcmp(char *s1, char *s2);
@@ -164,8 +170,8 @@ long long	ft_atoi_2(char *str, t_vars *vars);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strchr(const char *str, int c);
 char		*ft_itoa(int nbr);
-void	handle_ctrlc(int sig);
-int catch(int type, int value);
+void		handle_ctrlc(int sig);
+int 		ft_catch(int type, int value);
 
 /*    utils check*/
 
@@ -179,7 +185,6 @@ int			ft_heredoc(t_vars *vars, int *i, t_list **comm);
 int			ft_redirec(t_vars *vars, int *i, t_list **comm, char c);
 int			ft_token(t_vars *vars, int i, t_list **comm, int type);
 int			after_skip(char *str, int i, char c);
-int 		catch(int type, int value);
 
 /*        env        */
 int			strcpy_env(t_env **envir, char **env);

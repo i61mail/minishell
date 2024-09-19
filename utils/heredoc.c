@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/11 11:28:38 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:09:12 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,17 +467,11 @@ void	child_exitstatus(t_heredoc *herdoc, t_vars *vars)
         vars->exit_status = WEXITSTATUS(herdoc->child_status);
     else if (WIFSIGNALED(herdoc->child_status))
         vars->exit_status = 128 + WTERMSIG(herdoc->child_status);
-    catch(0, -1);
+    ft_catch(0, -1);
     tcsetattr(0, 0, &vars->reset);
 }
 
-void	heredoc_signal(int sig)
-{
-	(void)sig;
-	exit(0);
-}
-
-int catch(int type, int value)
+int ft_catch(int type, int value)
 {
 	static int var = -1;
 
@@ -487,7 +481,9 @@ int catch(int type, int value)
 		return var;
 	}
 	else if (type == 1)
+	{
 		return var;
+	}
 	return -1;
 }
 
@@ -501,10 +497,11 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 	herdoc.return_fork = fork();
 	if (herdoc.return_fork < 0)
 		return (-1);
-	catch(0, 0);
+	ft_catch(0, 0);
 	if (herdoc.return_fork == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
 		while (1)
 		{
 			herdoc.here_line = readline("> ");

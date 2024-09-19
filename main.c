@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/11 11:30:42 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 12:47:30 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->cmd_num = 0;
 	vars->cd = 0;
 	vars->atoifail = 0;
+	vars->check_ambiguous = 0;
+	vars->befor = NULL;
 	strcpy_env(envir, env);
 	if (!*envir)
 		three_vars(envir);
@@ -126,16 +128,9 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	add_history(vars->read);
 	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
-		//t_list *temp = comm; // rem
-		//while(temp)
-		//{
-		//	printf("content:%s  |   type:%d\n",temp->content, temp->type);
-		//	temp = temp->next;
-		//}
 		if (comm)
 		{
 			ft_execute(vars, comm, envir);
-			ft_lstfree(&comm);
 		}
 		free(vars->read);
 	}
@@ -147,9 +142,9 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 void	handle_ctrlc(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
-	if (catch(1, 0) == 0)
+	if (ft_catch(1, 0) == 0)
 		return ;
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -189,3 +184,8 @@ int	main(int ac, char **av, char **env)
 	}
 	exit(vars.exit_status);
 }
+
+//1. "$$$"
+//2. export a="ls  -la" > $a
+//2. ngad env -i chkhas yban w chno la
+//3. export a ./minishell export

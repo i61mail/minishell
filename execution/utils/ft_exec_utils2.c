@@ -80,7 +80,7 @@ t_list	*ft_dup_comm(t_list *comm)
 			ft_lstadd_back(&new_comm, ft_lstnew(ft_strdup(comm->content), comm->type));
 		else
 		{
-			splitd = ft_split(comm->content, ' ');
+			splitd = ft_split_space(comm->content);
 			while(splitd && splitd[i])
 			{
 				ft_lstadd_back(&new_comm, ft_lstnew(ft_strdup(splitd[i]), 0));

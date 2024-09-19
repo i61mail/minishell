@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/11 11:32:37 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:49:20 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,6 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 
 	new_comm = NULL;
 	id = 0;
-	catch(0, 0);
 	while (comm)
 	{
 		vars->pfd[0] = vars->old_fd;
@@ -265,6 +264,7 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 			if (!ft_is_builtin(comm->content))
 			{
 				id = fork();
+				ft_catch(0, 0);
 				if (id == -1)
 				{
 					perror("minishell: fork:");
@@ -272,6 +272,7 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 				}
 				if (!id)
 				{
+					signal(SIGQUIT, SIG_DFL);
 					ft_child(vars, comm, *envir);
 				}
 			}
@@ -293,8 +294,10 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
         	vars->exit_status = WEXITSTATUS(pid);
 		else if (WIFSIGNALED(pid))
         	vars->exit_status = 128 + WTERMSIG(pid);
+		if (vars->exit_status == 131)
+			printf("Quit: 3\n");
+		ft_catch(0, -1);
 	}
-	catch(0, -1);
 	while (wait(NULL) > 0)
     	;
 }
