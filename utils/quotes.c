@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/19 12:35:52 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 20:26:16 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	init_va(&check, &temp);
 	if (vars->read[*i] == '$')
 	{
-		check_dollar(vars, i, str_temp);
+		// check_dollar(vars, i, str_temp);
 		vars->start = *i;
 		vars->len = count_dollar(vars->read, i);
 		if (vars->len % 2 != 0)
@@ -59,7 +59,9 @@ int	double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir)
 		{
 			if (*i > 0 && (ft_isalpha(vars->read[*i - 1]) || vars->read[*i - 1] == '_' || ft_isspace(vars->read[*i - 1])))
 				vars->flag_splite = SPLITED;
+			vars->inside = 1;
 			dollar(vars, i, str_temp, envir);
+			vars->inside = 0;
 		}
 		else if (vars->read[*i] != 34)
 		{
@@ -126,10 +128,12 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		&& !ft_issep(vars->read[*i - 1]))
 		*i = vars->befor_sing;
 	str_temp = NULL;
+	vars->inside = 0;
 	if (before_quotes(vars, i, &str_temp, envir) == -1)
 		return (-1);
 	while (vars->read[*i])
 	{
+		vars->inside = 0;
 		check = dollar_quotes(vars, i, &str_temp, envir);
 		if (check == -1)
 			return (-1);

@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/19 12:47:30 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 21:15:55 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	three_vars(t_env **envir)
 	add_to_node(ft_strdup("_"),
 		ft_strdup("/usr/bin/env"), envir);
 	add_to_node(ft_strdup("OLDPWD"), NULL, envir);
-	return (0);
+	return (1);
 }
 
 int	shell_level(t_env **envir)
@@ -79,7 +79,9 @@ int	shell_level(t_env **envir)
 			}
 			else if (increm > 1000)
 			{
-				printf("warning: shell level (%lld) too high, resetting to 1\n", increm);
+				ft_putstr_fd("warning: shell level (", 2);
+				ft_putnbr_fd(increm, 2);
+				ft_putstr_fd(") too high, resetting to 1\n", 2);
 				increm = 1;
 			}
 			free(env->value);
@@ -117,9 +119,10 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->atoifail = 0;
 	vars->check_ambiguous = 0;
 	vars->befor = NULL;
+	vars->env_i = 0;
 	strcpy_env(envir, env);
 	if (!*envir)
-		three_vars(envir);
+		vars->env_i = three_vars(envir);
 	shell_level(envir);
 }
 
@@ -170,7 +173,7 @@ int	main(int ac, char **av, char **env)
 			vars.read = readline("minishell> ");
 			if (!vars.read)
 			{
-				printf("exit\n");
+				ft_putstr_fd("exit\n", 1);
 				free_all(vars.read, &comm, &envir);
 				break ;
 			}
@@ -185,7 +188,4 @@ int	main(int ac, char **av, char **env)
 	exit(vars.exit_status);
 }
 
-//1. "$$$"
-//2. export a="ls  -la" > $a
-//2. ngad env -i chkhas yban w chno la
 //3. export a ./minishell export

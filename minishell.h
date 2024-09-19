@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/19 12:47:15 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 21:05:06 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct s_vars
 	char  	*befor;
 	int		befo_qu;
 	int		check_ambiguous;
+	int		inside;
+	int		env_i;
 }
 	t_vars;
 
@@ -169,6 +171,7 @@ long long	ft_atoi_2(char *str, t_vars *vars);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 char		*ft_strchr(const char *str, int c);
 char		*ft_itoa(int nbr);
+void		ft_putnbr_fd(int n, int fd);
 void		handle_ctrlc(int sig);
 int 		ft_catch(int type, int value);
 

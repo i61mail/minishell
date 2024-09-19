@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/19 12:51:53 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 20:34:56 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 			var_chdir = chdir(old_pwd);
 			if (var_chdir == 0)
 			{
-				printf("%s\n", old_pwd);
+				ft_putstr_fd(old_pwd, 1);
+				ft_putstr_fd("\n", 1);
 			}
 			else if (var_chdir == -1)
 			{

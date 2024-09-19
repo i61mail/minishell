@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/12 18:30:11 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:04:27 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char *expand_exit_status(t_vars *vars, char *comp)
 	return (comp);
 }
 
-int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
+int	expanding(t_vars *vars, int *i, char **temp, t_env **envir)
 {
 	char	tmp[2];
 	char	*comp;
@@ -74,19 +74,19 @@ int	expanding(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	if (vars->read[*i] == '?')
 	{
 		comp = expand_exit_status(vars, comp);
-		*str_temp = ft_strjoin(*str_temp, comp);
+		*temp = ft_strjoin(*temp, comp);
 		(*i)++;
 		return (0);
 	}
 	comp = ft_check_env(envir, comp);
 	if (comp)
 	{
-		*str_temp = ft_strjoin(*str_temp, comp);
+		*temp = ft_strjoin(*temp, comp);
 	}
-	if (*str_temp[0] == '\0')
+	if (*temp[0] == '\0')
 	{
-		free(*str_temp);
-		*str_temp = NULL;
+		free(*temp);
+		*temp = NULL;
 	}
 	return (free(comp), 0);
 }

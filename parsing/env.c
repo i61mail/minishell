@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:04:43 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/11 06:44:01 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:17:04 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ int	add_to_node(char *key, char *value, t_env **envir)
 	return (0);
 }
 
+int	extra_vars(char *key, char *value, t_env **envir)
+{
+	if (ft_strncmp(key, "PWD\0", 7) == 0)
+	{
+		if (add_to_node(ft_strdup("2PWD"), ft_strdup(value), envir) == -1)
+			return (-1);
+	}
+	if (ft_strncmp(key, "OLDPWD\0", 7) == 0)
+		value = NULL;
+	if (add_to_node(key, value, envir) == -1)
+		return (-1);
+	return (0);	
+}
+
 int	strcpy_env(t_env **envir, char **env)
 {
 	int		i;
@@ -67,14 +81,8 @@ int	strcpy_env(t_env **envir, char **env)
 		value = add_to_value(env[i], len, j);
 		if (!value)
 			return (free(key), -1);
-		if (ft_strncmp(key, "PWD\0", 7) == 0)
-		{
-			add_to_node(ft_strdup("2PWD"), ft_strdup(value), envir);
-		}
-		if (ft_strncmp(key, "OLDPWD\0", 7) == 0)
-			value = NULL;
-		if (add_to_node(key, value, envir) == -1)
-			return (-1);
+		if (extra_vars(key, value, envir) == -1)
+			return (free(key), free(value), -1);
 		i++;
 	}
 	return (0);

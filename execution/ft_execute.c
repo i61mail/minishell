@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/17 16:49:20 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 12:37:05 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 	{
 		ft_putstr_fd("minishell: ", 2);// fix for test (echo a | ls > /dev/stdin )
 		ft_putstr_fd(next_node->content, 2);
-		ft_putstr_fd("ambiguous redirect\n", 2);
+		ft_putstr_fd(" ambiguous redirect\n", 2);
 		vars->exit_status = 1;
 		return (-1);
 	}
@@ -314,12 +314,12 @@ void ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 		return ;
 	//puts("before");
 	
-	//t_list *temp = comm;
-	//while(temp)
-	//{
-	//	printf("content: %s, type %d\n",temp->content, temp->type);
-	//	temp = temp->next;		
-	//}
+	// t_list *temp = comm;
+	// while(temp)
+	// {
+	// 	printf("content: %s, type %d\n",temp->content, temp->type);
+	// 	temp = temp->next;		
+	// }
 	//puts("after");
 	comm = ft_dup_comm(comm);
 	//temp = comm;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/11 01:33:40 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:13:56 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	ft_dump_env(t_env *envir, t_vars *vars)
 		temp = envir;
 		while (temp)
 		{
+			if (temp->value && ft_strncmp(temp->key, "PATH\0", 5) == 0 && vars->env_i == 1)
+				temp = temp->next;
 			if (!ft_strcmp(temp->key, sorted[i]) && ft_strcmp(temp->key, "_\0")
 				&& ft_strcmp(temp->key, "2PWD\0"))
 				ft_print_env(temp, vars);

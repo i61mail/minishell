@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/18 11:48:38 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:24:42 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	before_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			{
 				if (dollar(vars, i, str_temp, envir) == -1)
 					return (-1);
-				printf("str_temp = %s\n", *str_temp);
 			}
 			else
 			{
