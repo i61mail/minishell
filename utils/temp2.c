@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:12:05 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/19 12:50:28 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/19 21:33:28 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,19 @@ int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 	return (0);
 }
 
+int	is_heredoc(t_vars *vars, int *i, t_list **comm, t_env **envir)
+{
+	while (ft_isspace(vars->read[*i]))
+		(*i)++;
+	if (ft_isquotes(vars->read[*i]) || !ft_issep(vars->read[*i]))
+	{
+		if (heredoc_delimiter(vars, i, comm) == -1)
+			return (-1);
+		process_heredoc(*comm, vars, envir);
+	}
+	return (0);
+}
+
 int	ft_aresep(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	int	type;
@@ -106,14 +119,8 @@ int	ft_aresep(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		return (-1);
 	if (type == HEREDOC)
 	{
-		while (ft_isspace(vars->read[*i]))
-			(*i)++;
-		if (ft_isquotes(vars->read[*i]) || !ft_issep(vars->read[*i]))
-		{
-			if (heredoc_delimiter(vars, i, comm) == -1)
-				return (-1);
-			process_heredoc(*comm, vars, envir);
-		}
+		if (is_heredoc(vars, i, comm, envir) == -1)
+			return (-1);
 	}
 	return (0);
 }
