@@ -70,7 +70,7 @@ char	*ft_locate_bin(char *command, char *path)
 		return (NULL);
 	if (ft_strchr(command, '/'))
 		return (command);
-	_path = ft_split(path, ':');
+	_path = ft_split_char(path, ':');
 	while (_path && *_path)
 	{
 		temp = ft_strjoin(ft_strdup(*_path), "/");

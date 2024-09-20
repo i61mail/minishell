@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/19 21:50:11 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:13:52 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,8 @@ char		*ft_strnjoin(char *s1, char *s2, size_t n);
 char		*ft_strjoin(char *s1, char *s2);
 void		*ft_memset(void *b, int c, size_t len);
 char		*ft_strncpy(char *dst, char *src, int n);
-char		**ft_split(char *s, char c);
+char		**ft_split_space(char *s);
+char		**ft_split_char(char *s, char c);
 void		ft_putstr_fd(char *str, int fd);
 void		ft_putchar_fd(char c, int fd);
 int			ft_strcmp(char *s1, char *s2);

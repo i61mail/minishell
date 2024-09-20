@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/19 13:27:46 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:23:35 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	copie_to_node(char **str, t_list **comm, t_vars *vars)
 	char	*token = NULL;
 
 	b = 0;
-	char **s = ft_split(*str, ' ');
+	char **s = ft_split_space(*str);
 	int i = double_pointer(s);
 	while (i - 1 > 0 && s[b])
 	{

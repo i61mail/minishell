@@ -18,7 +18,7 @@ void	ft_handle_split(t_list *comm, t_env **envir, t_vars *vars)
 	char	**splited;
 
 	i = 0;
-	splited = ft_split(comm->content, ' ');
+	splited = ft_split_space(comm->content);
 	while (splited && splited[i])
 	{
 		if (ft_invalid_char(splited[i], vars) == 0)
