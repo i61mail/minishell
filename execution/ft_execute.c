@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/20 12:18:00 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 15:34:23 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 			if (!ft_is_builtin(comm->content))
 			{
 				id = fork();
-				ft_catch(0, 0);
+				ft_catch(0, 2);
 				if (id == -1)
 				{
 					perror("minishell: fork:");

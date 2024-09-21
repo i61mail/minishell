@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 13:47:08 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 14:54:47 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ int	main(int ac, char **av, char **env)
 	exit(vars.exit_status);
 }
 
-//3. export a ./minishell export
 //expansion exit status heredoc
 //./minishell > a
 //exit < MINLONGLONG
