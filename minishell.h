@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 12:18:10 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:22:25 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ int			ft_aresep2(t_vars *vars, int *i, int type, t_list **comm);
 int			process_heredoc(t_vars *vars, t_env **envir);
 int			heredoc_delimiter(t_vars *vars, int *i, t_list **comm);
 int			ft_isprint(int c);
-char   		*get_next_line(int fd);
 int			add_to_node(char *key, char *value, t_env **envir);
 char		*ft_strstr(char *str, char *to_find, int *b);
 int			sspace(char *str_temp);

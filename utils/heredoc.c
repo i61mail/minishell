@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 12:18:44 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 13:07:40 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,20 @@ void	isthere_quotes(char *str, int *i, int *var)
 		return ;
 }
 
-int	heredoc_count_dollar(char *line, int *i, char **str_temp, int var)
+void	add_to_temp(char **str_temp, int *i, char *line)
 {
 	char	temp[2];
+
+	temp[1] = '\0';
+	temp[0] = line[*i];
+	*str_temp = ft_strjoin(*str_temp, temp);
+}
+
+int	heredoc_count_dollar(char *line, int *i, char **str_temp, int var)
+{
 	int		len;
 	int		b;
 
-	temp[1] = '\0';
 	len = 0;
 	b = *i;
 	while (line[b] && line[b] == '$')
@@ -103,15 +110,42 @@ int	heredoc_count_dollar(char *line, int *i, char **str_temp, int var)
 	while (line[*i] && line[*i] == '$')
 	{
 		if (len % 2 == 0 || len % 2 != 0)
-		{
-			temp[0] = line[*i];
-			*str_temp = ft_strjoin(*str_temp, temp);
-			if (!*str_temp)
-				return (-1);
-		}
+			add_to_temp(str_temp, i, line);
 		(*i)++;
 	}
 	return (0);
+}
+
+void	isquoted(t_vars *vars, char **str_temp, t_list **comm)
+{
+	vars->del_type = HEREDOC_DEL_Q;
+	vars->token = ft_strdup(*str_temp);
+	replace_expand(*str_temp, comm, HEREDOC_DEL_Q);	
+}
+
+void	isunquoted(t_vars *vars, char **str_temp, t_list **comm)
+{
+	vars->del_type = HEREDOC_DEL_U;
+	vars->token = ft_strdup(*str_temp);
+	replace_expand(*str_temp, comm, HEREDOC_DEL_U);	
+}
+
+void	add_to_str_temp(t_vars *vars, int *i, char **str_temp, int check)
+{
+	if (check == 1)
+	{
+		(*i)++;
+		vars->catsh = *i;
+		heredoc_single(vars, i, str_temp);
+		if (vars->read[*i] == 39)
+			(*i)++;
+	}
+	else
+	{
+		heredoc_double(vars, i, str_temp);
+		if (vars->read[*i] == 34)
+			(*i)++;
+	}
 }
 
 int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
@@ -127,36 +161,18 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 	while (vars->read[*i] && !ft_isspace(vars->read[*i]) && !ft_issep(vars->read[*i]))
 	{
 		if (vars->read[*i] && vars->read[*i] == 34)
-		{
-			heredoc_double(vars, i, &str_temp);
-			if (vars->read[*i] == 34)
-				(*i)++;
-		}
+			add_to_str_temp(vars, i, &str_temp, 0);
 		if (vars->read[*i] && vars->read[*i] == 39)
-		{
-			(*i)++;
-			vars->catsh = *i;
-			heredoc_single(vars, i, &str_temp);
-			if (vars->read[*i] == 39)
-				(*i)++;
-		}
+			add_to_str_temp(vars, i, &str_temp, 1);
 		if (vars->read[*i] && vars->read[*i] == '$')
 			heredoc_count_dollar(vars->read, i, &str_temp, var);
 		if (vars->read[*i] && !ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i]))
 			heredoc_char(vars, i, &str_temp);
 	}
 	if (var == 1)
-	{
-		vars->del_type = HEREDOC_DEL_Q;
-		vars->token = ft_strdup(str_temp);
-		replace_expand(str_temp, comm, HEREDOC_DEL_Q);
-	}
+		isquoted(vars, &str_temp, comm);
 	else
-	{
-		vars->del_type = HEREDOC_DEL_U;
-		vars->token = ft_strdup(str_temp);
-		replace_expand(str_temp, comm, HEREDOC_DEL_U);
-	}
+		isunquoted(vars, &str_temp, comm);
 	return (0);
 }
 
@@ -270,7 +286,6 @@ int	just_alpha_here(t_heredoc *herdoc, int *i, char **str_temp)
 	return (free(str), 0);
 }
 
-
 int	here_dollar(t_heredoc *herdoc, int *i, t_env **envir, char **str_temp)
 {
 	char	*temp;
@@ -288,20 +303,10 @@ int	here_dollar(t_heredoc *herdoc, int *i, t_env **envir, char **str_temp)
 			return (-1);
 	}
 	else if (herdoc->len % 2 != 0 && check == 1)
-	{
 		temp = ft_substr(herdoc->here_line, herdoc->start, herdoc->len - 1);
-		if (!temp)
-			return (-1);
-	}
 	else
-	{
 		temp = ft_substr(herdoc->here_line, herdoc->start, herdoc->len);
-		if (!temp)
-			return (-1);
-	}
 	*str_temp = ft_strjoin(*str_temp, temp);
-	if (!*str_temp)
-		return (-1);
 	if (just_alpha_here(herdoc, i, str_temp) == -1)
 		return (-1);
 	return (0);
@@ -361,14 +366,9 @@ char	*expand_heredoc(t_heredoc *herdoc, t_env **envir, int delimiter)
 				return (NULL);
 		}
 		else
-		{
-			if (alpha_heredoc(herdoc->here_line, &i, &expand) == -1)
-				return (NULL);
-		}
+			alpha_heredoc(herdoc->here_line, &i, &expand);
 	}
 	expand = ft_strjoin(expand, str_temp);
-	if (!expand)
-		return (NULL);
 	return (expand);
 }
 
@@ -470,18 +470,35 @@ void	child_exitstatus(t_heredoc *herdoc, t_vars *vars)
 
 int ft_catch(int type, int value)
 {
-	static int var = -1;
+	static int var;
 
 	if (type == 0)
 	{
 		var = value;
-		return var;
+		return (var);
 	}
 	else if (type == 1)
 	{
-		return var;
+		return (var);
 	}
-	return -1;
+	return (-1);
+}
+
+void	read_heredoc(t_heredoc *herdoc, t_env **envir, t_vars *vars)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
+	while (1)
+	{
+		herdoc->here_line = readline("> ");
+		if (!herdoc->here_line)
+		{
+			free(herdoc->here_line);
+			break ;
+		}
+		store_here(herdoc, envir, vars);
+	}
+	exit(0);	
 }
 
 int	process_heredoc(t_vars *vars, t_env **envir)
@@ -494,23 +511,9 @@ int	process_heredoc(t_vars *vars, t_env **envir)
 	herdoc.return_fork = fork();
 	if (herdoc.return_fork < 0)
 		return (-1);
-	ft_catch(0, 0);
+	ft_catch(0, 2);
 	if (herdoc.return_fork == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-		while (1)
-		{
-			herdoc.here_line = readline("> ");
-			if (!herdoc.here_line)
-			{
-				free(herdoc.here_line);
-				break ;
-			}
-			store_here(&herdoc, envir, vars);
-		}
-		exit(0);
-	}
+		read_heredoc(&herdoc, envir, vars);
 	else
 		child_exitstatus(&herdoc, vars);
 	tcsetattr(0, 0, &vars->reset);

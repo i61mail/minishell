@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/20 12:14:35 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 13:47:08 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 	int		i;
 
 	i = 0;
+	vars->check_ambiguous = 0;
 	while (vars->read[i] != '\0')
 	{
 		if (!ft_issep(vars->read[i])
@@ -145,7 +146,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 void	handle_ctrlc(int sig)
 {
 	(void)sig;
-	if (ft_catch(1, 0) == 0)
+	if (ft_catch(1, 2) == 2)
 		return ;
 	write(1, "\n", 1);
 	rl_on_new_line();
@@ -189,4 +190,6 @@ int	main(int ac, char **av, char **env)
 }
 
 //3. export a ./minishell export
-//	
+//expansion exit status heredoc
+//./minishell > a
+//exit < MINLONGLONG
