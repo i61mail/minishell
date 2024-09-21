@@ -6,13 +6,13 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/20 12:16:59 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 11:59:12 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	replace_expand(t_list *curr, char *str_temp, t_list **comm, int type)
+void	replace_expand(char *str_temp, t_list **comm, int type)
 {
 	if (str_temp && str_temp[0] == '\0')
 	{
@@ -23,8 +23,7 @@ void	replace_expand(t_list *curr, char *str_temp, t_list **comm, int type)
 	{
 		str_temp = ft_strdup("");
 	}
-	curr = ft_lstnew(ft_strdup(str_temp), type);
-	ft_lstadd_back(comm, curr);
+	ft_lstadd_back(comm, ft_lstnew(ft_strdup(str_temp), type));
 	free(str_temp);
 }
 

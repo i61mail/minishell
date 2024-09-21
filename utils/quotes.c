@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/20 12:15:57 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:00:46 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,20 +124,18 @@ int	sspace(char *str_temp)
 	return (1);
 }
 
-static void	init_vars(char **str_temp, int *check, t_list **curr)
+static void	init_vars(char **str_temp, int *check)
 {
 	*check = 0;
 	*str_temp = NULL;
-	*curr = NULL;
 }
 
 int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	char	*str_temp;
 	int		check;
-	t_list	*curr;
 
-	init_vars(&str_temp, &check, &curr);
+	init_vars(&str_temp, &check);
 	if (*i > 0 && !ft_isspace(vars->read[*i - 1])
 		&& !ft_issep(vars->read[*i - 1]))
 		*i = vars->befor_sing;
@@ -151,9 +149,9 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		if (check == -1)
 			return (-1);
 		if (vars->flag_splite == SPLITED)
-			replace_expand(curr, str_temp, comm, SPLITED);
+			replace_expand(str_temp, comm, SPLITED);
 		else
-			replace_expand(curr, str_temp, comm, 0);
+			replace_expand(str_temp, comm, 0);
 		if (check == 2)
 			break ;
 	}

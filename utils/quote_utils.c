@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/20 12:16:31 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 11:37:21 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,13 @@ int	after_skip(char *str, int i, char c)
 	return (0);
 }
 
+void	add_before(char **str_temp, t_vars *vars, int *i)
+{
+	*str_temp = ft_strdup(vars->befor);
+	vars->befor = NULL;
+	*i = vars->befo_qu;
+}
+
 int	before_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	char	temp[2];
@@ -89,20 +96,11 @@ int	before_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			{
 				temp[0] = vars->read[*i];
 				*str_temp = ft_strjoin(*str_temp, temp);
-				if (!*str_temp)
-					return (-1);
 				(*i)++;
 			}
-			
 		}
 	}
 	else
-	{
-		*str_temp = ft_strdup(vars->befor);
-		if (!*str_temp)
-			return (-1);
-		vars->befor = NULL;
-		*i = vars->befo_qu;
-	}
+		add_before(str_temp, vars, i);
 	return (0);
 }

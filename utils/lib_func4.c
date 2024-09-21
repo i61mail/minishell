@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 10:48:32 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/19 21:47:33 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 11:39:49 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@ long long	ft_atoi(char *str)
 	{
 		result = result * 10 + str[i++] - 48;
 		if (ft_check(result, i, str, sign) == -1)
-		{
 			return (-1);
-		}
 		else if (ft_check(result, i, str, sign) == 1)
 			return (result * sign);
 	}
 	return (result * sign);
 }
+
 unsigned long long ft_abs(long long num)
 {
 	if (num < 0)

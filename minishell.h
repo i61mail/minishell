@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/20 12:13:52 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:00:02 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int			quotes(t_vars *vars, int *i, t_list **comm, t_env **envir);
 int			count_dollar(char *str, int *i);
 int			double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
-void		replace_expand(t_list *curr, char *str_temp, t_list **comm, int type);
+void		replace_expand(char *str_temp, t_list **comm, int type);
 int			expanding(t_vars *vars, int *i, char **str_temp, t_env **envir);
 void		init_va(int *check, char **temp);
 void		check_dollar(t_vars *vars, int *i, char **str_temp);
@@ -145,13 +145,13 @@ void		initi_vars(int *check, char **temp);
 int			append_dollar(t_vars *vars, int *i, char **temp, t_env **envir);
 int			ft_aresep3(t_vars *vars, int *i, int type, t_list **comm);
 int			ft_aresep2(t_vars *vars, int *i, int type, t_list **comm);
-int			process_heredoc(t_list *temp, t_vars *vars, t_env **envir);
+int			process_heredoc(t_vars *vars, t_env **envir);
 int			heredoc_delimiter(t_vars *vars, int *i, t_list **comm);
 int			ft_isprint(int c);
 char   		*get_next_line(int fd);
 int			add_to_node(char *key, char *value, t_env **envir);
 char		*ft_strstr(char *str, char *to_find, int *b);
-int	sspace(char *str_temp);
+int			sspace(char *str_temp);
 
 /*        utils       */
 
