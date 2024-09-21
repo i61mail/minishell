@@ -80,6 +80,7 @@ void	ft_unset_vars(t_list *command, t_env **envir)
 void	ft_unset(t_list *command, t_env **envir, t_vars *vars)
 {
 	command = command->next;
+	vars->exit_status = 0;
 	if (vars->numofpipes)
 		return ;
 	while (command)

@@ -81,6 +81,7 @@ int	ft_export(t_env *envir, t_vars *vars, t_list *command)
 	t_list	*temp;
 
 	temp = command->next;
+	vars->exit_status = 0;
 	if (!ft_strncmp(command->content, "export\0", 7)
 		&& (!command->next || *(command->next->content) == '\0'))
 		ft_dump_env(envir, vars);

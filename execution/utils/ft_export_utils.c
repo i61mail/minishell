@@ -49,7 +49,7 @@ int	ft_invalid_char(char *kandv, t_vars *vars)
 		&& (ft_isdigit(kandv[i]) || ft_isalpha(kandv[i]) || kandv[i] == '_' ))
 		i++;
 	if (kandv && (!kandv[i] || kandv[i] == '='))
-		return (vars->exit_status = 0);
+		return (0);
 	else if (kandv && kandv[i] == '+')
 	{
 		if (kandv && kandv[i + 1] != '=')
