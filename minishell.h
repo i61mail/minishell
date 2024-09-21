@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 12:22:25 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 14:39:18 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
 
 typedef struct s_heredoc
 {
@@ -88,6 +89,13 @@ typedef struct s_list
 	struct s_list	*next;
 }
 	t_list;
+
+typedef struct s_args
+{
+    t_vars  *vars;
+    int     *i;
+    char    **str_temp;
+}   t_args;
 
 typedef enum s_token
 {

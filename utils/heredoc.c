@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 13:07:40 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 14:08:31 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	isthere_quotes(char *str, int *i, int *var)
 		return ;
 }
 
-void	add_to_temp(char **str_temp, int *i, char *line)
+static void	add_to_temp(char **str_temp, int *i, char *line)
 {
 	char	temp[2];
 
