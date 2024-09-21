@@ -25,6 +25,11 @@ char	**ft_2denv(t_env *envir)
 		return (NULL);
 	while (envir)
 	{
+		if (!envir->value)
+		{
+			envir = envir->next;
+			continue;
+		}
 		temp = ft_strjoin(ft_strdup(envir->key), "=");
 		temp1 = ft_strjoin(temp, envir->value);
 		_2denv[i] = temp1;
