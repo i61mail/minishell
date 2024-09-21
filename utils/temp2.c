@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:12:05 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/20 12:15:07 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:18:49 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	is_heredoc(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	{
 		if (heredoc_delimiter(vars, i, comm) == -1)
 			return (-1);
-		process_heredoc(*comm, vars, envir);
+		process_heredoc(vars, envir);
 	}
 	return (0);
 }

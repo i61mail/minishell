@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/20 12:23:35 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:15:28 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,9 @@ int	adding(t_vars *vars, int *i, char **str_temp)
 	return (0);
 }
 
-static void	init_vars(char **str_temp, t_list **curr, int *hold)
+static void	init_vars(char **str_temp, int *hold)
 {
 	*hold = 0;
-	*curr = NULL;
 	*str_temp = ft_strdup("");
 	if (!str_temp)
 		return ;
@@ -121,12 +120,11 @@ void	copie_to_node(char **str, t_list **comm, t_vars *vars)
 int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
 	char	*str_temp;
-	t_list	*curr;
 	int		hold;
 	char	temp[2];
 	int		type;
 
-	init_vars(&str_temp, &curr, &hold);
+	init_vars(&str_temp, &hold);
 	temp[1] = '\0';
 	type = 0;
 	vars->catsh = *i;
@@ -162,7 +160,7 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 				}
 				if (sspace(str_temp) == 0 && vars->check_ambiguous == 1)
 					type = AMBIGUOUS;
-				replace_expand(curr, str_temp, comm, type);
+				replace_expand(str_temp, comm, type);
 				return (0);
 			}
 			else

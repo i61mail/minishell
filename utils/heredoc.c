@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/18 12:09:12 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:18:44 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,8 @@ int	heredoc_count_dollar(char *line, int *i, char **str_temp, int var)
 int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 {
 	char	*str_temp;
-	t_list	*curr;
 	int		var;
 
-	curr = NULL;
 	str_temp = NULL;
 	var = 0;
 	if (even_odd(vars->read) == 0)
@@ -151,13 +149,13 @@ int	heredoc_delimiter(t_vars *vars, int *i, t_list **comm)
 	{
 		vars->del_type = HEREDOC_DEL_Q;
 		vars->token = ft_strdup(str_temp);
-		replace_expand(curr, str_temp, comm, HEREDOC_DEL_Q);
+		replace_expand(str_temp, comm, HEREDOC_DEL_Q);
 	}
 	else
 	{
 		vars->del_type = HEREDOC_DEL_U;
 		vars->token = ft_strdup(str_temp);
-		replace_expand(curr, str_temp, comm, HEREDOC_DEL_U);
+		replace_expand(str_temp, comm, HEREDOC_DEL_U);
 	}
 	return (0);
 }
@@ -374,12 +372,11 @@ char	*expand_heredoc(t_heredoc *herdoc, t_env **envir, int delimiter)
 	return (expand);
 }
 
-int	store_here(t_heredoc *herdoc, t_list *temp, t_env **envir, t_vars *vars)
+int	store_here(t_heredoc *herdoc, t_env **envir, t_vars *vars)
 {
 	char	*value;
 
 	value = NULL;
-	(void)temp;
 	if (herdoc->here_line)
 	{
 		if (ft_strcmp(herdoc->here_line, vars->token) == 0)
@@ -487,7 +484,7 @@ int ft_catch(int type, int value)
 	return -1;
 }
 
-int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
+int	process_heredoc(t_vars *vars, t_env **envir)
 {
 	t_heredoc	herdoc;
 
@@ -510,7 +507,7 @@ int	process_heredoc(t_list *temp, t_vars *vars, t_env **envir)
 				free(herdoc.here_line);
 				break ;
 			}
-			store_here(&herdoc, temp, envir, vars);
+			store_here(&herdoc, envir, vars);
 		}
 		exit(0);
 	}
