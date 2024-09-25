@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/25 12:21:00 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 12:25:17 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 	}
 	else if (comm && !comm->next)
 	{
-		if (chdir(getenv("HOME")))
+		if (chdir(my_getenv("HOME", *envir)))
 		{
 			vars->exit_status = 1;
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
