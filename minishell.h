@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 17:37:55 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 20:06:40 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_heredoc
 	int		start;
 	int		fd;
 	int		passed_fd;
-}	t_heredoc;
+}		t_heredoc;
 
 typedef struct s_vars
 {
@@ -68,7 +68,7 @@ typedef struct s_vars
 	int				check_ambiguous;
 	int				inside;
 	int				env_i;
-}	t_vars;
+}		t_vars;
 
 typedef struct s_env
 {
@@ -76,21 +76,21 @@ typedef struct s_env
 	char			*value;
 	int				catsh;
 	struct s_env	*next;
-}	t_env;
+}		t_env;
 
 typedef struct s_list
 {
 	char			*content;
 	int				type;
 	struct s_list	*next;
-}	t_list;
+}		t_list;
 
 typedef struct s_args
 {
 	t_vars	*vars;
 	int		*i;
 	char	**str_temp;
-}	t_args;
+}			t_args;
 
 typedef enum s_token
 {
@@ -104,7 +104,7 @@ typedef enum s_token
 	HEREDOC_DEL_U,
 	AMBIGUOUS,
 	SPLITED
-}	t_token;
+}		t_token;
 
 /*              utils  linked list       */
 
@@ -233,7 +233,12 @@ char		*ft_strchr_2(const char *str, const char *sep);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void		ft_free_2d_array(char **array);
 t_list		*ft_dup_comm(t_list *comm);
+int			ft_is_builtin(char *command);
 char		*my_getenv(char *str, t_env *envir);
+void		ft_builtin(t_list *comm, t_env **envir, t_vars *vars);
+t_list		*ft_check4red(t_list *comm, t_vars *vars);
+int			ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars);
+int			ft_file_err(char *binary, t_vars *vars);
 
 /*		export utils 	*/
 int			ft_strcmp_(char *s1, char *s2, char end);

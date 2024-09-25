@@ -3,43 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/25 18:39:47 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 20:07:14 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*my_getenv(char *str, t_env *envir)
-{
-	t_env	*temp;
-
-	temp = envir;
-	while (temp)
-	{
-		if (ft_strcmp(temp->key, str) == 0)
-			return (temp->value);
-		temp = temp->next;
-	}
-	return (NULL);
-}
-
-int	ft_is_builtin(char *command)
-{
-	if (!ft_strcmp(command, "cd\0") || !ft_strcmp(command, "echo\0")
-		|| !ft_strcmp(command, "env\0")
-		|| !ft_strcmp(command, "exit\0") || !ft_strcmp(command, "export\0")
-		|| !ft_strcmp(command, "pwd\0") || !ft_strcmp(command, "unset\0"))
-		return (1);
-	return (0);
-}
-
 int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 {
-	struct stat	path;
-
 	if (!binary)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -50,31 +24,8 @@ int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 		vars->exit_status = 127;
 		return (1);
 	}
-	stat(binary, &path);
-	if (S_ISDIR(path.st_mode))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(binary, 2);
-		ft_putstr_fd(": is a directory\n", 2);
-		vars->exit_status = 126;
+	if (ft_file_err(binary, vars))
 		return (1);
-	}
-	if (S_ISREG(path.st_mode) && access(binary, X_OK) == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(binary, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-		vars->exit_status = 126;
-		return (1);
-	}
-	if (access(binary, F_OK) == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(binary, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		vars->exit_status = 127;
-		return (1);
-	}
 	return (0);
 }
 
@@ -105,24 +56,6 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	exit(vars->exit_status);
 }
 
-void	ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
-{
-	if (comm && !ft_strncmp(comm->content, "cd\0", 5))
-		ft_cd(vars, comm, envir);
-	else if (comm && !ft_strncmp(comm->content, "echo\0", 7))
-		ft_echo(comm, vars);
-	else if (comm && !ft_strncmp(comm->content, "env\0", 7))
-		ft_env(*envir, vars);
-	else if (comm && !ft_strncmp(comm->content, "exit\0", 7))
-		ft_exit(comm, vars);
-	else if (comm && !ft_strncmp(comm->content, "export\0", 7))
-		ft_export(*envir, vars, comm);
-	else if (comm && !ft_strncmp(comm->content, "pwd\0", 7))
-		ft_pwd(vars, envir);
-	else if (comm && !ft_strncmp(comm->content, "unset\0", 7))
-		ft_unset(comm, envir, vars);
-}
-
 int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 {
 	int	fd;
@@ -145,17 +78,7 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		vars->pipe = 0;
 	if (node->type == RED_OUT)
 	{
-		//if (access(next_node->content, W_OK) == -1 && vars->cmd_num)
-		//{
-		//	ft_putstr_fd("minishell: ", 2);// fix for test (echo a | ls > /dev/stdin )
-		//	ft_putstr_fd(next_node->content, 2);
-		//	//ft_putstr_fd(": Permission denied\n", 2);
-		//	perror("");
-		//	vars->exit_status = 1;
-		//	return (-1);
-		//}
 		fd = open(next_node->content, O_CREAT | O_WRONLY | O_TRUNC, 0622);
-		//printf("outfile: %s\n", next_node->content);
 		if (fd == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
@@ -170,7 +93,6 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 	if (node->type == RED_APPEND)
 	{
 		fd = open(next_node->content, O_WRONLY | O_CREAT | O_APPEND, 0622);
-		//printf("file: %s\n", next_node->content);
 		if (fd == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
@@ -185,7 +107,6 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 	if (node->type == RED_IN)
 	{
 		fd = open(next_node->content, O_RDONLY);
-		//printf("infile: %s\n", next_node->content);
 		if (fd == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
@@ -201,7 +122,7 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			perror(next_node->content);
-			vars->exit_status =  errno;
+			vars->exit_status = errno;
 			return (-1);
 		}
 		vars->old_fd = vars->heredoc_fd;
@@ -209,38 +130,6 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		return (vars->heredoc_fd);
 	}
 	return (fd);
-}
-
-int	ft_isred(int t)
-{
-	if (t == RED_IN || t == RED_OUT || t == RED_APPEND || t == HEREDOC)
-		return (1);
-	return (0);
-}
-t_list	*ft_check4red(t_list *comm, t_vars *vars)
-{
-	t_list	*temp;
-	t_list	*new_comm;
-
-	temp = comm;
-	new_comm = NULL;
-	while (temp)
-	{
-		if (ft_isred(temp->type))
-		{
-			if (ft_handle_redir(temp, temp->next, vars) == -1)
-				return (NULL);// need to free new comm at exit
-			temp = temp->next;
-			if (temp)
-				temp = temp->next;
-		}
-		else
-		{
-			ft_lstadd_back(&new_comm, ft_lstnew(temp->content, temp->type));
-			temp = temp->next;
-		}
-	}
-	return (new_comm);
 }
 
 void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
@@ -286,7 +175,6 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 			close(vars->pfd[1]);
 		comm = new_comm;
 		vars->cmd_num++;
-		// dup_and_close(_stdout, 1);
 	}
 	if (waitpid(id, &pid, 0) > 0)
 	{
@@ -298,41 +186,25 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
     	if (WIFEXITED(pid))
         	vars->exit_status = WEXITSTATUS(pid);
 		else if (WIFSIGNALED(pid))
-        	vars->exit_status = 128 + WTERMSIG(pid);
+			vars->exit_status = 128 + WTERMSIG(pid);
 		if (vars->exit_status == 131)
 			printf("Quit: 3\n");
 		ft_catch(0, -1);
 	}
 	while (wait(NULL) > 0)
-    	;
+		;
 }
 
-void ft_execute(t_vars *vars, t_list *comm, t_env **envir)
+void	ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 {
 	vars->numofpipes = ft_pipe_num(comm);
 	vars->builtin = 0;
 	vars->old_fd = 0;
 	vars->pfd[1] = 1;
 	vars->atoifail = 0;
-	//printf("t:%d\n", comm->type);
 	if (!comm)
 		return ;
-	//puts("before");
-	
-	// t_list *temp = comm;
-	// while(temp)
-	// {
-	// 	printf("content: %s, type %d\n",temp->content, temp->type);
-	// 	temp = temp->next;		
-	// }
-	//puts("after");
 	comm = ft_dup_comm(comm);
-	//temp = comm;
-	//while(temp)
-	//{
-	//	printf("content: %s, type %d\n",temp->content, temp->type);
-	//	temp = temp->next;		
-	//}
 	ft_run(vars, comm, envir);
 	if (vars->exit_status == 130)
 		vars->exit_status = 1;

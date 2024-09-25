@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 18:40:33 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 20:05:11 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	shell_level(t_env **envir)
 				increm = 1;
 			}
 			free(env->value);
-			env->value = ft_itoa(increm);	
+			env->value = ft_itoa(increm);
 		}
 		env = env->next;
 	}
