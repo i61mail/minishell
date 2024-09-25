@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/20 12:14:58 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:46:03 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	free_all(char *read, t_list **comm, t_env **envir)
 {
 	free(read);
 	(void)comm;
-	// ft_lstfree(comm);
 	ft_env_free(envir);
 }
 
@@ -74,7 +73,8 @@ int	just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	str = NULL;
 	temp[1] = '\0';
 	while (vars->read[*i] && vars->read[*i] != '$'
-		&& !ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i]) && !ft_isspace(vars->read[*i]))
+		&& !ft_issep(vars->read[*i]) && !ft_isquotes(vars->read[*i])
+		&& !ft_isspace(vars->read[*i]))
 	{
 		temp[0] = vars->read[*i];
 		str = ft_strjoin(str, temp);

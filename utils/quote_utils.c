@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 11:37:21 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:24:32 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_count_dollar(char *str, int *i)
-{
-	int	k;
-
-	k = 0;
-	(*i)--;
-	while (str[*i] == '$')
-	{
-		(*i)++;
-		k++;
-	}
-	if (k % 2 == 0)
-		return (k);
-	else
-		return (k - 1);
-	return (0);
-}
 
 int	quotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
@@ -102,5 +84,34 @@ int	before_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 	}
 	else
 		add_before(str_temp, vars, i);
+	return (0);
+}
+
+int	ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
+{
+	char	*temp;
+	int		check;
+
+	init_v(&check, &temp);
+	if (vars->read[*i] == '$')
+	{
+		vars->start = *i;
+		vars->len = count_dollar(vars->read, i);
+		if (vars->len % 2 != 0)
+			skip_digit(vars, i, &check);
+		if (vars->len % 2 != 0 && check == 0)
+			append_dollar(vars, i, &temp, envir);
+		else if (vars->len % 2 != 0 && check == 1)
+			temp = ft_substr(vars->read, vars->start, vars->len - 1);
+		else
+			temp = ft_substr(vars->read, vars->start, vars->len);
+		if (temp)
+			*str_temp = ft_strjoin(*str_temp, temp);
+		free(temp);
+		if (join_afterdollar(vars, i, str_temp) == -1)
+			return (-1);
+		if (address_quote(vars, i, str_temp, envir) == 2)
+			return (2);
+	}
 	return (0);
 }

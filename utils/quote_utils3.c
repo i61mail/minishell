@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_even_odd.c                                      :+:      :+:    :+:   */
+/*   quote_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:04:55 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/08 00:51:29 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:29:28 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,27 @@ int	even_odd(char *read)
 	if (check % 2 == 0 && sing % 2 == 0)
 		return (1);
 	return (0);
+}
+
+void	skip_digit(t_vars *vars, int *i, int *check)
+{
+	if (ft_isdigit(vars->read[*i]))
+	{
+		*check = 1;
+		(*i)++;
+	}
+}
+
+int	sspace(char *str_temp)
+{
+	int	i;
+
+	i = 0;
+	while (str_temp[i])
+	{
+		if (ft_isspace(str_temp[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 12:24:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 17:37:55 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-
 typedef struct s_heredoc
 {
 	char	*value;
@@ -39,39 +38,37 @@ typedef struct s_heredoc
 	int		start;
 	int		fd;
 	int		passed_fd;
-}
-	t_heredoc;
+}	t_heredoc;
 
 typedef struct s_vars
 {
-	char	*read;
-	int		catsh;
-	int		befor_sing;
-	int		quoted;
-	int		exit_status;
-	int		del_type;
-	char 	*token;
-	int		pfd[2];
-	int		old_fd;
-	int		pipe;
-	int		numofpipes;
-	int		bef_spac;
-	int		len;
-	int		start;
-	int		heredoc_fd;
-	int		flag_splite;
-	int		builtin;
-	int		cmd_num;
-	int		cd;
-	struct termios reset;
-	int		atoifail;
-	char  	*befor;
-	int		befo_qu;
-	int		check_ambiguous;
-	int		inside;
-	int		env_i;
-}
-	t_vars;
+	char			*read;
+	int				catsh;
+	int				befor_sing;
+	int				quoted;
+	int				exit_status;
+	int				del_type;
+	char			*token;
+	int				pfd[2];
+	int				old_fd;
+	int				pipe;
+	int				numofpipes;
+	int				bef_spac;
+	int				len;
+	int				start;
+	int				heredoc_fd;
+	int				flag_splite;
+	int				builtin;
+	int				cmd_num;
+	int				cd;
+	struct termios	reset;
+	int				atoifail;
+	char			*befor;
+	int				befo_qu;
+	int				check_ambiguous;
+	int				inside;
+	int				env_i;
+}	t_vars;
 
 typedef struct s_env
 {
@@ -79,38 +76,35 @@ typedef struct s_env
 	char			*value;
 	int				catsh;
 	struct s_env	*next;
-}
-	t_env;
+}	t_env;
 
 typedef struct s_list
 {
 	char			*content;
 	int				type;
 	struct s_list	*next;
-}
-	t_list;
+}	t_list;
 
 typedef struct s_args
 {
-    t_vars  *vars;
-    int     *i;
-    char    **str_temp;
-}   t_args;
+	t_vars	*vars;
+	int		*i;
+	char	**str_temp;
+}	t_args;
 
 typedef enum s_token
 {
-	COMM, 
-	RED_IN, 
-	RED_OUT, 
-	RED_APPEND, 
-	HEREDOC, 
-	PIP, 
-	HEREDOC_DEL_Q, 
-	HEREDOC_DEL_U, 
-	AMBIGUOUS, 
+	COMM,
+	RED_IN,
+	RED_OUT,
+	RED_APPEND,
+	HEREDOC,
+	PIP,
+	HEREDOC_DEL_Q,
+	HEREDOC_DEL_U,
+	AMBIGUOUS,
 	SPLITED
-}
-	t_token;
+}	t_token;
 
 /*              utils  linked list       */
 
@@ -139,8 +133,6 @@ int			double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
 void		replace_expand(char *str_temp, t_list **comm, int type);
 int			expanding(t_vars *vars, int *i, char **str_temp, t_env **envir);
-void		init_va(int *check, char **temp);
-void		check_dollar(t_vars *vars, int *i, char **str_temp);
 int			dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			before_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir);
@@ -149,7 +141,6 @@ int			ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			append_dollar2(t_vars *vars, int *i, char **temp, t_env **envir);
 int			join_afterdollar(t_vars *vars, int *i, char **str_temp);
 int			address_quote(t_vars *vars, int *i, char **str_temp, t_env **envir);
-void		initi_vars(int *check, char **temp);
 int			append_dollar(t_vars *vars, int *i, char **temp, t_env **envir);
 int			ft_aresep3(t_vars *vars, int *i, int type, t_list **comm);
 int			ft_aresep2(t_vars *vars, int *i, int type, t_list **comm);
@@ -181,7 +172,16 @@ char		*ft_strchr(const char *str, int c);
 char		*ft_itoa(int nbr);
 void		ft_putnbr_fd(int n, int fd);
 void		handle_ctrlc(int sig);
-int 		ft_catch(int type, int value);
+int			ft_catch(int type, int value);
+void		add_to_temp(char **str_temp, int *i, char *read);
+int			handle_dollar(t_args *args, t_env **envir, t_list **comm);
+int			returning(t_vars *vars, int *i, t_list **comm);
+void		init_v(int *check, char **temp);
+int			double_pointer(char **str);
+int			check_space(char *str);
+void		check_splited(t_vars *vars, int *i, int *type);
+void		split_before_quotes(t_vars *vars, char **str_temp,
+				t_list **comm, int *i);
 
 /*    utils check*/
 
@@ -202,6 +202,8 @@ t_env		*ft_lstenv(char *key, char *value);
 void		ft_lstenvadd_back(t_env **lst, t_env *new);
 t_env		*ft_lstenvlast(t_env *lst);
 void		ft_env_free(t_env **env);
+int			extra_vars(char *key, char *value, t_env **envir);
+int			add_to_node(char *key, char *value, t_env **envir);
 
 /*       execution      */
 void		ft_execute(t_vars *vars, t_list *comm, t_env **envir);
@@ -244,6 +246,5 @@ void		ft_dump_env(t_env *envir, t_vars *vars);
 char		**ft_sort_env(char **envir);
 void		ft_print_env(t_env *envir, t_vars *vars);
 char		**ft_2envkeys(t_env *envir);
-
 
 #endif

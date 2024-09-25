@@ -1,44 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   func6.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 19:30:37 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/25 15:01:30 by isrkik           ###   ########.fr       */
+/*   Created: 2024/09/25 17:53:12 by isrkik            #+#    #+#             */
+/*   Updated: 2024/09/25 17:53:46 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-char	*ft_strchr(const char *str, int c)
+static void	init_vars(int *i, int *h, int *j)
 {
-	int				i;
-	unsigned char	chr;
-
-	chr = (unsigned char )c;
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] == chr)
-			return ((char *)&str[i]);
-		i++;
-	}
-	if (str && str[i] == chr)
-		return ((char *)&str[i]);
-	return (NULL);
+	*i = 0;
+	*h = 0;
+	*j = 0;
 }
 
 char	*ft_strstr(char *str, char *to_find, int *b)
 {
-	int i;
-	int h;
-	int j;
-	
-	i = 0;
-	h = 0;
-	j = 0;
+	int	i;
+	int	h;
+	int	j;
+
+	init_vars(&i, &h, &j);
 	while (str[i])
 	{
 		while (ft_isspace(str[i]))

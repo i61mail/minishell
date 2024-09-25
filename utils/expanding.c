@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 13:57:13 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 17:47:08 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,6 @@ int	expanding(t_vars *vars, int *i, char **temp, t_env **envir)
 	return (free(comp), 0);
 }
 
-void	init_va(int *check, char **temp)
-{
-	*check = 0;
-	*temp = NULL;
-}
-
 int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 {
 	while (vars->read[*i] && (ft_isquotes(vars->read[*i])
@@ -106,7 +100,8 @@ int	dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir)
 			single_quo(vars, i, str_temp);
 		if (vars->read[*i] && vars->read[*i] == '$')
 		{
-			if (*i > 0 && (ft_isalpha(vars->read[*i - 1]) || vars->read[*i - 1] == '_'))
+			if (*i > 0 && (ft_isalpha(vars->read[*i - 1])
+					|| vars->read[*i - 1] == '_'))
 				vars->flag_splite = SPLITED;
 			dollar(vars, i, str_temp, envir);
 		}

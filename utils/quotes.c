@@ -3,89 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 12:00:46 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:25:14 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	skip_digit(t_vars *vars, int *i, int *check)
+void	init_v(int *check, char **temp)
 {
-	if (ft_isdigit(vars->read[*i]))
-	{
-		*check = 1;
-		(*i)++;
-	}
-}
-
-int	dollar(t_vars *vars, int *i, char **str_temp, t_env **envir)
-{
-	char	*temp;
-	int		check;
-
-	init_va(&check, &temp);
-	if (vars->read[*i] == '$')
-	{
-		// check_dollar(vars, i, str_temp);
-		vars->start = *i;
-		vars->len = count_dollar(vars->read, i);
-		if (vars->len % 2 != 0)
-			skip_digit(vars, i, &check);
-		if (vars->len % 2 != 0 && check == 0)
-			append_dollar2(vars, i, &temp, envir);
-		else if (vars->len % 2 != 0 && check == 1)
-			temp = ft_substr(vars->read, vars->start, vars->len - 1);
-		else
-			temp = ft_substr(vars->read, vars->start, vars->len);
-		if (temp)
-			*str_temp = ft_strjoin(*str_temp, temp);
-		if (*str_temp && *str_temp[0] == '\0')
-			*str_temp = NULL;
-	}
-	return (free(temp), 0);
-}
-
-int	join_string(t_vars *vars, int *i, char **str_temp)
-{
-	char	temp[2];
-
-	temp[1] = '\0';
-	temp[0] = vars->read[*i];
-	*str_temp = ft_strjoin(*str_temp, temp);
-	if (!*str_temp)
-		return (-1);
-	(*i)++;
-	return (0);
-}
-
-int	double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir)
-{
-	while (vars->read[*i] && vars->read[*i] != 34)
-	{
-		if (vars->read[*i] == '$')
-		{
-			if (*i > 0 && (ft_isalpha(vars->read[*i - 1])
-				|| vars->read[*i - 1] == '_' || ft_isspace(vars->read[*i - 1])))
-				vars->flag_splite = SPLITED;
-			vars->inside = 1;
-			dollar(vars, i, str_temp, envir);
-			vars->inside = 0;
-		}
-		else if (vars->read[*i] != 34)
-		{
-			if (join_string(vars, i, str_temp) == -1)
-				return (-1);
-		}
-	}
-	if (vars->read[*i] == 34)
-	{
-		(*i) += 1;
-		vars->bef_spac = *i;
-	}
-	return (0);
+	*check = 0;
+	*temp = NULL;
 }
 
 int	single_quo(t_vars *vars, int *i, char **str_temp)
@@ -110,21 +40,7 @@ int	single_quo(t_vars *vars, int *i, char **str_temp)
 	return (0);
 }
 
-int	sspace(char *str_temp)
-{
-	int	i;
-
-	i = 0;
-	while (str_temp[i])
-	{
-		if (ft_isspace(str_temp[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-static void	init_vars(char **str_temp, int *check)
+static void	init_va(char **str_temp, int *check)
 {
 	*check = 0;
 	*str_temp = NULL;
@@ -135,7 +51,7 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	char	*str_temp;
 	int		check;
 
-	init_vars(&str_temp, &check);
+	init_va(&str_temp, &check);
 	if (*i > 0 && !ft_isspace(vars->read[*i - 1])
 		&& !ft_issep(vars->read[*i - 1]))
 		*i = vars->befor_sing;

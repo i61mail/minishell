@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:04:43 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 13:22:41 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 17:36:08 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,34 +32,6 @@ static char	*add_to_value(char *env, int len, int j)
 		return (NULL);
 	ft_strncpy(value, env + j + 1, len);
 	return (value);
-}
-
-int	add_to_node(char *key, char *value, t_env **envir)
-{
-	t_env	*new_node;
-
-	new_node = ft_lstenv(key, value);
-	if (!new_node)
-		return (free(key), free(value), -1);
-	ft_lstenvadd_back(envir, new_node);
-	return (0);
-}
-
-int	extra_vars(char *key, char *value, t_env **envir)
-{
-	if (ft_strncmp(key, "PWD\0", 7) == 0)
-	{
-		if (add_to_node(ft_strdup("2PWD"), ft_strdup(value), envir) == -1)
-			return (-1);
-	}
-	if (ft_strncmp(key, "OLDPWD\0", 7) == 0)
-	{
-		free(value);
-		value = NULL;
-	}
-	if (add_to_node(key, value, envir) == -1)
-		return (-1);
-	return (0);	
 }
 
 static void	init_vars(int *i, char **key, char **value)

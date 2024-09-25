@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib_func5.c                                        :+:      :+:    :+:   */
+/*   func.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/19 22:36:16 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/21 11:38:01 by i61mail          ###   ########.fr       */
+/*   Created: 2024/09/25 16:47:37 by isrkik            #+#    #+#             */
+/*   Updated: 2024/09/25 16:48:01 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-					
-static int	count_words(const char *str, char c)
+#include "../../minishell.h"
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+static int	count_words(const char *str)
 {
 	int	i;
 	int	count;
@@ -21,25 +31,25 @@ static int	count_words(const char *str, char c)
 	count = 0;
 	while (str[i])
 	{
-		while (str[i] == c && str[i])
+		while (ft_isspace(str[i]) && str[i])
 			i++;
-		if (str[i] != c && str[i])
+		if (!ft_isspace(str[i]) && str[i])
 			count++;
-		while (str[i] != c && str[i])
+		while (!ft_isspace(str[i]) && str[i])
 			i++;
 	}
 	return (count);
 }
 
-static void	bring_words(const char *s, char c, int *start, int *end)
+static void	bring_words(const char *s, int *start, int *end)
 {
 	int	i;
 
 	i = *start;
-	while (s[i] == c && s[i] != '\0')
+	while (ft_isspace(s[i]) && s[i] != '\0')
 		i++;
 	*start = i;
-	while (s[i] != c && s[i] != '\0')
+	while (!ft_isspace(s[i]) && s[i] != '\0')
 		i++;
 	*end = i - 1;
 }
@@ -57,7 +67,7 @@ static void	free_dom(char **s, int count)
 	free(s);
 }
 
-char	**ft_split_char(char *s, char c)
+char	**ft_split_space(char *s)
 {
 	int		len_words;
 	char	**str;
@@ -68,14 +78,14 @@ char	**ft_split_char(char *s, char c)
 	i = 0;
 	if (!s)
 		return (NULL);
-	len_words = count_words(s, c);
+	len_words = count_words(s);
 	str = (char **)malloc(sizeof(char *) * (len_words + 1));
 	if (!str)
 		return (NULL);
 	start = 0;
 	while (i < len_words)
 	{
-		bring_words(s, c, &start, &end);
+		bring_words(s, &start, &end);
 		str[i] = ft_substr(s, start, end - start + 1);
 		if (!str[i])
 			return (free_dom(str, i), NULL);

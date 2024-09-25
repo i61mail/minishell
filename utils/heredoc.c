@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 16:38:00 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 17:28:49 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	isthere_quotes(char *str, int *i, int *var)
 		return ;
 }
 
-static void	add_to_temp(char **str_temp, int *i, char *line)
+void	add_to_temp_here(char **str_temp, int *i, char *line)
 {
 	char	temp[2];
 
@@ -110,7 +110,7 @@ int	heredoc_count_dollar(char *line, int *i, char **str_temp, int var)
 	while (line[*i] && line[*i] == '$')
 	{
 		if (len % 2 == 0 || len % 2 != 0)
-			add_to_temp(str_temp, i, line);
+			add_to_temp_here(str_temp, i, line);
 		(*i)++;
 	}
 	return (0);
