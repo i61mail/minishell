@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 19:30:37 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/21 13:08:44 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 14:54:22 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,27 @@ char	*ft_strchr(const char *str, int c)
 
 char	*ft_strstr(char *str, char *to_find, int *b)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (to_find[j] == '\0')
-		return (str);
-	while (str[i] != '\0')
+	int i = 0;
+	int h = 0;
+	int j = 0;
+	
+	while (str[i])
 	{
-		while (str[i + j] == to_find[j] && str[i + j] != '\0')
-			j++;
-		if (to_find[j] == '\0')
+		while (ft_isspace(str[i]))
+		{
+			h = 1;
+			i++;
+		}
+		if (h == 1)
 		{
 			*b = i;
-			return (str + i);
+			h = 0;
 		}
 		i++;
-		j = 0;
 	}
-	return (0);
+	if (str[i] == '\0')
+		j = i - 1;
+	free(to_find);
+	to_find = ft_substr(str, *b, j);
+	return (to_find);
 }
