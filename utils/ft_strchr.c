@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 19:30:37 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/25 14:54:22 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 15:01:30 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ char	*ft_strchr(const char *str, int c)
 
 char	*ft_strstr(char *str, char *to_find, int *b)
 {
-	int i = 0;
-	int h = 0;
-	int j = 0;
+	int i;
+	int h;
+	int j;
 	
+	i = 0;
+	h = 0;
+	j = 0;
 	while (str[i])
 	{
 		while (ft_isspace(str[i]))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 14:08:31 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:38:00 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,13 +192,13 @@ char	*ft_check_env_here(t_env **envir, char *comp)
 
 	temp = *envir;
 	exp = NULL;
+	if (!comp)
+		return (NULL);
 	while (comp && temp && temp->key)
 	{
 		if (ft_strcmp(comp, temp->key) == 0)
 		{
 			exp = ft_strdup(temp->value);
-			if (!exp)
-				return (NULL);
 			return (free(comp), exp);
 		}
 		temp = temp->next;
@@ -211,6 +211,7 @@ int	expanding_here(t_heredoc *herdoc, int *i, char **str_temp, t_env **envir)
 	char	tmp[2];
 	char	*comp;
 
+	(void)envir;
 	tmp[1] = '\0';
 	comp = NULL;
 	while (herdoc->here_line[*i] && (ft_isalpha(herdoc->here_line[*i])
@@ -224,17 +225,19 @@ int	expanding_here(t_heredoc *herdoc, int *i, char **str_temp, t_env **envir)
 	}
 	// if (herdoc->here_line[*i] == '?')
 	// {
-	// 	comp = ft_itoa(herdoc->);
+	// 	comp = "0";
 	// 	*str_temp = ft_strjoin(*str_temp, comp);
 	// 	(*i)++;
 	// 	return (0);
 	// }
 	comp = ft_check_env_here(envir, comp);
-	if (!comp)
-		return (-1);
-	*str_temp = ft_strjoin(*str_temp, comp);
-	if (!*str_temp)
-		return (-1);
+	if (comp)
+		*str_temp = ft_strjoin(*str_temp, comp);
+	if (*str_temp[0] == '\0')
+	{
+		free(*str_temp);
+		*str_temp = NULL;		
+	}
 	return (free(comp), 0);
 }
 
@@ -281,8 +284,6 @@ int	just_alpha_here(t_heredoc *herdoc, int *i, char **str_temp)
 		(*i)++;
 	}
 	*str_temp = ft_strjoin(*str_temp, str);
-	if (!*str_temp)
-		return (free(str), -1);
 	return (free(str), 0);
 }
 
@@ -293,6 +294,7 @@ int	here_dollar(t_heredoc *herdoc, int *i, t_env **envir, char **str_temp)
 
 	check = 0;
 	temp = NULL;
+	(void)envir;
 	herdoc->start = *i;
 	herdoc->len  = count_dollar(herdoc->here_line, i);
 	if (herdoc->len % 2 != 0)
@@ -307,8 +309,7 @@ int	here_dollar(t_heredoc *herdoc, int *i, t_env **envir, char **str_temp)
 	else
 		temp = ft_substr(herdoc->here_line, herdoc->start, herdoc->len);
 	*str_temp = ft_strjoin(*str_temp, temp);
-	if (just_alpha_here(herdoc, i, str_temp) == -1)
-		return (-1);
+	free(temp);
 	return (0);
 }
 
@@ -366,10 +367,10 @@ char	*expand_heredoc(t_heredoc *herdoc, t_env **envir, int delimiter)
 				return (NULL);
 		}
 		else
-			alpha_heredoc(herdoc->here_line, &i, &expand);
+			alpha_heredoc(herdoc->here_line, &i, &str_temp);
 	}
 	expand = ft_strjoin(expand, str_temp);
-	return (expand);
+	return (free(str_temp), expand);
 }
 
 int	store_here(t_heredoc *herdoc, t_env **envir, t_vars *vars)
@@ -386,6 +387,7 @@ int	store_here(t_heredoc *herdoc, t_env **envir, t_vars *vars)
 			value = ft_strdup("\0");
 		ft_putstr_fd(value, herdoc->fd);
 		ft_putchar_fd('\n', herdoc->fd);
+		free(value);
 	}
 	return (0);
 }
@@ -423,6 +425,7 @@ int	read_devrandom(int fd, char **file_name)
 			return (-1);
 		i++;
 	}
+	free(str);
 	*file_name = ft_strjoin(*file_name, ".txt");
 	if (!*file_name)
 		return (-1);
@@ -452,6 +455,7 @@ int	gen_file_name(t_heredoc *herdoc)
 	herdoc->fd = open(herdoc->file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	herdoc->passed_fd = open(herdoc->file_name, O_RDWR | O_TRUNC, 0644);
 	unlink(herdoc->file_name);
+	free(herdoc->file_name);
 	if (herdoc->fd < 0 || herdoc->passed_fd < 0)
 		return (-1);
 	return (0);
@@ -497,6 +501,7 @@ void	read_heredoc(t_heredoc *herdoc, t_env **envir, t_vars *vars)
 			break ;
 		}
 		store_here(herdoc, envir, vars);
+		free(herdoc->here_line);
 	}
 	exit(0);	
 }
@@ -519,6 +524,7 @@ int	process_heredoc(t_vars *vars, t_env **envir)
 	tcsetattr(0, 0, &vars->reset);
 	close(herdoc.fd);
 	vars->heredoc_fd = herdoc.passed_fd;
+	free(vars->token);
 	return (0);
 }
 
