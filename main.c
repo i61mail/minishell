@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 16:39:32 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 18:40:33 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		{
 			if (ft_aresep(vars, &i, comm, envir) == -1)
 				return (-1);
-			if (vars->exit_status == 130 && (*comm)->type == HEREDOC)
+			if (vars->exit_status == 130)
 				break ;
 		}
 		if (quotes(vars, &i, comm, envir) == -1)
@@ -133,9 +133,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
 		if (comm)
-		{
 			ft_execute(vars, comm, envir);
-		}
 		ft_lstfree(&comm);
 		free(vars->read);
 	}
@@ -193,3 +191,4 @@ int	main(int ac, char **av, char **env)
 //expansion exit status heredoc
 //./minishell > a
 //exit < MINLONGLONG
+//ls 4> d
