@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 14:39:18 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:26:01 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-
 typedef struct s_heredoc
 {
 	char	*value;
@@ -39,39 +38,37 @@ typedef struct s_heredoc
 	int		start;
 	int		fd;
 	int		passed_fd;
-}
-	t_heredoc;
+}		t_heredoc;
 
 typedef struct s_vars
 {
-	char	*read;
-	int		catsh;
-	int		befor_sing;
-	int		quoted;
-	int		exit_status;
-	int		del_type;
-	char 	*token;
-	int		pfd[2];
-	int		old_fd;
-	int		pipe;
-	int		numofpipes;
-	int		bef_spac;
-	int		len;
-	int		start;
-	int		heredoc_fd;
-	int		flag_splite;
-	int		builtin;
-	int		cmd_num;
-	int		cd;
-	struct termios reset;
-	int		atoifail;
-	char  	*befor;
-	int		befo_qu;
-	int		check_ambiguous;
-	int		inside;
-	int		env_i;
-}
-	t_vars;
+	char			*read;
+	int				catsh;
+	int				befor_sing;
+	int				quoted;
+	int				exit_status;
+	int				del_type;
+	char			*token;
+	int				pfd[2];
+	int				old_fd;
+	int				pipe;
+	int				numofpipes;
+	int				bef_spac;
+	int				len;
+	int				start;
+	int				heredoc_fd;
+	int				flag_splite;
+	int				builtin;
+	int				cmd_num;
+	int				cd;
+	struct termios	reset;
+	int				atoifail;
+	char			*befor;
+	int				befo_qu;
+	int				check_ambiguous;
+	int				inside;
+	int				env_i;
+}		t_vars;
 
 typedef struct s_env
 {
@@ -79,38 +76,35 @@ typedef struct s_env
 	char			*value;
 	int				catsh;
 	struct s_env	*next;
-}
-	t_env;
+}		t_env;
 
 typedef struct s_list
 {
 	char			*content;
 	int				type;
 	struct s_list	*next;
-}
-	t_list;
+}		t_list;
 
 typedef struct s_args
 {
-    t_vars  *vars;
-    int     *i;
-    char    **str_temp;
-}   t_args;
+	t_vars	*vars;
+	int		*i;
+	char	**str_temp;
+}			t_args;
 
 typedef enum s_token
 {
-	COMM, 
-	RED_IN, 
-	RED_OUT, 
-	RED_APPEND, 
-	HEREDOC, 
-	PIP, 
-	HEREDOC_DEL_Q, 
-	HEREDOC_DEL_U, 
-	AMBIGUOUS, 
+	COMM,
+	RED_IN,
+	RED_OUT,
+	RED_APPEND,
+	HEREDOC,
+	PIP,
+	HEREDOC_DEL_Q,
+	HEREDOC_DEL_U,
+	AMBIGUOUS,
 	SPLITED
-}
-	t_token;
+}		t_token;
 
 /*              utils  linked list       */
 
@@ -181,7 +175,7 @@ char		*ft_strchr(const char *str, int c);
 char		*ft_itoa(int nbr);
 void		ft_putnbr_fd(int n, int fd);
 void		handle_ctrlc(int sig);
-int 		ft_catch(int type, int value);
+int			ft_catch(int type, int value);
 
 /*    utils check*/
 
@@ -231,6 +225,12 @@ char		*ft_strchr_2(const char *str, const char *sep);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void		ft_free_2d_array(char **array);
 t_list		*ft_dup_comm(t_list *comm);
+int			ft_is_builtin(char *command);
+char		*my_getenv(char *str, t_env *envir);
+void		ft_builtin(t_list *comm, t_env **envir, t_vars *vars);
+t_list		*ft_check4red(t_list *comm, t_vars *vars);
+int			ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars);
+int			ft_file_err(char *binary, t_vars *vars);
 
 /*		export utils 	*/
 int			ft_strcmp_(char *s1, char *s2, char end);
@@ -243,6 +243,5 @@ void		ft_dump_env(t_env *envir, t_vars *vars);
 char		**ft_sort_env(char **envir);
 void		ft_print_env(t_env *envir, t_vars *vars);
 char		**ft_2envkeys(t_env *envir);
-
 
 #endif

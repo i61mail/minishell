@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 13:47:08 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 17:05:19 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	shell_level(t_env **envir)
 				increm = 1;
 			}
 			free(env->value);
-			env->value = ft_itoa(increm);	
+			env->value = ft_itoa(increm);
 		}
 		env = env->next;
 	}
@@ -189,7 +189,6 @@ int	main(int ac, char **av, char **env)
 	exit(vars.exit_status);
 }
 
-//3. export a ./minishell export
 //expansion exit status heredoc
 //./minishell > a
 //exit < MINLONGLONG
