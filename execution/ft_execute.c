@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/25 20:07:14 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 20:18:29 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,6 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 	}
 	if (waitpid(id, &pid, 0) > 0)
 	{
-		if (vars->exit_status == 130)
-		{
-			vars->exit_status = 1;
-			return ;
-		}
     	if (WIFEXITED(pid))
         	vars->exit_status = WEXITSTATUS(pid);
 		else if (WIFSIGNALED(pid))
@@ -206,6 +201,6 @@ void	ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 		return ;
 	comm = ft_dup_comm(comm);
 	ft_run(vars, comm, envir);
-	if (vars->exit_status == 130)
+	if (vars->exit_status == 130 && vars->is_signal == 1)
 		vars->exit_status = 1;
 }

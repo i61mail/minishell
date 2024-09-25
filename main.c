@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 20:05:11 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 20:20:10 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 
 	i = 0;
 	vars->check_ambiguous = 0;
+	vars->is_signal = 0;
 	while (vars->read[i] != '\0')
 	{
 		if (!ft_issep(vars->read[i])

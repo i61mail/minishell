@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   temp2.c                                            :+:      :+:    :+:   */
+/*   separator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:12:05 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 16:32:57 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/25 20:20:29 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	ft_aresep2(t_vars *vars, int *i, int type, t_list **comm)
 
 int	is_heredoc(t_vars *vars, int *i, t_list **comm, t_env **envir)
 {
+	vars->is_signal = 1;
 	while (ft_isspace(vars->read[*i]))
 		(*i)++;
 	if (ft_isquotes(vars->read[*i]) || !ft_issep(vars->read[*i]))

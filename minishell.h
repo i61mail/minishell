@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 20:06:40 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 20:17:43 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_vars
 	int				check_ambiguous;
 	int				inside;
 	int				env_i;
+	int				is_signal;
 }		t_vars;
 
 typedef struct s_env
