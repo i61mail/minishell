@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/20 12:17:41 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:21:00 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 		}
 		else if (ft_strncmp(comm->content, "~\0", 2) == 0)
 		{
-			if (chdir(getenv("USER_ZDOTDIR")))
+			if (chdir(getenv("HOME")))
 			{
 				ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 				vars->exit_status = 1;
