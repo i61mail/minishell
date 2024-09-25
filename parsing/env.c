@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:04:43 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/18 12:17:04 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:22:41 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,20 @@ int	extra_vars(char *key, char *value, t_env **envir)
 			return (-1);
 	}
 	if (ft_strncmp(key, "OLDPWD\0", 7) == 0)
+	{
+		free(value);
 		value = NULL;
+	}
 	if (add_to_node(key, value, envir) == -1)
 		return (-1);
 	return (0);	
+}
+
+static void	init_vars(int *i, char **key, char **value)
+{
+	*i = 0;
+	*key = NULL;
+	*value = NULL;
 }
 
 int	strcpy_env(t_env **envir, char **env)
@@ -67,7 +77,7 @@ int	strcpy_env(t_env **envir, char **env)
 	char	*key;
 	char	*value;
 
-	i = 0;
+	init_vars(&i, &key, &value);
 	while (env && env[i])
 	{
 		j = 0;
@@ -75,12 +85,12 @@ int	strcpy_env(t_env **envir, char **env)
 			j++;
 		key = add_to_key(env[i], j);
 		if (!key)
-			return (-1);
+			return (free(value), -1);
 		len = ft_strlen(env[i]);
 		len -= j;
 		value = add_to_value(env[i], len, j);
 		if (!value)
-			return (free(key), -1);
+			return (free(key), free(value), -1);
 		if (extra_vars(key, value, envir) == -1)
 			return (free(key), free(value), -1);
 		i++;

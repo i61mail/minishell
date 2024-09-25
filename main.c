@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 14:54:47 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 14:03:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 		{
 			ft_execute(vars, comm, envir);
 		}
+		ft_lstfree(&comm);
 		free(vars->read);
 	}
 	else
@@ -175,7 +176,7 @@ int	main(int ac, char **av, char **env)
 			if (!vars.read)
 			{
 				ft_putstr_fd("exit\n", 1);
-				free_all(vars.read, &comm, &envir);
+				// free_all(vars.read, &envir);
 				break ;
 			}
 			pars_exec(&vars, comm, &envir);

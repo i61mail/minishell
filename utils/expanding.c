@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 13:43:14 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:57:13 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	replace_expand(char *str_temp, t_list **comm, int type)
 	if (str_temp && str_temp[0] == '\0')
 	{
 		type = AMBIGUOUS;
+		free(str_temp);
 		str_temp = ft_strdup("");
 	}
 	else if (!str_temp)

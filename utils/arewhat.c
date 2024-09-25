@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arewhat.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/21 14:46:32 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:59:22 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int	handle_dollar(t_args *args, t_env **envir, t_list **comm)
 	check_splited(args->vars, args->i, &type);
 	hold = ft_dollar(args->vars, args->i, args->str_temp, envir);
 	if (hold == 2)
-		return (split_before_quotes(args->vars, args->str_temp, comm, args->i), 2);
+		return (split_before_quotes(args->vars, args->str_temp, comm, args->i), free(*(args->str_temp)), 2);
 	if (sspace(*(args->str_temp)) == 0 && args->vars->check_ambiguous == 1)
 		type = AMBIGUOUS;
 	replace_expand(*(args->str_temp), comm, type);
@@ -199,7 +199,9 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		else
 		{
 			if (vars->read[*i] == '$')
-				return (handle_dollar(&args, envir, comm));
+			{
+				return (handle_dollar(&args, envir, comm), 0);
+			}
 			else
 				break ;
 		}
