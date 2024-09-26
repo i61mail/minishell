@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 15:35:19 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 15:55:54 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ int	three_vars(t_env **envir)
 	return (1);
 }
 
+void	warning_error(long long *increm)
+{
+	ft_putstr_fd("warning: shell level (", 2);
+	ft_putnbr_fd(*increm, 2);
+	ft_putstr_fd(") too high, resetting to 1\n", 2);
+	*increm = 1;	
+}
+
 int	shell_level(t_env **envir)
 {
 	t_env		*env;
@@ -80,12 +88,7 @@ int	shell_level(t_env **envir)
 				break ;
 			}
 			else if (increm > 1000)
-			{
-				ft_putstr_fd("warning: shell level (", 2);
-				ft_putnbr_fd(increm, 2);
-				ft_putstr_fd(") too high, resetting to 1\n", 2);
-				increm = 1;
-			}
+				warning_error(&increm);
 			free(env->value);
 			env->value = ft_itoa(increm);
 		}
