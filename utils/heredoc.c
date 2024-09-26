@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 18:13:07 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 12:09:43 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,12 +206,19 @@ char	*ft_check_env_here(t_env **envir, char *comp)
 	return (free(comp), ft_strdup(""));
 }
 
+int	heredoc_status(char *comp, char **str_temp, int *i, t_heredoc *herdoc)
+{
+	comp = ft_itoa(herdoc->parrent_status);
+	*str_temp = ft_strjoin(*str_temp, comp);
+	(*i)++;
+	return (0);
+}
+
 int	expanding_here(t_heredoc *herdoc, int *i, char **str_temp, t_env **envir)
 {
 	char	tmp[2];
 	char	*comp;
 
-	(void)envir;
 	tmp[1] = '\0';
 	comp = NULL;
 	while (herdoc->here_line[*i] && (ft_isalpha(herdoc->here_line[*i])
@@ -219,24 +226,17 @@ int	expanding_here(t_heredoc *herdoc, int *i, char **str_temp, t_env **envir)
 	{
 		tmp[0] = herdoc->here_line[*i];
 		comp = ft_strjoin(comp, tmp);
-		if (!comp)
-			return (-1);
 		(*i)++;
 	}
-	// if (herdoc->here_line[*i] == '?')
-	// {
-	// 	comp = "0";
-	// 	*str_temp = ft_strjoin(*str_temp, comp);
-	// 	(*i)++;
-	// 	return (0);
-	// }
+	if (herdoc->here_line[*i] == '?')
+		heredoc_status(comp, str_temp, i, herdoc);
 	comp = ft_check_env_here(envir, comp);
 	if (comp)
 		*str_temp = ft_strjoin(*str_temp, comp);
 	if (*str_temp[0] == '\0')
 	{
 		free(*str_temp);
-		*str_temp = NULL;		
+		*str_temp = NULL;
 	}
 	return (free(comp), 0);
 }
@@ -482,9 +482,14 @@ int ft_catch(int type, int value)
 		return (var);
 	}
 	else if (type == 1)
+		return (var);
+	if (type == 2)
 	{
+		var = value;
 		return (var);
 	}
+	else if (type == 3)
+		return (var);
 	return (-1);
 }
 
@@ -513,6 +518,7 @@ int	process_heredoc(t_vars *vars, t_env **envir)
 	init_heredoc(&herdoc);
 	if (gen_file_name(&herdoc) == -1)
 		return (-1);
+	herdoc.parrent_status = vars->exit_status;
 	herdoc.return_fork = fork();
 	if (herdoc.return_fork < 0)
 		return (-1);

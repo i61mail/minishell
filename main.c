@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 20:20:10 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/26 12:08:15 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	handle_ctrlc(int sig)
 	(void)sig;
 	if (ft_catch(1, 2) == 2)
 		return ;
+	ft_catch(2, 4);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
