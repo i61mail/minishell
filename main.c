@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 20:52:59 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/26 22:06:18 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,3 +201,4 @@ int	main(int ac, char **av, char **env)
 // cat << a << b < main.c
 //_ not unset
 //echo as$s a
+//leak at cd $asd a ; cat << a a

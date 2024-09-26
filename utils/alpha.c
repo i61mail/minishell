@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   alpha.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 10:46:16 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 22:04:32 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ static void	init_var(char **str_temp, int *i, t_vars *vars)
 	vars->catsh = *i;
 	vars->befor_sing = *i;
 	*str_temp = ft_strdup("");
-	if (!str_temp)
-		return ;
 }
 
 int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)

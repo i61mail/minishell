@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:56:11 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 21:03:39 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/26 21:49:10 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	handle_dollar(t_args *args, t_env **envir, t_list **comm)
 	if (sspace(*(args->str_temp)) == 0 && args->vars->check_ambiguous == 1)
 		type = AMBIGUOUS;
 	if (args->vars->not_pass == 0 || *(args->str_temp)[0] != '\0')
+	{
 		replace_expand(*(args->str_temp), comm, type);
+	}
 	return (0);
 }
