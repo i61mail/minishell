@@ -6,101 +6,99 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/25 12:25:17 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 15:47:59 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*update_old_pwd(t_env **envir)
+void	cd_error(void)
 {
-	t_env		*env;
-	t_env		*env1;
-	char		*pwd;
-
-	pwd = NULL;
-	env = *envir;
-	env1 = *envir;
-	while (env1)
-	{
-		if (ft_strncmp(env1->key, "2PWD\0", 5) == 0)
-		{
-			pwd = ft_strdup(env1->value);
-			if (!pwd)
-				return (NULL);
-		}
-		else if (ft_strncmp(env1->key, "PWD\0", 4) == 0)
-		{
-			pwd = ft_strdup(env1->value);
-			if (!pwd)
-				return (NULL);
-		}
-		env1 = env1->next;
-	}
-	while (env)
-	{
-		if (ft_strcmp(env->key, "OLDPWD") == 0)
-			env->value = ft_strdup(pwd);
-		env = env->next;
-	}
-	return (pwd);
+	ft_putstr_fd("cd: error retrieving current directory: getcwd: ", 2);
+	ft_putstr_fd("cannot access parent directories: ", 2);
+	ft_putstr_fd("No such file or directory\n", 2);
 }
 
-int	update_pwd(t_env **envir, int bool, char **pwd)
+void	ft_remove_dir(char **old_pwd, t_env **envir, t_list *comm)
 {
-	t_env		*env;
-	char		*points;
+	char	*cwd;
 
-	points = NULL;
-	env = *envir;
-	if (bool == 0)
+	cwd = NULL;
+	cwd = getcwd(cwd, 0);
+	if (cwd == NULL)
 	{
-		while (env)
+		if (ft_strncmp(comm->content, "..\0", 3) == 0)
 		{
-			if (ft_strcmp(env->key, "2PWD") == 0)
-			{
-				env->value = ft_strdup(getcwd(NULL, 0));
-			}
-			else if (ft_strcmp(env->key, "PWD") == 0)
-			{
-				env->value = ft_strdup(getcwd(NULL, 0));
-			}
-			env = env->next;
+			*old_pwd = update_old_pwd(envir);
+			update_pwd(envir, 2, old_pwd);
+			cd_error();
+		}
+		else if (ft_strncmp(comm->content, ".\0", 2) == 0)
+		{
+			*old_pwd = update_old_pwd(envir);
+			update_pwd(envir, 3, old_pwd);
+			cd_error();
 		}
 	}
-	else if (bool == 2 || bool == 3)
+	else
 	{
-		if (bool == 2)
-			points = "/..";
-		else
-			points = "/.";
-		while (env)
-		{
-			if (ft_strcmp(env->key, "2PWD") == 0)
-			{
-				env->value = ft_strdup(*pwd);
-				env->value = ft_strjoin(env->value, points);
-			}
-			else if (ft_strcmp(env->key, "PWD") == 0)
-			{
-				env->value = ft_strdup(*pwd);
-				env->value = ft_strjoin(env->value, points);
-				*pwd = ft_strdup(env->value);
-			}
-			env = env->next;
-		}
+		*old_pwd = update_old_pwd(envir);
+		update_pwd(envir, 0, old_pwd);
 	}
-	return (0);
+}
+
+void	check_permission(t_vars *vars, t_list *comm)
+{
+	struct stat	path_stat;
+
+	vars->exit_status = 1;
+	if (access(comm->content, F_OK) == -1)
+	{
+		ft_put_error("minishell: cd:", comm->content,
+			": No such file or directory");
+		return ;
+	}
+	if (stat(comm->content, &path_stat) == -1)
+	{
+		ft_put_error("minishell: cd:", comm->content, ": stat error");
+		return ;
+	}
+	if (S_ISDIR(path_stat.st_mode))
+	{
+		if (access(comm->content, X_OK) == -1)
+			ft_put_error("minishell: cd:", comm->content,
+				": Permission denied");
+	}
+	else
+		ft_put_error("minishell: cd:", comm->content, ": Not a directory");
+}
+
+void	cd_noargs(t_env **envir, t_vars *vars)
+{
+	if (chdir(my_getenv("HOME", *envir)))
+	{
+		vars->exit_status = 1;
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+	}
+}
+
+void	regul_dir(t_vars *vars, char **old_pwd, t_list *comm, t_env **envir)
+{
+	if (*comm->content == '\0')
+	{
+		*old_pwd = update_old_pwd(envir);
+		update_pwd(envir, 0, old_pwd);
+	}
+	if (chdir(comm->content) != -1)
+		ft_remove_dir(old_pwd, envir, comm);
+	else
+		check_permission(vars, comm);
 }
 
 int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 {
-	char		*cwd;
 	static char	*old_pwd;
-	int			var_chdir;
 
-	cwd = NULL;
-	var_chdir = 0;
 	if (vars->numofpipes)
 		return (0);
 	if (comm && comm->next)
@@ -108,76 +106,19 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 		comm = comm->next;
 		if (ft_strncmp(comm->content, "-\0", 2) == 0)
 		{
-			var_chdir = chdir(old_pwd);
-			if (var_chdir == 0)
-			{
-				ft_putstr_fd(old_pwd, 1);
-				ft_putstr_fd("\n", 1);
-			}
-			else if (var_chdir == -1)
-			{
-				ft_put_error("minishell: ", comm->content, ": OLDPWD not set");
-				vars->exit_status = 1;
-			}
+			to_oldpwd(comm, &old_pwd, vars);
+			old_pwd = update_old_pwd(envir);
+			update_pwd(envir, 0, &old_pwd);
 		}
 		else if (ft_strncmp(comm->content, "~\0", 2) == 0)
-		{
-			if (chdir(getenv("HOME")))
-			{
-				ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-				vars->exit_status = 1;
-			}
-		}
+			to_home(vars);
 		else
-		{
-			if (*comm->content == '\0')
-			{
-				old_pwd = update_old_pwd(envir);
-				update_pwd(envir, 0, &old_pwd);
-				return (0);
-			}
-			var_chdir = chdir(comm->content);
-			if (var_chdir != -1)
-			{
-				cwd = getcwd(cwd, 0);
-				if (cwd == NULL)
-				{
-					if (ft_strncmp(comm->content, "..\0", 3) == 0)
-					{
-						old_pwd = update_old_pwd(envir);
-						update_pwd(envir, 2, &old_pwd);
-						ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
-					}
-					else if (ft_strncmp(comm->content, ".\0", 2) == 0)
-					{
-						old_pwd = update_old_pwd(envir);
-						update_pwd(envir, 3, &old_pwd);
-						ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
-					}
-				}
-				else
-				{
-					old_pwd = update_old_pwd(envir);
-					update_pwd(envir, 0, &old_pwd);
-				}
-			}
-			else
-			{
-				vars->exit_status = 1;
-				if (access(comm->content, F_OK) == -1)
-					ft_put_error("minishell: cd:", comm->content, ": No such file or directory");
-				else
-					ft_put_error("minishell: cd: ", comm->content, ": permission denied");
-			}
-		}
+			regul_dir(vars, &old_pwd, comm, envir);
 	}
 	else if (comm && !comm->next)
 	{
-		if (chdir(my_getenv("HOME", *envir)))
-		{
-			vars->exit_status = 1;
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		}
+		cd_noargs(envir, vars);
+		old_pwd = update_old_pwd(envir);
 	}
 	return (0);
 }

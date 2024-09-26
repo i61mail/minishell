@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 14:01:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 15:42:04 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,7 @@ void		ft_env(t_env *envir, t_vars *vars);
 void		ft_unset(t_list *command, t_env **envir, t_vars *vars);
 
 /* 		  exec utils	*/
+
 int			ft_env_length(t_env *envir);
 int			ft_comm_length(t_list *comm);
 int			ft_pipe_num(t_list *comm);
@@ -257,6 +258,7 @@ int			ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars);
 int			ft_file_err(char *binary, t_vars *vars);
 
 /*		export utils 	*/
+
 int			ft_strcmp_(char *s1, char *s2, char end);
 int			ft_invalid_char(char *kandv, t_vars *vars);
 int			ft_var_type(char *var);
@@ -267,5 +269,13 @@ void		ft_dump_env(t_env *envir, t_vars *vars);
 char		**ft_sort_env(char **envir);
 void		ft_print_env(t_env *envir, t_vars *vars);
 char		**ft_2envkeys(t_env *envir);
+
+/*      cd utils         */
+
+char	*update_old_pwd(t_env **envir);
+void	update_pwd2(t_env *env, char **pwd, char *points);
+int		update_pwd(t_env **envir, int bool, char **pwd);
+void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars);
+void	to_home(t_vars *vars);
 
 #endif
