@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 10:28:39 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 14:01:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,20 @@ int			check_space(char *str);
 void		check_splited(t_vars *vars, int *i, int *type);
 void		split_before_quotes(t_vars *vars, char **str_temp,
 				t_list **comm, int *i);
+
+/*       heredoc          */
+
+int			store_here(t_heredoc *herdoc, t_env **envir, t_vars *vars);
+int			gen_file_name(t_heredoc *herdoc);
+void		add_to_temp_here(char **str_temp, int *i, char *line);
+int			heredoc_single(t_vars *vars, int *i, char **str_temp);
+int			heredoc_double(t_vars *vars, int *i, char **str_temp);
+int			heredoc_char(t_vars *vars, int *i, char **str_temp);
+void		isthere_quotes(char *str, int *i, int *var);
+void		skip_digit_here(t_heredoc *herdoc, int *i, int *check);
+int			append_dollar2_here(t_heredoc *herdoc, int *i, char **temp,
+				t_env **envir);
+void		add_to_str_temp(t_vars *vars, int *i, char **str_temp, int check);
 
 /*    utils check*/
 

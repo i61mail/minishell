@@ -15,7 +15,9 @@ SRC_MAN =  $(EXEC_MAN)  main.c utils/list_utils.c utils/libft/func.c utils/libft
 	utils/token.c utils/ft_iswhat.c utils/alpha.c utils/libft/func6.c \
 	utils/sep_syntax.c parsing/env.c utils/quotes.c parsing/env_utils.c utils/quote_utils.c \
 	utils/expanding.c utils/dollar.c utils/quote_utils2.c utils/alpha2.c utils/alpha3.c\
-	utils/separator.c utils/heredoc.c utils/quote_utils3.c parsing/env_utils2.c \
+	utils/separator.c utils/quote_utils3.c parsing/env_utils2.c \
+	utils/heredoc/heredoc.c utils/heredoc/heredoc_filename.c utils/heredoc/heredoc_delimiter.c \
+	utils/heredoc/heredoc_expansion.c utils/heredoc/heredoc_expansion2.c utils/heredoc/heredoc_expansion3.c \
 
 OBJ_MAN = ${SRC_MAN:.c=.o}
 

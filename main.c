@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 12:08:15 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 12:11:34 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ int	main(int ac, char **av, char **env)
 	exit(vars.exit_status);
 }
 
-//expansion exit status heredoc
 //./minishell > a
 //exit < MINLONGLONG
 //ls 4> d
