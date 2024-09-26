@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 13:28:13 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 16:03:25 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,113 +58,46 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 
 int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 {
-	int	fd;
-
-	fd = -1;
 	if (!node || !next_node)
-	{
-		printf("i should'nt get here\n");
 		return (-1);
-	}
 	if (next_node->type == AMBIGUOUS)
-	{
-		ft_putstr_fd("minishell: ", 2);// fix for test (echo a | ls > /dev/stdin )
-		ft_putstr_fd(next_node->content, 2);
-		ft_putstr_fd(" ambiguous redirect\n", 2);
-		vars->exit_status = 1;
-		return (-1);
-	}
+		return (ft_ambiguos(next_node, vars));
 	if (node->type != PIP && node->type != RED_IN)
 		vars->pipe = 0;
 	if (node->type == RED_OUT)
 	{
-		fd = open(next_node->content, O_CREAT | O_WRONLY | O_TRUNC, 0622);
-		if (fd == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			perror(next_node->content);
-			vars->exit_status = 1;
+		if (ft_redout(next_node, vars) == -1)
 			return (-1);
-		}
-		if (vars->pfd[1] != 1)
-			close(vars->pfd[1]);
-		vars->pfd[1] = fd;
 	}
 	if (node->type == RED_APPEND)
 	{
-		fd = open(next_node->content, O_WRONLY | O_CREAT | O_APPEND, 0622);
-		if (fd == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			perror(next_node->content);
-			vars->exit_status = 1;
+		if (ft_redappend(next_node, vars) == -1)
 			return (-1);
-		}
-		if (vars->pfd[1] != 1)
-			close(vars->pfd[1]);
-		vars->pfd[1] = fd;
 	}
 	if (node->type == RED_IN)
 	{
-		fd = open(next_node->content, O_RDONLY);
-		if (fd == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			perror(next_node->content);
-			vars->exit_status = 1;
+		if (ft_redin(next_node, vars) == -1)
 			return (-1);
-		}
-		vars->old_fd = fd;
 	}
 	if (node->type == HEREDOC)
-	{
-		if (vars->heredoc_fd == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			perror(next_node->content);
-			vars->exit_status = errno;
-			return (-1);
-		}
-		vars->old_fd = vars->heredoc_fd;
-		// close(vars->heredoc_fd);
-		return (vars->heredoc_fd);
-	}
-	return (fd);
+		return (ft_redheredoc(next_node, vars));
+	return (0);
 }
 
 void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 {
 	int		id;
 	t_list	*new_comm;
-	int		pid;
 
 	new_comm = NULL;
 	id = 0;
 	while (comm)
 	{
-		vars->pfd[0] = vars->old_fd;
-		vars->pfd[1] = 1;
-		new_comm = ft_split_pipe(&comm, vars);
-		if (vars->pipe)
-			pipe(vars->pfd);
-		comm = ft_check4red(comm, vars);
+		comm = ft_setup(comm, &new_comm, vars);
 		if (comm)
 		{
 			if (!ft_is_builtin(comm->content))
-			{
-				id = fork();
-				ft_catch(0, 2);
-				if (id == -1)
-				{
-					perror("minishell: fork:");
-					return ;
-				}
-				if (!id)
-				{
-					signal(SIGQUIT, SIG_DFL);
-					ft_child(vars, comm, *envir);
-				}
-			}
+				id = ft_non_builtin(comm, envir, vars);
 			else
 				ft_builtin(comm, envir, vars);
 		}
@@ -176,23 +109,7 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		comm = new_comm;
 		vars->cmd_num++;
 	}
-	if (waitpid(id, &pid, 0) > 0)
-	{
-		if (vars->exit_status == 130 && vars->is_signal == 1)
-		{
-			vars->exit_status = 1;
-			return ;
-		}
-    	if (WIFEXITED(pid))
-        	vars->exit_status = WEXITSTATUS(pid);
-		else if (WIFSIGNALED(pid))
-			vars->exit_status = 128 + WTERMSIG(pid);
-		if (vars->exit_status == 131)
-			printf("Quit: 3\n");
-	}
-	while (wait(NULL) > 0)
-		;
-	ft_catch(0, -1);
+	ft_wait(id, vars);
 }
 
 void	ft_execute(t_vars *vars, t_list *comm, t_env **envir)

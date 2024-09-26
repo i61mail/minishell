@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 15:42:04 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 16:07:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,10 @@ void		ft_builtin(t_list *comm, t_env **envir, t_vars *vars);
 t_list		*ft_check4red(t_list *comm, t_vars *vars);
 int			ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars);
 int			ft_file_err(char *binary, t_vars *vars);
+t_list		*ft_setup(t_list *comm, t_list **new_comm, t_vars *vars);
+int			ft_non_builtin(t_list *comm, t_env **envir, t_vars *vars);
+void		ft_wait(int id, t_vars *vars);
+void		ft_child(t_vars *vars, t_list *comm, t_env *envir);
 
 /*		export utils 	*/
 
@@ -272,10 +276,19 @@ char		**ft_2envkeys(t_env *envir);
 
 /*      cd utils         */
 
-char	*update_old_pwd(t_env **envir);
-void	update_pwd2(t_env *env, char **pwd, char *points);
-int		update_pwd(t_env **envir, int bool, char **pwd);
-void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars);
-void	to_home(t_vars *vars);
+char		*update_old_pwd(t_env **envir);
+void		update_pwd2(t_env *env, char **pwd, char *points);
+int			update_pwd(t_env **envir, int bool, char **pwd);
+void		to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars);
+void		to_home(t_vars *vars);
+void		cd_error(void);
+
+/*   redirection utils   */
+
+int			ft_ambiguos(t_list *next_node, t_vars *vars);
+int			ft_redout(t_list *next_node, t_vars *vars);
+int			ft_redappend(t_list *next_node, t_vars *vars);
+int			ft_redin(t_list *next_node, t_vars *vars);
+int			ft_redheredoc(t_list *next_node, t_vars *vars);
 
 #endif

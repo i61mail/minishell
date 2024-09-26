@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/11 01:34:41 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:18:13 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_locate_bin(char *command, char *path)
 	char	**_path;
 	char	*temp;
 	char	*temp1;
-	char 	*bin;
+	char	*bin;
 
 	bin = NULL;
 	if (!command || !(*command) || ft_isalldots(command))

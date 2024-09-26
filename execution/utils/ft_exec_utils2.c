@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:38:21 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/11 06:39:09 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:48:31 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,18 @@ t_list	*ft_dup_comm(t_list *comm)
 	{
 		i = 0;
 		if (comm->type != SPLITED)
-			ft_lstadd_back(&new_comm, ft_lstnew(ft_strdup(comm->content), comm->type));
+			ft_lstadd_back(&new_comm,
+				ft_lstnew(ft_strdup(comm->content), comm->type));
 		else
 		{
 			splitd = ft_split_space(comm->content);
-			while(splitd && splitd[i])
+			while (splitd && splitd[i])
 			{
 				ft_lstadd_back(&new_comm, ft_lstnew(ft_strdup(splitd[i]), 0));
-				i++;		
+				i++;
 			}
 			ft_free_2d_array(splitd);
 		}
-		//printf("cont:%s\n",comm->content);
 		comm = comm->next;
 	}
 	ft_lstfree(&comm);

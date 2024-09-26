@@ -6,18 +6,11 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 15:47:59 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 16:05:44 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	cd_error(void)
-{
-	ft_putstr_fd("cd: error retrieving current directory: getcwd: ", 2);
-	ft_putstr_fd("cannot access parent directories: ", 2);
-	ft_putstr_fd("No such file or directory\n", 2);
-}
 
 void	ft_remove_dir(char **old_pwd, t_env **envir, t_list *comm)
 {
