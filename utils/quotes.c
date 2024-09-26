@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 17:35:40 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 21:09:00 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,9 @@ void	ft_isempty(t_vars *vars, int *i)
 		return ;
 	}
 	else if (ft_isquotes(vars->read[*i]))
-	{
 		vars->not_pass = 0;
-	}
-	while (vars->read[*i] && ft_isspace(vars->read[*i]))
-	{
-		(*i)++;
-		if (vars->read[*i] == '\0')
-		{
-			vars->not_pass = 1;
-			break ;
-		}
-	}
+	else
+		vars->not_pass = 1;
 }
 
 void	init_v(int *check, char **temp)

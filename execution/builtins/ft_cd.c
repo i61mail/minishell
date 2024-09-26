@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 17:12:16 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 21:09:21 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	check_permission(t_vars *vars, t_list *comm)
 	vars->exit_status = 1;
 	if (access(comm->content, F_OK) == -1)
 	{
-		if (comm->content[0] == '\0')
-			return ;
 		ft_put_error("minishell: cd:", comm->content,
 			": No such file or directory");
 		return ;

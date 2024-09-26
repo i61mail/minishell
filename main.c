@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 17:20:04 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 20:52:59 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,10 +197,7 @@ int	main(int ac, char **av, char **env)
 //./minishell > a
 //exit < MINLONGLONG
 //ls 4> d
-//cd $asd
-//cd $asd execution/ a
 // cat | << alkdjsf
 // cat << a << b < main.c
-//cd $asd builtins/
 //_ not unset
-//minishell> echo $asd d
+//echo as$s a
