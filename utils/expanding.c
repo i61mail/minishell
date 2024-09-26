@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 12:06:55 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 17:35:24 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ int	expanding(t_vars *vars, int *i, char **temp, t_env **envir)
 	{
 		tmp[0] = vars->read[*i];
 		comp = ft_strjoin(comp, tmp);
-		if (!comp)
-			return (-1);
 		(*i)++;
 	}
 	if (vars->read[*i] == '?')
@@ -86,6 +84,7 @@ int	expanding(t_vars *vars, int *i, char **temp, t_env **envir)
 	{
 		free(*temp);
 		*temp = NULL;
+		ft_isempty(vars, i);
 	}
 	return (free(comp), 0);
 }

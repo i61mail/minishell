@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 16:07:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 17:35:57 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_vars
 	int				inside;
 	int				env_i;
 	int				is_signal;
+	int				not_pass;
 }		t_vars;
 
 typedef struct s_env
@@ -184,6 +185,7 @@ int			check_space(char *str);
 void		check_splited(t_vars *vars, int *i, int *type);
 void		split_before_quotes(t_vars *vars, char **str_temp,
 				t_list **comm, int *i);
+void		ft_isempty(t_vars *vars, int *i);
 
 /*       heredoc          */
 
