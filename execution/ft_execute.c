@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 09:54:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/26 09:59:01 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,10 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 			vars->exit_status = 128 + WTERMSIG(pid);
 		if (vars->exit_status == 131)
 			printf("Quit: 3\n");
-		ft_catch(0, -1);
 	}
 	while (wait(NULL) > 0)
 		;
+	ft_catch(0, -1);
 }
 
 void	ft_execute(t_vars *vars, t_list *comm, t_env **envir)
