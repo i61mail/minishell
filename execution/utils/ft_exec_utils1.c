@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:23:32 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/11 01:19:50 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:18:21 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**ft_2denv(t_env *envir)
 		if (!envir->value)
 		{
 			envir = envir->next;
-			continue;
+			continue ;
 		}
 		temp = ft_strjoin(ft_strdup(envir->key), "=");
 		temp1 = ft_strjoin(temp, envir->value);
@@ -129,4 +129,3 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	}
 	return (srclen);
 }
-

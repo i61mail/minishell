@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 12:26:01 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:44:39 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,10 @@ void		ft_builtin(t_list *comm, t_env **envir, t_vars *vars);
 t_list		*ft_check4red(t_list *comm, t_vars *vars);
 int			ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars);
 int			ft_file_err(char *binary, t_vars *vars);
+t_list		*ft_setup(t_list *comm, t_list **new_comm, t_vars *vars);
+int			ft_non_builtin(t_list *comm, t_env **envir, t_vars *vars);
+void		ft_wait(int id, t_vars *vars);
+void		ft_child(t_vars *vars, t_list *comm, t_env *envir);
 
 /*		export utils 	*/
 int			ft_strcmp_(char *s1, char *s2, char end);
@@ -243,5 +247,12 @@ void		ft_dump_env(t_env *envir, t_vars *vars);
 char		**ft_sort_env(char **envir);
 void		ft_print_env(t_env *envir, t_vars *vars);
 char		**ft_2envkeys(t_env *envir);
+
+/*   redirection utils   */
+int			ft_ambiguos(t_list *next_node, t_vars *vars);
+int			ft_redout(t_list *next_node, t_vars *vars);
+int			ft_redappend(t_list *next_node, t_vars *vars);
+int			ft_redin(t_list *next_node, t_vars *vars);
+int			ft_redheredoc(t_list *next_node, t_vars *vars);
 
 #endif
