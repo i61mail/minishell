@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 17:35:57 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/27 10:20:56 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_vars
 	int				env_i;
 	int				is_signal;
 	int				not_pass;
+	int				bef_dollar;
 }		t_vars;
 
 typedef struct s_env
@@ -176,7 +177,7 @@ char		*ft_itoa(int nbr);
 void		ft_putnbr_fd(int n, int fd);
 void		handle_ctrlc(int sig);
 int			ft_catch(int type, int value);
-void		add_to_temp(char **str_temp, int *i, char *read);
+void		add_to_temp(char **str_temp, int *i, t_vars *vars);
 int			handle_dollar(t_args *args, t_env **envir, t_list **comm);
 int			returning(t_vars *vars, int *i, t_list **comm);
 void		init_v(int *check, char **temp);

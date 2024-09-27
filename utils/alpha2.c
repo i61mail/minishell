@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:55:00 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 17:50:57 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/27 10:20:19 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ void	copie_to_node(char **str, t_list **comm, t_vars *vars)
 	last_be_first(str, &b, s, vars);
 }
 
-void	add_to_temp(char **str_temp, int *i, char *read)
+void	add_to_temp(char **str_temp, int *i, t_vars *vars)
 {
 	char	temp[2];
 
+	vars->bef_dollar = 1;
 	temp[1] = '\0';
-	temp[0] = read[*i];
+	temp[0] = vars->read[*i];
 	*str_temp = ft_strjoin(*str_temp, temp);
 	(*i)++;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 22:06:18 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/27 10:30:32 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->befor = NULL;
 	vars->env_i = 0;
 	vars->not_pass = 0;
+	vars->bef_dollar = 0;
 	strcpy_env(envir, env);
 	if (!*envir)
 		vars->env_i = three_vars(envir);

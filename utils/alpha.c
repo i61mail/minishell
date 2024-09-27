@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   alpha.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:52:49 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 22:04:32 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/27 10:24:28 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,12 @@ int	ft_arealpha(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	args.vars = vars;
 	args.i = i;
 	args.str_temp = &str_temp;
+	args.vars->bef_dollar = 0;
 	while (vars->read[*i])
 	{
 		if (!ft_issep(vars->read[*i]) && !ft_isspace(vars->read[*i])
 			&& !ft_isquotes(vars->read[*i]) && vars->read[*i] != '$')
-			add_to_temp(&str_temp, i, vars->read);
+			add_to_temp(&str_temp, i, vars);
 		else
 		{
 			if (vars->read[*i] == '$')

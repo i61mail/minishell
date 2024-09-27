@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   alpha3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:56:11 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 21:49:10 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/27 10:25:46 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	handle_dollar(t_args *args, t_env **envir, t_list **comm)
 	if (hold == 2)
 		return (split_before_quotes(args->vars, args->str_temp, comm, args->i),
 			free(*(args->str_temp)), 2);
+	if (args->vars->bef_dollar == 0 && args->vars->not_pass == 1)
+		free(*(args->str_temp));
 	if (sspace(*(args->str_temp)) == 0 && args->vars->check_ambiguous == 1)
 		type = AMBIGUOUS;
 	if (args->vars->not_pass == 0 || *(args->str_temp)[0] != '\0')
