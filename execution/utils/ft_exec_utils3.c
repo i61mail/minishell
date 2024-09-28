@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 11:55:54 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 15:10:54 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 		}
 		else
 		{
-			// ft_lstadd_back(&new_comm, ft_lstnew(temp->content, temp->type));
+			ft_lstadd_back(&new_comm, ft_lstnew(temp->content, temp->type));
 			temp = temp->next;
 		}
 	}
-	return (comm);//returning new_comm
+	return (new_comm);
 }
