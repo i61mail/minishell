@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/28 13:29:33 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 17:36:25 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_heredoc
 	int		start;
 	int		fd;
 	int		passed_fd;
+	char	*last_arg;
 }		t_heredoc;
 
 typedef struct s_vars

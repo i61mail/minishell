@@ -6,11 +6,23 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/28 14:01:34 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 17:53:59 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	old_search(t_vars *vars, t_list *comm)
+{
+	while (comm && comm->content)
+	{
+		if (comm->type != RED_IN && comm->type != RED_OUT && comm->type != HEREDOC && comm->type != RED_APPEND && comm->type != PIP )
+			vars->last_arg = ft_strdup(comm->content);
+		else
+			break ;
+		comm = comm->next;
+	}
+}
 
 int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 {
@@ -36,6 +48,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
 	}
+	old_search(vars, *comm);
 	return (0);
 }
 
@@ -99,25 +112,6 @@ int	shell_level(t_env **envir)
 	return (0);
 }
 
-void	under_scor(t_env **envir, t_vars *vars)
-{
-	t_env *env;
-
-	env = *envir;
-	while (env)
-	{
-		if (ft_strncmp(env->key, "_\0", 2) == 0)
-		{
-			if (vars->last_arg)
-			{
-				add_to_node(ft_strdup("1_"), ft_strdup(vars->last_arg), envir);
-				break ;
-			}
-		}
-		env = env->next;
-	}
-}
-
 void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 {
 	*envir = NULL;
@@ -160,7 +154,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	{
 		if (comm)
 			ft_execute(vars, comm, envir);
-		ft_lstfree(&comm);
+		// ft_lstfree(&comm);
 		free(vars->read);
 	}
 	else
@@ -194,7 +188,6 @@ int	main(int ac, char **av, char **env)
 	rl_catch_signals = 0;
 	while (1)
 	{
-		under_scor(&envir, &vars);
 		tcsetattr(0, 0, &vars.reset);
 		if (ac == 1)
 		{
@@ -224,3 +217,7 @@ int	main(int ac, char **av, char **env)
 //_ not unset
 //echo as$s a
 //leak at cd $asd a ; cat << a a
+//minishell> cat
+//^Cminishell> echo > a
+//export a="das"
+//export a

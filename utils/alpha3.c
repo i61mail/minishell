@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:56:11 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/27 10:25:46 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 16:55:47 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ int	handle_dollar(t_args *args, t_env **envir, t_list **comm)
 	if (hold == 2)
 		return (split_before_quotes(args->vars, args->str_temp, comm, args->i),
 			free(*(args->str_temp)), 2);
-	if (args->vars->bef_dollar == 0 && args->vars->not_pass == 1)
-		free(*(args->str_temp));
 	if (sspace(*(args->str_temp)) == 0 && args->vars->check_ambiguous == 1)
 		type = AMBIGUOUS;
 	if (args->vars->not_pass == 0 || *(args->str_temp)[0] != '\0')
 	{
 		replace_expand(*(args->str_temp), comm, type);
 	}
+	if (args->vars->bef_dollar == 0 && args->vars->not_pass == 1)
+		free(*(args->str_temp));
 	return (0);
 }

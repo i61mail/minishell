@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 14:00:25 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 17:36:22 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	init_heredoc(t_heredoc *herdoc)
 	herdoc->passed_fd = 0;
 	herdoc->file_name = NULL;
 	herdoc->child_status = 0;
+	herdoc->last_arg = NULL;
 }
 
 void	child_exitstatus(t_heredoc *herdoc, t_vars *vars)
@@ -57,6 +58,7 @@ void	read_heredoc(t_heredoc *herdoc, t_env **envir, t_vars *vars)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
+	herdoc->last_arg = ft_strdup(vars->last_arg);
 	while (1)
 	{
 		herdoc->here_line = readline("> ");

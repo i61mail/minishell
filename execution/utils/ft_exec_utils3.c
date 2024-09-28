@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 15:10:54 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 17:37:52 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 			temp = temp->next;
 			if (temp)
 				temp = temp->next;
+			if (temp)
+				vars->last_arg = ft_strdup(temp->content);
 		}
 		else
 		{

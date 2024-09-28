@@ -6,13 +6,13 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:36:10 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 13:56:22 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 17:38:20 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*ft_check_env_here(t_env **envir, char *comp)
+char	*ft_check_env_here(t_env **envir, char *comp, t_heredoc *herdoc)
 {
 	char	*exp;
 	t_env	*temp;
@@ -23,6 +23,14 @@ char	*ft_check_env_here(t_env **envir, char *comp)
 		return (NULL);
 	while (comp && temp && temp->key)
 	{
+		if (ft_strncmp(comp, "_\0", 2) == 0)
+		{
+			if (herdoc->last_arg)
+			{
+				exp = ft_strdup(herdoc->last_arg);
+				return (free(comp), exp);
+			}
+		}
 		if (ft_strcmp(comp, temp->key) == 0)
 		{
 			exp = ft_strdup(temp->value);
@@ -58,7 +66,7 @@ int	expanding_here(t_heredoc *herdoc, int *i, char **str_temp, t_env **envir)
 	}
 	if (herdoc->here_line[*i] == '?')
 		heredoc_status(comp, str_temp, i, herdoc);
-	comp = ft_check_env_here(envir, comp);
+	comp = ft_check_env_here(envir, comp, herdoc);
 	if (comp)
 		*str_temp = ft_strjoin(*str_temp, comp);
 	if (*str_temp[0] == '\0')
