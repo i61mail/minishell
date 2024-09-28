@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/25 12:27:12 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:06:15 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ void	ft_dump_env(t_env *envir, t_vars *vars)
 		}
 		i++;
 	}
-	ft_free_2d_array(sorted);
+	ft_free_2d_array(&sorted);
 }

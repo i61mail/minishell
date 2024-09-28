@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 11:51:21 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/28 19:47:59 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 
 	i = 0;
 	vars->check_ambiguous = 0;
+	vars->is_signal = 0;
 	while (vars->read[i] != '\0')
 	{
 		if (!ft_issep(vars->read[i])
@@ -29,7 +30,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		{
 			if (ft_aresep(vars, &i, comm, envir) == -1)
 				return (-1);
-			if (vars->exit_status == 130 && (*comm)->type == HEREDOC)
+			if (vars->exit_status == 130)
 				break ;
 		}
 		if (quotes(vars, &i, comm, envir) == -1)
@@ -50,6 +51,14 @@ int	three_vars(t_env **envir)
 		ft_strdup("/usr/bin/env"), envir);
 	add_to_node(ft_strdup("OLDPWD"), NULL, envir);
 	return (1);
+}
+
+void	warning_error(long long *increm)
+{
+	ft_putstr_fd("warning: shell level (", 2);
+	ft_putnbr_fd(*increm, 2);
+	ft_putstr_fd(") too high, resetting to 1\n", 2);
+	*increm = 1;
 }
 
 int	shell_level(t_env **envir)
@@ -79,12 +88,7 @@ int	shell_level(t_env **envir)
 				break ;
 			}
 			else if (increm > 1000)
-			{
-				ft_putstr_fd("warning: shell level (", 2);
-				ft_putnbr_fd(increm, 2);
-				ft_putstr_fd(") too high, resetting to 1\n", 2);
-				increm = 1;
-			}
+				warning_error(&increm);
 			free(env->value);
 			env->value = ft_itoa(increm);
 		}
@@ -132,10 +136,14 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	add_history(vars->read);
 	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
+		//t_list *temp = comm;
+		//while(temp)
+		//{
+		//	printf("%s %d\n",temp->content, temp->type);
+		//	temp = temp->next;
+		//}
 		if (comm)
-		{
-			ft_execute(vars, comm, envir);
-		}
+			comm = ft_execute(vars, comm, envir);
 		free(vars->read);
 	}
 	else
@@ -148,6 +156,7 @@ void	handle_ctrlc(int sig)
 	(void)sig;
 	if (ft_catch(1, 2) == 2)
 		return ;
+	ft_catch(2, 4);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -175,7 +184,7 @@ int	main(int ac, char **av, char **env)
 			if (!vars.read)
 			{
 				ft_putstr_fd("exit\n", 1);
-				free_all(vars.read, &comm, &envir);
+				// free_all(vars.read, &envir);
 				break ;
 			}
 			pars_exec(&vars, comm, &envir);
@@ -189,6 +198,6 @@ int	main(int ac, char **av, char **env)
 	exit(vars.exit_status);
 }
 
-//expansion exit status heredoc
 //./minishell > a
 //exit < MINLONGLONG
+//ls 4> d

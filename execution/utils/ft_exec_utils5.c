@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils5.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:42:26 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 13:42:54 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:03:22 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,19 @@ void	ft_wait(int id, t_vars *vars)
 
 	if (waitpid(id, &pid, 0) > 0)
 	{
-		if (WIFEXITED(pid))
-			vars->exit_status = WEXITSTATUS(pid);
+		if (vars->exit_status == 130 && vars->is_signal == 1)
+		{
+			vars->exit_status = 1;
+			return ;
+		}
+    	if (WIFEXITED(pid))
+        	vars->exit_status = WEXITSTATUS(pid);
 		else if (WIFSIGNALED(pid))
 			vars->exit_status = 128 + WTERMSIG(pid);
 		if (vars->exit_status == 131)
 			printf("Quit: 3\n");
-		ft_catch(0, -1);
 	}
 	while (wait(NULL) > 0)
 		;
+	ft_catch(0, -1);
 }

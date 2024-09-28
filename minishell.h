@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 13:44:39 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:06:32 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_heredoc
 	char	*file_name;
 	pid_t	return_fork;
 	int		child_status;
+	int		parrent_status;
 	int		len;
 	int		start;
 	int		fd;
@@ -68,6 +69,7 @@ typedef struct s_vars
 	int				check_ambiguous;
 	int				inside;
 	int				env_i;
+	int				is_signal;
 }		t_vars;
 
 typedef struct s_env
@@ -133,8 +135,6 @@ int			double_quo(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
 void		replace_expand(char *str_temp, t_list **comm, int type);
 int			expanding(t_vars *vars, int *i, char **str_temp, t_env **envir);
-void		init_va(int *check, char **temp);
-void		check_dollar(t_vars *vars, int *i, char **str_temp);
 int			dollar_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			just_alpha(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			before_quotes(t_vars *vars, int *i, char **str_temp, t_env **envir);
@@ -143,7 +143,6 @@ int			ft_dollar(t_vars *vars, int *i, char **str_temp, t_env **envir);
 int			append_dollar2(t_vars *vars, int *i, char **temp, t_env **envir);
 int			join_afterdollar(t_vars *vars, int *i, char **str_temp);
 int			address_quote(t_vars *vars, int *i, char **str_temp, t_env **envir);
-void		initi_vars(int *check, char **temp);
 int			append_dollar(t_vars *vars, int *i, char **temp, t_env **envir);
 int			ft_aresep3(t_vars *vars, int *i, int type, t_list **comm);
 int			ft_aresep2(t_vars *vars, int *i, int type, t_list **comm);
@@ -176,6 +175,29 @@ char		*ft_itoa(int nbr);
 void		ft_putnbr_fd(int n, int fd);
 void		handle_ctrlc(int sig);
 int			ft_catch(int type, int value);
+void		add_to_temp(char **str_temp, int *i, char *read);
+int			handle_dollar(t_args *args, t_env **envir, t_list **comm);
+int			returning(t_vars *vars, int *i, t_list **comm);
+void		init_v(int *check, char **temp);
+int			double_pointer(char **str);
+int			check_space(char *str);
+void		check_splited(t_vars *vars, int *i, int *type);
+void		split_before_quotes(t_vars *vars, char **str_temp,
+				t_list **comm, int *i);
+
+/*       heredoc          */
+
+int			store_here(t_heredoc *herdoc, t_env **envir, t_vars *vars);
+int			gen_file_name(t_heredoc *herdoc);
+void		add_to_temp_here(char **str_temp, int *i, char *line);
+int			heredoc_single(t_vars *vars, int *i, char **str_temp);
+int			heredoc_double(t_vars *vars, int *i, char **str_temp);
+int			heredoc_char(t_vars *vars, int *i, char **str_temp);
+void		isthere_quotes(char *str, int *i, int *var);
+void		skip_digit_here(t_heredoc *herdoc, int *i, int *check);
+int			append_dollar2_here(t_heredoc *herdoc, int *i, char **temp,
+				t_env **envir);
+void		add_to_str_temp(t_vars *vars, int *i, char **str_temp, int check);
 
 /*    utils check*/
 
@@ -196,9 +218,11 @@ t_env		*ft_lstenv(char *key, char *value);
 void		ft_lstenvadd_back(t_env **lst, t_env *new);
 t_env		*ft_lstenvlast(t_env *lst);
 void		ft_env_free(t_env **env);
+int			extra_vars(char *key, char *value, t_env **envir);
+int			add_to_node(char *key, char *value, t_env **envir);
 
 /*       execution      */
-void		ft_execute(t_vars *vars, t_list *comm, t_env **envir);
+t_list		*ft_execute(t_vars *vars, t_list *comm, t_env **envir);
 
 /*        builtins        */
 int			ft_echo(t_list *command, t_vars *vars);
@@ -210,6 +234,7 @@ void		ft_env(t_env *envir, t_vars *vars);
 void		ft_unset(t_list *command, t_env **envir, t_vars *vars);
 
 /* 		  exec utils	*/
+
 int			ft_env_length(t_env *envir);
 int			ft_comm_length(t_list *comm);
 int			ft_pipe_num(t_list *comm);
@@ -223,7 +248,7 @@ int			ft_isred(int t);
 int			ft_put_error(char *before, char *sep, char *after);
 char		*ft_strchr_2(const char *str, const char *sep);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void		ft_free_2d_array(char **array);
+void		ft_free_2d_array(char ***array);
 t_list		*ft_dup_comm(t_list *comm);
 int			ft_is_builtin(char *command);
 char		*my_getenv(char *str, t_env *envir);
@@ -237,6 +262,7 @@ void		ft_wait(int id, t_vars *vars);
 void		ft_child(t_vars *vars, t_list *comm, t_env *envir);
 
 /*		export utils 	*/
+
 int			ft_strcmp_(char *s1, char *s2, char end);
 int			ft_invalid_char(char *kandv, t_vars *vars);
 int			ft_var_type(char *var);
@@ -248,7 +274,17 @@ char		**ft_sort_env(char **envir);
 void		ft_print_env(t_env *envir, t_vars *vars);
 char		**ft_2envkeys(t_env *envir);
 
+/*      cd utils         */
+
+char		*update_old_pwd(t_env **envir);
+void		update_pwd2(t_env *env, char **pwd, char *points);
+int			update_pwd(t_env **envir, int bool, char **pwd);
+void		to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars);
+void		to_home(t_vars *vars);
+void		cd_error(void);
+
 /*   redirection utils   */
+
 int			ft_ambiguos(t_list *next_node, t_vars *vars);
 int			ft_redout(t_list *next_node, t_vars *vars);
 int			ft_redappend(t_list *next_node, t_vars *vars);

@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:19:54 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 11:18:13 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:06:40 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,24 @@ char	*ft_locate_bin(char *command, char *path)
 	char	*temp;
 	char	*temp1;
 	char	*bin;
+	int		i;
 
+	i = 0;
 	bin = NULL;
 	if (!command || !(*command) || ft_isalldots(command))
 		return (NULL);
 	if (ft_strchr(command, '/'))
 		return (command);
 	_path = ft_split_char(path, ':');
-	while (_path && *_path)
+	while (_path && _path[i])
 	{
-		temp = ft_strjoin(ft_strdup(*_path), "/");
-		temp1 = ft_strjoin(temp, ft_strdup(command));
+		temp = ft_strjoin(ft_strdup(_path[i]), "/");
+		temp1 = ft_strjoin(temp, command);
 		if (!access(temp1, X_OK | F_OK))
 			bin = ft_strdup(temp1);
 		free(temp1);
-		_path++;
+		i++;
 	}
-	//ft_free_2d_array(_path);
+	ft_free_2d_array(&_path);
 	return (bin);
 }

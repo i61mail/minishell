@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/10 01:47:16 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:35:18 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_unset_vars(t_list *command, t_env **envir)
 		temp = *envir;
 		while (temp)
 		{
-			if (!ft_strcmp(splitd[i], temp->key))
+			if (!ft_strcmp(splitd[i], temp->key) && ft_strcmp(splitd[i], "_"))
 			{
 				if (!prev)
 					*envir = ft_free_node(temp);

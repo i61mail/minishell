@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/24 19:57:49 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/28 18:47:56 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,18 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 		if (ft_isred(temp->type))
 		{
 			if (ft_handle_redir(temp, temp->next, vars) == -1)
-				return (NULL);// need to free new comm at exit
+				return (NULL);
 			temp = temp->next;
 			if (temp)
 				temp = temp->next;
 		}
 		else
 		{
-			ft_lstadd_back(&new_comm, ft_lstnew(temp->content, temp->type));
+			ft_lstadd_back(&new_comm,
+				ft_lstnew(ft_strdup(temp->content), temp->type));
 			temp = temp->next;
 		}
 	}
+	ft_lstfree(&comm);
 	return (new_comm);
 }

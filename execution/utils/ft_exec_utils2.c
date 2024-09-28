@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:38:21 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 13:48:31 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:07:04 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,18 @@ int	ft_split_2(const char *str, const char *sep, char **k, char **v)
 	return (0);
 }
 
-void	ft_free_2d_array(char **array)
+void	ft_free_2d_array(char ***array)
 {
 	int	i;
 
 	i = 0;
-	while (array && array[i])
+	while (array && *array && (*array)[i])
 	{
-		free(array[i]);
+		free((*array)[i]);
 		i++;
 	}
-	free(array);
+	free(*array);
+	*array = NULL;
 }
 
 int	ft_pipe_num(t_list *comm)
@@ -69,27 +70,30 @@ int	ft_pipe_num(t_list *comm)
 t_list	*ft_dup_comm(t_list *comm)
 {
 	t_list	*new_comm;
+	t_list	*tmp;
 	int		i;
 	char	**splitd;
 
 	new_comm = NULL;
-	while (comm)
+	tmp = comm;
+	while (tmp)
 	{
 		i = 0;
-		if (comm->type != SPLITED)
+		if (tmp->type != SPLITED)
 			ft_lstadd_back(&new_comm,
-				ft_lstnew(ft_strdup(comm->content), comm->type));
+				ft_lstnew(ft_strdup(tmp->content), tmp->type));
 		else
 		{
-			splitd = ft_split_space(comm->content);
+			splitd = ft_split_space(tmp->content);
 			while (splitd && splitd[i])
 			{
 				ft_lstadd_back(&new_comm, ft_lstnew(ft_strdup(splitd[i]), 0));
 				i++;
 			}
-			ft_free_2d_array(splitd);
+			ft_free_2d_array(&splitd);
+			splitd = NULL;
 		}
-		comm = comm->next;
+		tmp = tmp->next;
 	}
 	ft_lstfree(&comm);
 	return (new_comm);

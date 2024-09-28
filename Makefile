@@ -1,6 +1,6 @@
 CC = cc
 RDLPATH=$(shell brew --prefix readline)
-CFLAGS = -Wall -Werror -Wextra -g  -I $(RDLPATH)/include #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g  -I $(RDLPATH)/include -fsanitize=address 
 
 TARGET = minishell
 
@@ -9,13 +9,17 @@ EXEC_MAN =	./execution/ft_execute.c ./execution/builtins/ft_echo.c ./execution/b
 	./execution/builtins/ft_export.c ./execution/builtins/ft_env.c ./execution/builtins/ft_unset.c \
 	./execution/utils/ft_exec_utils1.c ./execution/utils/ft_exec_utils2.c ./execution/utils/ft_export_utils.c \
 	./execution/utils/ft_export_utils1.c ./execution/utils/ft_exec_utils3.c ./execution/utils/ft_exec_utils4.c \
-	./execution/utils/ft_red_utils.c ./execution/utils/ft_exec_utils5.c
+	./execution/utils/ft_cd_utils.c ./execution/utils/ft_red_utils.c ./execution/utils/ft_exec_utils5.c \
+	./execution/utils/ft_cd_utils1.c
 
-SRC_MAN =  $(EXEC_MAN)  main.c utils/list_utils.c utils/lib_func.c utils/lib_func2.c utils/lib_func3.c \
-	utils/ft_even_odd.c utils/ft_redircmp.c utils/token.c utils/ft_iswhat.c utils/arewhat.c \
-	utils/ft_separator.c parsing/env.c utils/quotes.c utils/env_utils.c utils/quote_utils.c \
-	utils/lib_func4.c utils/ft_strchr.c utils/expanding.c utils/dollar.c utils/temp.c \
-	utils/temp2.c utils/heredoc.c utils/lib_func5.c
+SRC_MAN =  $(EXEC_MAN)  main.c utils/list_utils.c utils/libft/func.c utils/libft/func1.c utils/libft/func2.c\
+	utils/libft/func3.c utils/libft/func4.c utils/libft/func5.c \
+	utils/token.c utils/ft_iswhat.c utils/alpha.c utils/libft/func6.c \
+	utils/sep_syntax.c parsing/env.c utils/quotes.c parsing/env_utils.c utils/quote_utils.c \
+	utils/expanding.c utils/dollar.c utils/quote_utils2.c utils/alpha2.c utils/alpha3.c\
+	utils/separator.c utils/quote_utils3.c parsing/env_utils2.c \
+	utils/heredoc/heredoc.c utils/heredoc/heredoc_filename.c utils/heredoc/heredoc_delimiter.c \
+	utils/heredoc/heredoc_expansion.c utils/heredoc/heredoc_expansion2.c utils/heredoc/heredoc_expansion3.c \
 
 OBJ_MAN = ${SRC_MAN:.c=.o}
 
