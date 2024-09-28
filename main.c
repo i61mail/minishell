@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/28 17:53:59 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 18:19:07 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	old_search(t_vars *vars, t_list *comm)
 {
 	while (comm && comm->content)
 	{
-		if (comm->type != RED_IN && comm->type != RED_OUT && comm->type != HEREDOC && comm->type != RED_APPEND && comm->type != PIP )
+		if (comm->type != RED_IN && comm->type != RED_OUT && comm->type != HEREDOC && comm->type != RED_APPEND && comm->type != PIP)
+		{
+			free(vars->last_arg);
 			vars->last_arg = ft_strdup(comm->content);
+		}
 		else
 			break ;
 		comm = comm->next;
@@ -154,7 +157,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	{
 		if (comm)
 			ft_execute(vars, comm, envir);
-		// ft_lstfree(&comm);
+		ft_lstfree(&comm);
 		free(vars->read);
 	}
 	else
@@ -166,6 +169,11 @@ void	handle_ctrlc(int sig)
 {
 	(void)sig;
 	if (ft_catch(1, 2) == 2)
+	{
+		write(1, "\n", 1);
+		return ;
+	}
+	else if (ft_catch(1, 5) == 5)
 		return ;
 	ft_catch(2, 4);
 	write(1, "\n", 1);
@@ -195,7 +203,6 @@ int	main(int ac, char **av, char **env)
 			if (!vars.read)
 			{
 				ft_putstr_fd("exit\n", 1);
-				// free_all(vars.read, &envir);
 				break ;
 			}
 			pars_exec(&vars, comm, &envir);
@@ -209,14 +216,9 @@ int	main(int ac, char **av, char **env)
 	exit(vars.exit_status);
 }
 
-//./minishell > a
 //exit < MINLONGLONG
-//ls 4> d
 // cat | << alkdjsf
 // cat << a << b < main.c
-//_ not unset
-//echo as$s a
-//leak at cd $asd a ; cat << a a
 //minishell> cat
 //^Cminishell> echo > a
 //export a="das"

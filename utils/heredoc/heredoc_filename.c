@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:38:21 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 13:57:25 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 18:17:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,13 @@ int	ft_catch(int type, int value)
 		return (var);
 	}
 	else if (type == 3)
+		return (var);
+	if (type == 4)
+	{
+		var = value;
+		return (var);
+	}
+	else if (type == 4)
 		return (var);
 	return (-1);
 }

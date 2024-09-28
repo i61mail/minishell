@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:42:26 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 14:06:29 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 18:20:11 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	ft_non_builtin(t_list *comm, t_env **envir, t_vars *vars)
 	int	id;
 
 	id = fork();
-	ft_catch(0, 2);
+	if (ft_strncmp(comm->content, "./minishell\0", 12) == 0)
+		ft_catch(4, 5);
+	else
+		ft_catch(0, 2);
 	if (id == -1)
 	{
 		perror("minishell: fork:");
