@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 16:03:25 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 14:18:11 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,12 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		vars->old_fd = vars->pfd[0];
 		if (vars->pfd[1] != 1)
 			close(vars->pfd[1]);
+		if (!new_comm)
+		{
+			free(vars->last_arg);
+			vars->last_arg = ft_strdup(comm->content);
+		}
+		ft_lstfree(&comm);
 		comm = new_comm;
 		vars->cmd_num++;
 	}
