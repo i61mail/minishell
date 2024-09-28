@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:42:26 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 16:03:22 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 14:06:29 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	ft_wait(int id, t_vars *vars)
 			vars->exit_status = 1;
 			return ;
 		}
-    	if (WIFEXITED(pid))
-        	vars->exit_status = WEXITSTATUS(pid);
+		if (WIFEXITED(pid))
+			vars->exit_status = WEXITSTATUS(pid);
 		else if (WIFSIGNALED(pid))
 			vars->exit_status = 128 + WTERMSIG(pid);
 		if (vars->exit_status == 131)

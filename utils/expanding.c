@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/27 17:42:34 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 13:57:18 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	replace_expand(char *str_temp, t_list **comm, int type)
 	free(str_temp);
 }
 
-char	*ft_check_env(t_env **envir, char *comp)
+char	*ft_check_env(t_env **envir, char *comp, t_vars *vars)
 {
 	char	*exp;
 	t_env	*temp;
@@ -39,6 +39,11 @@ char	*ft_check_env(t_env **envir, char *comp)
 		return (NULL);
 	while (comp && temp && temp->key)
 	{
+		if (ft_strncmp(comp, "_\0", 2) == 0 && vars->last_arg)
+		{
+			exp = ft_strdup(vars->last_arg);
+			return (free(comp), exp);
+		}
 		if (ft_strcmp(comp, temp->key) == 0)
 		{
 			exp = ft_strdup(temp->value);
@@ -77,7 +82,7 @@ int	expanding(t_vars *vars, int *i, char **temp, t_env **envir)
 	}
 	if (vars->read[*i] == '?')
 		return (expand_exit_status(vars, &comp, i, temp), 0);
-	comp = ft_check_env(envir, comp);
+	comp = ft_check_env(envir, comp, vars);
 	if (comp)
 		*temp = ft_strjoin(*temp, comp);
 	if (*temp[0] == '\0')

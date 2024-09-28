@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/27 10:20:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 13:29:33 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_vars
 	int				is_signal;
 	int				not_pass;
 	int				bef_dollar;
+	char			*last_arg;
 }		t_vars;
 
 typedef struct s_env

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:40:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 17:40:13 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 12:38:42 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ int	extra_vars(char *key, char *value, t_env **envir)
 	{
 		free(value);
 		value = NULL;
+	}
+	if (ft_strncmp(key, "_\0", 2) == 0)
+	{
+		free(value);
+		value = ft_strdup("/usr/bin/env");
 	}
 	if (add_to_node(key, value, envir) == -1)
 		return (-1);

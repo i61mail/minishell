@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/27 10:30:32 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/28 14:01:34 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	shell_level(t_env **envir)
 	env = *envir;
 	while (env)
 	{
-		if (ft_strcmp(env->key, "SHLVL") == 0)
+		if (ft_strncmp(env->key, "SHLVL\0", 6) == 0)
 		{
 			is = 1;
 			old_increm = ft_atoi(env->value);
@@ -97,6 +97,25 @@ int	shell_level(t_env **envir)
 	if (is == 0)
 		add_to_node(ft_strdup("SHLVL"), ft_strdup("1"), envir);
 	return (0);
+}
+
+void	under_scor(t_env **envir, t_vars *vars)
+{
+	t_env *env;
+
+	env = *envir;
+	while (env)
+	{
+		if (ft_strncmp(env->key, "_\0", 2) == 0)
+		{
+			if (vars->last_arg)
+			{
+				add_to_node(ft_strdup("1_"), ft_strdup(vars->last_arg), envir);
+				break ;
+			}
+		}
+		env = env->next;
+	}
 }
 
 void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
@@ -127,6 +146,7 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->env_i = 0;
 	vars->not_pass = 0;
 	vars->bef_dollar = 0;
+	vars->last_arg = NULL;
 	strcpy_env(envir, env);
 	if (!*envir)
 		vars->env_i = three_vars(envir);
@@ -174,6 +194,7 @@ int	main(int ac, char **av, char **env)
 	rl_catch_signals = 0;
 	while (1)
 	{
+		under_scor(&envir, &vars);
 		tcsetattr(0, 0, &vars.reset);
 		if (ac == 1)
 		{
