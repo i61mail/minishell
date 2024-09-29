@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:39:54 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 11:02:37 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 14:56:55 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,16 @@ void	update_pwd2(t_env *env, char **pwd, char *points)
 	{
 		if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
 		{
+			free(env->value);
 			env->value = ft_strdup(*pwd);
 			env->value = ft_strjoin(env->value, points);
 		}
 		else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
 		{
+			free(env->value);
 			env->value = ft_strdup(*pwd);
 			env->value = ft_strjoin(env->value, points);
+			free(*pwd);
 			*pwd = ft_strdup(env->value);
 		}
 		env = env->next;
@@ -108,7 +111,7 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars, int *first_time)
 {
 	int	var_chdir;
-
+	
 	var_chdir = chdir(*old_pwd);
 	if (var_chdir == 0)
 	{

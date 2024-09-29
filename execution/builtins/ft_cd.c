@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 13:21:43 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 14:33:13 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ void	ft_remove_dir(char **old_pwd, t_env **envir, t_list *comm)
 	{
 		if (ft_strncmp(comm->content, "..\0", 3) == 0)
 		{
+			free(*old_pwd);
 			*old_pwd = update_old_pwd(envir);
 			update_pwd(envir, 2, old_pwd);
 			cd_error();
 		}
 		else if (ft_strncmp(comm->content, ".\0", 2) == 0)
 		{
+			free(*old_pwd);
 			*old_pwd = update_old_pwd(envir);
 			update_pwd(envir, 3, old_pwd);
 			cd_error();
@@ -35,6 +37,8 @@ void	ft_remove_dir(char **old_pwd, t_env **envir, t_list *comm)
 	}
 	else
 	{
+		if (*old_pwd)
+			free(*old_pwd);
 		*old_pwd = update_old_pwd(envir);
 		update_pwd(envir, 0, old_pwd);
 	}
@@ -104,12 +108,16 @@ int	ft_cd(t_vars *vars, t_list *comm, t_env **envir)
 		{
 			to_oldpwd(comm, &old_pwd, vars, &first_time);
 			if (first_time == 0)
+			{
+				free(old_pwd);
 				old_pwd = update_old_pwd(envir);
+			}
 			update_pwd(envir, 0, &old_pwd);
 		}
 		else if (ft_strncmp(comm->content, "~\0", 2) == 0)
 		{
 			to_home(vars);
+			free(old_pwd);
 			old_pwd = update_old_pwd(envir);
 			update_pwd(envir, 0, &old_pwd);
 		}

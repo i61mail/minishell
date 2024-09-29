@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 18:28:00 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 14:36:54 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 14:45:37 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_pwd(t_vars *vars, t_env **envir)
 	pwd = getcwd(pwd, PATH_MAX);
 	if (!pwd)
 	{
-		free(save_pwd);
 		get_my_pwd(envir, &save_pwd);
 		pwd = save_pwd;
 	}
