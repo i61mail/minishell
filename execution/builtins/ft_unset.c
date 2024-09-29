@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 15:47:37 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 18:08:49 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	ft_unset_vars(t_list *command, t_env **envir)
 	t_env	*temp;
 
 	i = -1;
+	prev = NULL;
 	splitd = ft_split_space(command->content);
 	while (splitd && splitd[++i])
 	{
