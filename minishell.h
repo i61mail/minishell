@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 15:13:37 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 16:11:36 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_vars
 	int				not_pass;
 	int				bef_dollar;
 	char			*last_arg;
+	int				old_pwd;
 }		t_vars;
 
 typedef struct s_env
@@ -289,6 +290,9 @@ void		to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars,
 				int *first_time);
 void		to_home(t_vars *vars);
 void		cd_error(void);
+void		check_permission(t_vars *vars, t_list *comm);
+void		ft_remove_dir(char **old_pwd, t_env **envir, t_list *comm);
+void		reg_dir(char **old_pwd, t_env **envir);
 
 /*   redirection utils   */
 

@@ -4,13 +4,13 @@ CFLAGS = -Wall -Werror -Wextra -g  -I $(RDLPATH)/include #-fsanitize=address
 
 TARGET = minishell
 
-EXEC_MAN =	./execution/ft_execute.c ./execution/builtins/ft_echo.c ./execution/builtins/ft_cd.c  \
+EXEC_MAN =	./execution/ft_execute.c ./execution/ft_execute2.c ./execution/builtins/ft_echo.c ./execution/builtins/ft_cd.c  \
 	./execution/builtins/ft_pwd.c ./execution/builtins/ft_exit.c ./execution/utils/ft_exec_utils.c \
 	./execution/builtins/ft_export.c ./execution/builtins/ft_env.c ./execution/builtins/ft_unset.c \
 	./execution/utils/ft_exec_utils1.c ./execution/utils/ft_exec_utils2.c ./execution/utils/ft_export_utils.c \
 	./execution/utils/ft_export_utils1.c ./execution/utils/ft_exec_utils3.c ./execution/utils/ft_exec_utils4.c \
 	./execution/utils/ft_cd_utils.c ./execution/utils/ft_red_utils.c ./execution/utils/ft_exec_utils5.c \
-	./execution/utils/ft_cd_utils1.c
+	./execution/utils/ft_cd_utils1.c ./execution/utils/ft_cd_utils2.c
 
 SRC_MAN =  $(EXEC_MAN)  main.c utils/list_utils.c utils/libft/func.c utils/libft/func1.c utils/libft/func2.c\
 	utils/libft/func3.c utils/libft/func4.c utils/libft/func5.c \

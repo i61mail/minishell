@@ -6,21 +6,11 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 13:33:19 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 16:16:37 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	ft_is_builtin(char *command)
-{
-	if (!ft_strcmp(command, "cd\0") || !ft_strcmp(command, "echo\0")
-		|| !ft_strcmp(command, "env\0")
-		|| !ft_strcmp(command, "exit\0") || !ft_strcmp(command, "export\0")
-		|| !ft_strcmp(command, "pwd\0") || !ft_strcmp(command, "unset\0"))
-		return (1);
-	return (0);
-}
 
 char	*my_getenv(char *str, t_env *envir)
 {
@@ -61,6 +51,22 @@ int	ft_isred(int t)
 	return (0);
 }
 
+void	ft_check4red_util(t_list **temp, t_vars *vars)
+{
+	if (temp && *temp)
+		*temp = (*temp)->next;
+	if (temp && *temp)
+	{
+		if ((*temp)->type != HEREDOC)
+			vars->last_arg = ft_strdup((*temp)->content);
+		else
+		{
+			free(vars->last_arg);
+			vars->last_arg = NULL;
+		}
+	}
+}
+
 t_list	*ft_check4red(t_list *comm, t_vars *vars)
 {
 	t_list	*temp;
@@ -75,18 +81,7 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 			if (ft_handle_redir(temp, temp->next, vars) == -1)
 				return (NULL);
 			temp = temp->next;
-			if (temp)
-				temp = temp->next;
-			if (temp)
-			{
-				if (temp->type != HEREDOC)
-					vars->last_arg = ft_strdup(temp->content);
-				else
-				{
-					free(vars->last_arg);
-					vars->last_arg = NULL;
-				}
-			}
+			ft_check4red_util(&temp, vars);
 		}
 		else
 		{

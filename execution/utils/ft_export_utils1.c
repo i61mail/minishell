@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 10:52:13 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 16:07:20 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,27 @@ void	ft_handle_default(t_list *comm, t_env **envir)
 		free(key);
 }
 
+void	add_value(t_env **temp, char *value, int type)
+{
+	if (temp)
+	{
+		if (type == 1)
+		{
+			free((*temp)->value);
+			(*temp)->value = ft_strjoin(ft_strdup((*temp)->value), value);
+			free(value);
+		}
+		else
+		{
+			if (!value)
+				return ;
+			free((*temp)->value);
+			(*temp)->value = value;
+		}
+		return ;
+	}
+}
+
 void	ft_add_env(char *key, char *value, t_env **envir, int type)
 {
 	t_env	*new;
@@ -59,20 +80,7 @@ void	ft_add_env(char *key, char *value, t_env **envir, int type)
 			return ;
 		if (!ft_strcmp(temp->key, key))
 		{
-			if (type == 1)
-			{
-				free(temp->value);
-				temp->value = ft_strjoin(ft_strdup(temp->value), value);
-				free(value);
-			}
-			else
-			{
-				if (!value)
-					return ;
-				free(temp->value);
-				temp->value = value;
-			}
-			return ;
+			return (add_value(&temp, value, type));
 		}
 		temp = temp->next;
 	}

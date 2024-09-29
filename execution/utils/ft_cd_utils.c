@@ -6,44 +6,11 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:39:54 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 15:28:18 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 16:12:52 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-char	*update_old_pwd(t_env **envir)
-{
-	t_env		*env;
-	t_env		*env1;
-	char		*pwd;
-
-	pwd = NULL;
-	env = *envir;
-	env1 = *envir;
-	while (env1)
-	{
-		if (ft_strncmp(env1->key, "2PWD\0", 5) == 0
-			|| ft_strncmp(env1->key, "PWD\0", 4) == 0)
-		{
-			free(pwd);
-			pwd = ft_strdup(env1->value);
-			if (!pwd)
-				return (NULL);
-		}
-		env1 = env1->next;
-	}
-	while (env)
-	{
-		if (ft_strncmp(env->key, "OLDPWD\0", 7) == 0)
-		{
-			free(env->value);
-			env->value = ft_strdup(pwd);
-		}
-		env = env->next;
-	}
-	return (pwd);
-}
 
 void	update_pwd2(t_env *env, char **pwd, char *points)
 {
@@ -67,6 +34,24 @@ void	update_pwd2(t_env *env, char **pwd, char *points)
 	}
 }
 
+void	up_pwd_util(t_env *env, char **str)
+{
+	if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
+	{
+		free(env->value);
+		*str = getcwd(NULL, 0);
+		env->value = ft_strdup(*str);
+		free(*str);
+	}
+	else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
+	{
+		free(env->value);
+		*str = getcwd(NULL, 0);
+		env->value = ft_strdup(*str);
+		free(*str);
+	}
+}
+
 int	update_pwd(t_env **envir, int bool, char **pwd)
 {
 	t_env		*env;
@@ -80,20 +65,7 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 	{
 		while (env)
 		{
-			if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
-			{
-				free(env->value);
-				str = getcwd(NULL, 0);
-				env->value = ft_strdup(str);
-				free(str);
-			}
-			else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
-			{
-				free(env->value);
-				str = getcwd(NULL, 0);
-				env->value = ft_strdup(str);
-				free(str);
-			}
+			up_pwd_util(env, &str);
 			env = env->next;
 		}
 	}
@@ -111,7 +83,7 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars, int *first_time)
 {
 	int	var_chdir;
-	
+
 	var_chdir = chdir(*old_pwd);
 	if (var_chdir == 0)
 	{

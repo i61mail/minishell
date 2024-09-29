@@ -6,20 +6,11 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:38:21 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 09:01:50 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 16:16:18 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	ft_put_error(char *before, char *sep, char *after)
-{
-	ft_putstr_fd(before, 2);
-	ft_putstr_fd(sep, 2);
-	ft_putstr_fd(after, 2);
-	ft_putstr_fd("\n", 2);
-	return (1);
-}
 
 int	ft_split_2(const char *str, const char *sep, char **k, char **v)
 {
@@ -67,6 +58,15 @@ int	ft_pipe_num(t_list *comm)
 	return (n);
 }
 
+void	add_back(char **splitd, int *i, t_list **new_comm)
+{
+	while (splitd && splitd[*i])
+	{
+		ft_lstadd_back(new_comm, ft_lstnew(ft_strdup(splitd[*i]), 0));
+		(*i)++;
+	}
+}
+
 t_list	*ft_dup_comm(t_list *comm)
 {
 	t_list	*new_comm;
@@ -85,11 +85,7 @@ t_list	*ft_dup_comm(t_list *comm)
 		else
 		{
 			splitd = ft_split_space(tmp->content);
-			while (splitd && splitd[i])
-			{
-				ft_lstadd_back(&new_comm, ft_lstnew(ft_strdup(splitd[i]), 0));
-				i++;
-			}
+			add_back(splitd, &i, &new_comm);
 			ft_free_2d_array(&splitd);
 			splitd = NULL;
 		}
