@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 16:07:20 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 16:30:49 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ void	ft_add_env(char *key, char *value, t_env **envir, int type)
 	new->key = ft_strdup(key);
 	new->value = value;
 	if (type == 3)
+	{
+		free(new->value);
 		new->value = ft_strdup("");
+	}
 	new->next = NULL;
 	ft_lstenvadd_back(envir, new);
 }
