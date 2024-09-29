@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 19:16:19 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 19:35:33 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,11 @@ void	add_value(t_env **temp, char *value, int type)
 		{
 			if (!value)
 				return ;
-			tmp = (*temp)->value;
-			free(tmp);
+			if ((*temp)->value && (*temp)->value[0] != '\0')
+			{
+				tmp = (*temp)->value;
+				free(tmp);
+			}
 			(*temp)->value = value;
 		}
 		return ;
