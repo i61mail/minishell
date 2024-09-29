@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 14:36:02 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 09:05:55 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_unset_vars(t_list *command, t_env **envir)
 		temp = *envir;
 		while (temp)
 		{
-			if (!ft_strcmp(splitd[i], temp->key))
+			if (!ft_strcmp(splitd[i], temp->key) && ft_strcmp(splitd[i], "_"))
 			{
 				if (!prev)
 					*envir = ft_free_node(temp);
@@ -75,7 +75,7 @@ void	ft_unset_vars(t_list *command, t_env **envir)
 		}
 		i++;
 	}
-	ft_free_2d_array(splitd);// zdtha ana 
+	ft_free_2d_array(&splitd);// zdtha ana 
 }
 
 void	ft_unset(t_list *command, t_env **envir, t_vars *vars)

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 16:46:00 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 09:03:29 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(comm->content, 2);
 		ft_putstr_fd(": command not found\n", 2);
-		free(comm->content);
-		free(comm);
 		vars->exit_status = 127;
 		return (1);
 	}
@@ -33,6 +31,7 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 {
 	char	*binary;
 	char	**_2denv;
+	char	**_2dcomm;
 
 	dup_and_close(vars->pfd[1], 1);
 	dup_and_close(vars->old_fd, 0);
@@ -47,12 +46,16 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	{
 		comm->content = binary;
 		_2denv = ft_2denv(envir);
-		execve(binary, ft_2dcomm(comm), (char *const *)_2denv);
+		_2dcomm = ft_2dcomm(comm);
+		execve(binary, _2dcomm, (char *const *)_2denv);
 		perror(comm->content);
 		vars->exit_status = errno;
 	}
 	else
 		close(vars->old_fd);
+	free(binary);
+	//ft_free_2d_array(&_2denv);
+	//ft_free_2d_array(&_2dcomm);
 	exit(vars->exit_status);
 }
 
@@ -110,10 +113,11 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		comm = new_comm;
 		vars->cmd_num++;
 	}
+	ft_lstfree(&comm);
 	ft_wait(id, vars);
 }
 
-void	ft_execute(t_vars *vars, t_list *comm, t_env **envir)
+t_list	*ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 {
 	vars->numofpipes = ft_pipe_num(comm);
 	vars->builtin = 0;
@@ -121,9 +125,11 @@ void	ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	vars->pfd[1] = 1;
 	vars->atoifail = 0;
 	if (!comm)
-		return ;
+		return (NULL);
 	comm = ft_dup_comm(comm);
 	ft_run(vars, comm, envir);
 	if (vars->exit_status == 130 && vars->is_signal == 1)
 		vars->exit_status = 1;
+	return (comm);
 }
+

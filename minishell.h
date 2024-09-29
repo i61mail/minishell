@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/28 17:36:25 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 09:05:16 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ int			extra_vars(char *key, char *value, t_env **envir);
 int			add_to_node(char *key, char *value, t_env **envir);
 
 /*       execution      */
-void		ft_execute(t_vars *vars, t_list *comm, t_env **envir);
+t_list		*ft_execute(t_vars *vars, t_list *comm, t_env **envir);
 
 /*        builtins        */
 int			ft_echo(t_list *command, t_vars *vars);
@@ -253,7 +253,7 @@ int			ft_isred(int t);
 int			ft_put_error(char *before, char *sep, char *after);
 char		*ft_strchr_2(const char *str, const char *sep);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void		ft_free_2d_array(char **array);
+void		ft_free_2d_array(char ***array);
 t_list		*ft_dup_comm(t_list *comm);
 int			ft_is_builtin(char *command);
 char		*my_getenv(char *str, t_env *envir);

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 17:37:52 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 09:01:56 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 		if (ft_isred(temp->type))
 		{
 			if (ft_handle_redir(temp, temp->next, vars) == -1)
-				return (NULL);// need to free new comm at exit
+				return (NULL);
 			temp = temp->next;
 			if (temp)
 				temp = temp->next;
@@ -82,9 +82,11 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 		}
 		else
 		{
-			ft_lstadd_back(&new_comm, ft_lstnew(temp->content, temp->type));
+			ft_lstadd_back(&new_comm,
+				ft_lstnew(ft_strdup(temp->content), temp->type));
 			temp = temp->next;
 		}
 	}
+	ft_lstfree(&comm);
 	return (new_comm);
 }

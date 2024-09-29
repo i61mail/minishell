@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 15:44:04 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 09:02:56 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,5 @@ void	ft_dump_env(t_env *envir, t_vars *vars)
 		}
 		i++;
 	}
-	ft_free_2d_array(sorted);
+	ft_free_2d_array(&sorted);
 }

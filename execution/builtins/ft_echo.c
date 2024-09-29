@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:39:39 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/25 17:04:59 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/27 17:18:30 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_isflag(char *str)
 	if (!str || !(*str) || *str != '-')
 		return (0);
 	str++;
+	if (!(*str))
+		return (0);
 	while (*str)
 	{
 		if (*str != 'n')
