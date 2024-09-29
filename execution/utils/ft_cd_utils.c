@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:39:54 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 09:01:45 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 11:02:37 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 {
 	t_env		*env;
 	char		*points;
+	char		*str;
 
+	str = NULL;
 	points = NULL;
 	env = *envir;
 	if (bool == 0)
@@ -78,12 +80,16 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 			if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
 			{
 				free(env->value);
-				env->value = ft_strdup(getcwd(NULL, 0));
+				str = getcwd(NULL, 0);
+				env->value = ft_strdup(str);
+				free(str);
 			}
 			else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
 			{
 				free(env->value);
-				env->value = ft_strdup(getcwd(NULL, 0));
+				str = getcwd(NULL, 0);
+				env->value = ft_strdup(str);
+				free(str);
 			}
 			env = env->next;
 		}
@@ -99,7 +105,7 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 	return (0);
 }
 
-void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars)
+void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars, int *first_time)
 {
 	int	var_chdir;
 
@@ -111,6 +117,7 @@ void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars)
 	}
 	else if (var_chdir == -1)
 	{
+		*first_time = 1;
 		ft_put_error("minishell: ", comm->content, ": OLDPWD not set");
 		vars->exit_status = 1;
 	}

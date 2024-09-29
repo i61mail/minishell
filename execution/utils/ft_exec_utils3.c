@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 09:01:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 13:33:19 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,15 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 			if (temp)
 				temp = temp->next;
 			if (temp)
-				vars->last_arg = ft_strdup(temp->content);
+			{
+				if (temp->type != HEREDOC)
+					vars->last_arg = ft_strdup(temp->content);
+				else
+				{
+					free(vars->last_arg);
+					vars->last_arg = NULL;
+				}
+			}
 		}
 		else
 		{

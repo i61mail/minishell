@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 12:02:26 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/28 17:39:58 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 13:34:09 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_check_env(t_env **envir, char *comp, t_vars *vars)
 	{
 		if (ft_strncmp(comp, "_\0", 2) == 0)
 		{
-			if (vars->numofpipes > 0)
+			if (vars->numofpipes > 0 || !vars->last_arg)
 				return (free(comp), exp);
 			if (vars->last_arg)
 			{
