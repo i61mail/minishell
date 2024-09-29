@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 09:02:56 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 10:52:13 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	ft_handle_default(t_list *comm, t_env **envir)
 	if (type == 4)
 		key = comm->content;
 	ft_add_env(key, value, envir, type);
+	if (type != 4)
+		free(key);
 }
 
 void	ft_add_env(char *key, char *value, t_env **envir, int type)
@@ -58,9 +60,18 @@ void	ft_add_env(char *key, char *value, t_env **envir, int type)
 		if (!ft_strcmp(temp->key, key))
 		{
 			if (type == 1)
+			{
+				free(temp->value);
 				temp->value = ft_strjoin(ft_strdup(temp->value), value);
+				free(value);
+			}
 			else
+			{
+				if (!value)
+					return ;
+				free(temp->value);
 				temp->value = value;
+			}
 			return ;
 		}
 		temp = temp->next;
