@@ -1,6 +1,6 @@
 CC = cc
 RDLPATH=$(shell brew --prefix readline)
-CFLAGS = -Wall -Werror -Wextra -g  -I $(RDLPATH)/include -fsanitize=address 
+CFLAGS = -Wall -Werror -Wextra -g  -I $(RDLPATH)/include #-fsanitize=address 
 
 TARGET = minishell
 
