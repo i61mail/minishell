@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:42:26 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 09:02:49 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 18:13:26 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,11 @@ void	ft_wait(int id, t_vars *vars)
 	while (wait(NULL) > 0)
 		;
 	ft_catch(0, -1);
+}
+
+int	unset_not_valid(char *err, t_vars *vars)
+{
+	ft_put_error("minishell: unset: `", err, "': not a valid identifier");
+	vars->exit_status = 1;
+	return (1);
 }

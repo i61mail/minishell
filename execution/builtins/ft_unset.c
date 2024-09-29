@@ -6,18 +6,11 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 18:08:49 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 18:13:15 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	unset_not_valid(char *err, t_vars *vars)
-{
-	ft_put_error("minishell: unset: `", err, "': not a valid identifier");
-	vars->exit_status = 1;
-	return (1);
-}
 
 int	ft_unset_invalid_char(char *kandv, t_vars *vars)
 {
@@ -48,6 +41,12 @@ t_env	*ft_free_node(t_env *envir)
 	return (to_ret);
 }
 
+static void	init_vars(int *i, t_env **prev)
+{
+	*i = -1;
+	*prev = NULL;
+}
+
 void	ft_unset_vars(t_list *command, t_env **envir)
 {
 	t_env	*prev;
@@ -55,8 +54,7 @@ void	ft_unset_vars(t_list *command, t_env **envir)
 	int		i;
 	t_env	*temp;
 
-	i = -1;
-	prev = NULL;
+	init_vars(&i, &prev);
 	splitd = ft_split_space(command->content);
 	while (splitd && splitd[++i])
 	{

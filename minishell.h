@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 16:11:36 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 18:13:41 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,7 @@ t_list		*ft_setup(t_list *comm, t_list **new_comm, t_vars *vars);
 int			ft_non_builtin(t_list *comm, t_env **envir, t_vars *vars);
 void		ft_wait(int id, t_vars *vars);
 void		ft_child(t_vars *vars, t_list *comm, t_env *envir);
+int			unset_not_valid(char *err, t_vars *vars);
 
 /*		export utils 	*/
 
