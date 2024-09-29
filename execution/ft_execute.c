@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 15:14:43 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 15:21:13 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,21 @@ int	ft_invalid_bin(char *binary, t_list *comm, t_vars *vars)
 	return (0);
 }
 
+void	ft_fd(t_vars *vars)
+{
+	dup_and_close(vars->pfd[1], 1);
+	dup_and_close(vars->old_fd, 0);
+	if (vars->pfd[0] != 0 && vars->pfd[0] != 1)
+		close(vars->pfd[0]);
+}
+
 void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 {
 	char	*binary;
 	char	**_2denv;
 	char	**_2dcomm;
 
-	dup_and_close(vars->pfd[1], 1);
-	dup_and_close(vars->old_fd, 0);
-	if (vars->pfd[0] != 0 && vars->pfd[0] != 1)
-		close(vars->pfd[0]);
+	ft_fd(vars);
 	while (comm && comm->type == AMBIGUOUS)
 		comm = comm->next;
 	if (!comm)
@@ -113,7 +118,6 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		comm = new_comm;
 		vars->cmd_num++;
 	}
-	// ft_lstfree(&comm);
 	ft_wait(id, vars);
 }
 
@@ -132,4 +136,3 @@ t_list	*ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 		vars->exit_status = 1;
 	return (comm);
 }
-
