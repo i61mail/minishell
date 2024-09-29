@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 16:10:48 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 20:07:04 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ void	regul_dir(t_vars *vars, char **old_pwd, t_list *comm, t_env **envir)
 void	cd_oldpwd(t_list *comm, t_vars *vars, char **old_pwd, t_env **envir)
 {
 	to_oldpwd(comm, old_pwd, vars, &vars->old_pwd);
-	if (vars->old_pwd == 0)
+	if (vars->old_pwd == 1)
 	{
-		free(*old_pwd);
-		*old_pwd = update_old_pwd(envir);
+		vars->old_pwd = 0;
+		return ;
 	}
+	free(*old_pwd);
+	*old_pwd = update_old_pwd(envir);
 	update_pwd(envir, 0, old_pwd);
 }
 
