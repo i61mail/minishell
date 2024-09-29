@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 15:15:12 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 20:09:45 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	old_search(t_vars *vars, t_list *comm)
 {
 	while (comm && comm->content)
 	{
-		if (comm->type != RED_IN && comm->type != RED_OUT && comm->type != HEREDOC && comm->type != RED_APPEND && comm->type != PIP)
+		if (comm->type != RED_IN && comm->type != RED_OUT
+			&& comm->type != HEREDOC && comm->type != RED_APPEND
+			&& comm->type != PIP)
 		{
 			free(vars->last_arg);
 			vars->last_arg = ft_strdup(comm->content);
@@ -60,7 +62,8 @@ int	three_vars(t_env **envir)
 	add_to_node(ft_strdup("PWD"),
 		ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
 	add_to_node(ft_strdup("PATH"),
-		ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin"), envir);
+		ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:\
+/usr/local/munki:/Library/Apple/usr/bin"), envir);
 	add_to_node(ft_strdup("SHLVL"),
 		ft_strdup("0"), envir);
 	add_to_node(ft_strdup("_"),
@@ -74,7 +77,24 @@ void	warning_error(long long *increm)
 	ft_putstr_fd("warning: shell level (", 2);
 	ft_putnbr_fd(*increm, 2);
 	ft_putstr_fd(") too high, resetting to 1\n", 2);
-	*increm = 1;	
+	*increm = 1;
+}
+
+void	shell_level_utils(int *is, long long *old_increm,
+							long long *increm, t_env *env)
+{
+	*is = 1;
+	*old_increm = ft_atoi(env->value);
+	*increm = *old_increm + 1;
+	if (*increm > 2147483647 || *increm < 0)
+		*increm = 0;
+}
+
+static void	init_shell(long long *increm, int *is, long long *old_increm)
+{
+	*increm = 0;
+	*is = 0;
+	*old_increm = 0;
 }
 
 int	shell_level(t_env **envir)
@@ -84,24 +104,19 @@ int	shell_level(t_env **envir)
 	long long	old_increm;
 	int			is;
 
-	increm = 0;
-	is = 0;
-	old_increm = 0;
+	init_shell(&increm, &is, &old_increm);
 	env = *envir;
 	while (env)
 	{
 		if (ft_strncmp(env->key, "SHLVL\0", 6) == 0)
 		{
-			is = 1;
-			old_increm = ft_atoi(env->value);
-			increm = old_increm + 1;
-			if (increm > 2147483647 || increm < 0)
-				increm = 0;
-			else if (increm == 1000)
+			shell_level_utils(&is, &old_increm, &increm, env);
+			if (increm == 1000)
 			{
+				free(env->value);
 				env->value = "";
 				increm = 0;
-				break ;
+				return (0);
 			}
 			else if (increm > 1000)
 				warning_error(&increm);
@@ -115,12 +130,8 @@ int	shell_level(t_env **envir)
 	return (0);
 }
 
-void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
+void	init_vars2(t_vars *vars)
 {
-	*envir = NULL;
-	*comm = NULL;
-	vars->read = NULL;
-	vars->token = NULL;
 	vars->catsh = 0;
 	vars->befor_sing = 0;
 	vars->bef_spac = 0;
@@ -139,10 +150,20 @@ void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->cd = 0;
 	vars->atoifail = 0;
 	vars->check_ambiguous = 0;
-	vars->befor = NULL;
 	vars->env_i = 0;
 	vars->not_pass = 0;
 	vars->bef_dollar = 0;
+	vars->old_pwd = 0;
+}
+
+void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
+{
+	init_vars2(vars);
+	*envir = NULL;
+	*comm = NULL;
+	vars->read = NULL;
+	vars->token = NULL;
+	vars->befor = NULL;
 	vars->last_arg = NULL;
 	strcpy_env(envir, env);
 	if (!*envir)
@@ -155,12 +176,6 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	add_history(vars->read);
 	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
-		//t_list *temp = comm;
-		//while(temp)
-		//{
-		//	printf("%s %d\n",temp->content, temp->type);
-		//	temp = temp->next;
-		//}
 		if (comm)
 			comm = ft_execute(vars, comm, envir);
 		free(vars->read);
@@ -187,6 +202,29 @@ void	handle_ctrlc(int sig)
 	rl_redisplay();
 }
 
+void	ft_readline(t_vars *vars, t_list *comm, t_env **envir, int ac)
+{
+	while (1)
+	{
+		tcsetattr(0, 0, &vars->reset);
+		if (ac == 1)
+		{
+			vars->read = readline("minishell> ");
+			if (!vars->read)
+			{
+				ft_putstr_fd("exit\n", 1);
+				break ;
+			}
+			pars_exec(vars, comm, envir);
+		}
+		else
+		{
+			ft_env_free(envir);
+			break ;
+		}
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_list	*comm;
@@ -199,32 +237,9 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, handle_ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
-	while (1)
-	{
-		tcsetattr(0, 0, &vars.reset);
-		if (ac == 1)
-		{
-			vars.read = readline("minishell> ");
-			if (!vars.read)
-			{
-				ft_putstr_fd("exit\n", 1);
-				break ;
-			}
-			pars_exec(&vars, comm, &envir);
-		}
-		else
-		{
-			ft_env_free(&envir);
-			break ;
-		}
-	}
+	ft_readline(&vars, comm, &envir, ac);
 	exit(vars.exit_status);
 }
 
-//exit < MINLONGLONG
-// cat | << alkdjsf
-// cat << a << b < main.c
-//minishell> cat
-//^Cminishell> echo > a
-//export a="das"
-//export a
+//env -i ./minishell
+//./minishell
