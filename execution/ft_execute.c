@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 09:03:29 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 15:14:43 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		comm = new_comm;
 		vars->cmd_num++;
 	}
-	ft_lstfree(&comm);
+	// ft_lstfree(&comm);
 	ft_wait(id, vars);
 }
 

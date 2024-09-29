@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 13:35:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 15:15:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 		//}
 		if (comm)
 			comm = ft_execute(vars, comm, envir);
-		// ft_lstfree(&comm);
 		free(vars->read);
 	}
 	else
