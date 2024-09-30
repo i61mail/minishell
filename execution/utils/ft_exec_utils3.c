@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 18:47:56 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:01:56 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 			temp = temp->next;
 			if (temp)
 				temp = temp->next;
+			if (temp)
+				vars->last_arg = ft_strdup(temp->content);
 		}
 		else
 		{

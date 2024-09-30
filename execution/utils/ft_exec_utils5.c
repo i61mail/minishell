@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:42:26 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 16:03:22 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 09:02:49 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	ft_non_builtin(t_list *comm, t_env **envir, t_vars *vars)
 	int	id;
 
 	id = fork();
-	ft_catch(0, 2);
+	if (ft_strncmp(comm->content, "./minishell\0", 12) == 0)
+		ft_catch(4, 5);
+	else
+		ft_catch(0, 2);
 	if (id == -1)
 	{
 		perror("minishell: fork:");
@@ -53,8 +56,8 @@ void	ft_wait(int id, t_vars *vars)
 			vars->exit_status = 1;
 			return ;
 		}
-    	if (WIFEXITED(pid))
-        	vars->exit_status = WEXITSTATUS(pid);
+		if (WIFEXITED(pid))
+			vars->exit_status = WEXITSTATUS(pid);
 		else if (WIFSIGNALED(pid))
 			vars->exit_status = 128 + WTERMSIG(pid);
 		if (vars->exit_status == 131)

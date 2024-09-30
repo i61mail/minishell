@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 20:41:51 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/30 02:05:10 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	else
 		close(vars->old_fd);
 	free(binary);
-	//ft_free_2d_array(&_2denv);
-	//ft_free_2d_array(&_2dcomm);
 	exit(vars->exit_status);
 }
 
@@ -124,6 +122,7 @@ t_list	*ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	vars->old_fd = 0;
 	vars->pfd[1] = 1;
 	vars->atoifail = 0;
+	vars->cmd_num = 0;
 	if (!comm)
 		return (NULL);
 	comm = ft_dup_comm(comm);

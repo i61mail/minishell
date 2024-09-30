@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:39:54 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 15:49:45 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/29 09:01:45 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*update_old_pwd(t_env **envir)
 		if (ft_strncmp(env1->key, "2PWD\0", 5) == 0
 			|| ft_strncmp(env1->key, "PWD\0", 4) == 0)
 		{
+			free(pwd);
 			pwd = ft_strdup(env1->value);
 			if (!pwd)
 				return (NULL);
@@ -34,8 +35,11 @@ char	*update_old_pwd(t_env **envir)
 	}
 	while (env)
 	{
-		if (ft_strcmp(env->key, "OLDPWD") == 0)
+		if (ft_strncmp(env->key, "OLDPWD\0", 7) == 0)
+		{
+			free(env->value);
 			env->value = ft_strdup(pwd);
+		}
 		env = env->next;
 	}
 	return (pwd);
@@ -45,12 +49,12 @@ void	update_pwd2(t_env *env, char **pwd, char *points)
 {
 	while (env)
 	{
-		if (ft_strcmp(env->key, "2PWD") == 0)
+		if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
 		{
 			env->value = ft_strdup(*pwd);
 			env->value = ft_strjoin(env->value, points);
 		}
-		else if (ft_strcmp(env->key, "PWD") == 0)
+		else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
 		{
 			env->value = ft_strdup(*pwd);
 			env->value = ft_strjoin(env->value, points);
@@ -71,10 +75,16 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 	{
 		while (env)
 		{
-			if (ft_strcmp(env->key, "2PWD") == 0)
+			if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
+			{
+				free(env->value);
 				env->value = ft_strdup(getcwd(NULL, 0));
-			else if (ft_strcmp(env->key, "PWD") == 0)
+			}
+			else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
+			{
+				free(env->value);
 				env->value = ft_strdup(getcwd(NULL, 0));
+			}
 			env = env->next;
 		}
 	}

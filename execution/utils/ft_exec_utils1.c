@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:23:32 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/27 22:59:25 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/29 19:43:38 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,20 @@ char	**ft_2dcomm(t_list *comm)
 	return (_2dcomm);
 }
 
+t_list	*ft_free_lst_node(t_list *comm)
+{
+	t_list	*to_ret;
+
+	to_ret = NULL;
+	if (comm)
+	{
+		to_ret = comm->next;
+		free(comm->content);
+	}
+	free(comm);
+	return (to_ret);
+}
+
 t_list	*ft_split_pipe(t_list **new_comm, t_vars *vars)
 {
 	t_list		*temp;
@@ -76,8 +90,7 @@ t_list	*ft_split_pipe(t_list **new_comm, t_vars *vars)
 		vars->pipe = 1;
 		if (prev)
 			prev->next = NULL;
-		// free pipe node !
-		return (temp->next);
+		return (ft_free_lst_node(temp));
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 17:35:18 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/29 12:41:32 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,13 @@ t_env	*ft_free_node(t_env *envir)
 {
 	t_env	*to_ret;
 
-	to_ret = envir->next;
-	free(envir->value);
-	free(envir->key);
+	to_ret = NULL;
+	if (envir)
+	{
+		to_ret = envir->next;
+		free(envir->value);
+		free(envir->key);
+	}
 	free(envir);
 	return (to_ret);
 }
@@ -57,6 +61,7 @@ void	ft_unset_vars(t_list *command, t_env **envir)
 
 	i = 0;
 	splitd = ft_split_space(command->content);
+	prev = NULL;
 	while (splitd && splitd[i])
 	{
 		temp = *envir;
@@ -75,6 +80,7 @@ void	ft_unset_vars(t_list *command, t_env **envir)
 		}
 		i++;
 	}
+	ft_free_2d_array(&splitd);// zdtha ana 
 }
 
 void	ft_unset(t_list *command, t_env **envir, t_vars *vars)

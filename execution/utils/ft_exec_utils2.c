@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:38:21 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 20:07:04 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/29 12:55:07 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	ft_free_2d_array(char ***array)
 	int	i;
 
 	i = 0;
+	if (!array)
+		return ;
 	while (array && *array && (*array)[i])
 	{
 		free((*array)[i]);

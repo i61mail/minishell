@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/28 20:06:32 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/29 19:40:56 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_heredoc
 	int		start;
 	int		fd;
 	int		passed_fd;
+	char	*last_arg;
 }		t_heredoc;
 
 typedef struct s_vars
@@ -70,6 +71,9 @@ typedef struct s_vars
 	int				inside;
 	int				env_i;
 	int				is_signal;
+	int				not_pass;
+	int				bef_dollar;
+	char			*last_arg;
 }		t_vars;
 
 typedef struct s_env
@@ -175,7 +179,7 @@ char		*ft_itoa(int nbr);
 void		ft_putnbr_fd(int n, int fd);
 void		handle_ctrlc(int sig);
 int			ft_catch(int type, int value);
-void		add_to_temp(char **str_temp, int *i, char *read);
+void		add_to_temp(char **str_temp, int *i, t_vars *vars);
 int			handle_dollar(t_args *args, t_env **envir, t_list **comm);
 int			returning(t_vars *vars, int *i, t_list **comm);
 void		init_v(int *check, char **temp);
@@ -184,6 +188,7 @@ int			check_space(char *str);
 void		check_splited(t_vars *vars, int *i, int *type);
 void		split_before_quotes(t_vars *vars, char **str_temp,
 				t_list **comm, int *i);
+void		ft_isempty(t_vars *vars, int *i);
 
 /*       heredoc          */
 
@@ -260,12 +265,13 @@ t_list		*ft_setup(t_list *comm, t_list **new_comm, t_vars *vars);
 int			ft_non_builtin(t_list *comm, t_env **envir, t_vars *vars);
 void		ft_wait(int id, t_vars *vars);
 void		ft_child(t_vars *vars, t_list *comm, t_env *envir);
+t_env		*ft_free_node(t_env *envir);
 
 /*		export utils 	*/
 
 int			ft_strcmp_(char *s1, char *s2, char end);
 int			ft_invalid_char(char *kandv, t_vars *vars);
-int			ft_var_type(char *var);
+int			ft_var_type(char *var, t_env *envir);
 void		ft_handle_split(t_list *comm, t_env **envir, t_vars *vars);
 void		ft_handle_default(t_list *comm, t_env **envir);
 void		ft_add_env(char *key, char *value, t_env **envir, int type);

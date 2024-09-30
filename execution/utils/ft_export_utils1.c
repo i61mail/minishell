@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/28 20:06:15 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/29 12:51:29 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_handle_default(t_list *comm, t_env **envir)
 
 	key = NULL;
 	value = NULL;
-	type = ft_var_type(comm->content);
+	type = ft_var_type(comm->content, *envir);
 	if (type == 0 || type == 3)
 		ft_split_2(comm->content, "=", &key, &value);
 	if (type == 1)
@@ -43,6 +43,8 @@ void	ft_handle_default(t_list *comm, t_env **envir)
 	if (type == 4)
 		key = comm->content;
 	ft_add_env(key, value, envir, type);
+	if (type != 4)
+		free(key);
 }
 
 void	ft_add_env(char *key, char *value, t_env **envir, int type)
@@ -53,12 +55,23 @@ void	ft_add_env(char *key, char *value, t_env **envir, int type)
 	temp = *envir;
 	while (temp)
 	{
+		if (ft_strncmp(key, "_\0", 2) == 0)
+			return ;
 		if (!ft_strcmp(temp->key, key))
 		{
 			if (type == 1)
+			{
+				free(temp->value);
 				temp->value = ft_strjoin(ft_strdup(temp->value), value);
+				free(value);
+			}
 			else
+			{
+				if (!value)
+					return ;
+				free(temp->value);
 				temp->value = value;
+			}
 			return ;
 		}
 		temp = temp->next;
