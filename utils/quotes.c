@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/28 16:55:58 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 16:01:35 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	ft_isempty(t_vars *vars, int *i)
 	}
 	else if (ft_isquotes(vars->read[*i]))
 		vars->not_pass = 0;
-	else
-		vars->not_pass = 1;
+	// else
+	// 	vars->not_pass = 1;
 }
 
 void	init_v(int *check, char **temp)
@@ -77,9 +77,9 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		check = dollar_quotes(vars, i, &str_temp, envir);
 		if (check == -1)
 			return (-1);
-		if (vars->flag_splite == SPLITED)
-			replace_expand(str_temp, comm, SPLITED);
-		else
+		// if (vars->flag_splite == SPLITED)
+		// 	replace_expand(str_temp, comm, SPLITED);
+		// else
 			replace_expand(str_temp, comm, 0);
 		if (check == 2)
 			break ;

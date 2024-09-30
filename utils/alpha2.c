@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:55:00 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/27 10:20:19 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 16:25:50 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ void	last_be_first(char **str, int *b, char **s, t_vars *vars)
 	string = ft_strstr(*str, s[*b], b);
 	vars->befor_sing = vars->catsh + *b;
 	temp = ft_strjoin(temp, string);
+	free(string);
 	(*b)++;
 	free(*str);
 	*str = ft_strdup("");
 	*str = ft_strjoin(*str, temp);
+	free(temp);
 }
 
 void	copie_to_node(char **str, t_list **comm, t_vars *vars)
@@ -43,9 +45,11 @@ void	copie_to_node(char **str, t_list **comm, t_vars *vars)
 	{
 		token = ft_strdup(s[b]);
 		ft_lstadd_back(comm, ft_lstnew(token, COMM));
+		free(s[b]);
 		b++;
 		i--;
 	}
+	free(s);
 	last_be_first(str, &b, s, vars);
 }
 

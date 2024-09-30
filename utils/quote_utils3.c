@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:04:55 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 22:00:36 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/09/30 15:39:12 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	skip_digit(t_vars *vars, int *i, int *check)
 		*check = 1;
 		(*i)++;
 	}
-	if (*check == 1)
-		vars->not_pass = 1;
+	// if (*check == 1)
+	// 	vars->not_pass = 1;
 }
 
 int	sspace(char *str_temp)

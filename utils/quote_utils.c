@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:02:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/27 10:19:39 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 16:37:36 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	after_skip(char *str, int i, char c)
 void	add_before(char **str_temp, t_vars *vars, int *i)
 {
 	*str_temp = ft_strdup(vars->befor);
+	free(vars->befor);
 	vars->befor = NULL;
 	*i = vars->befo_qu;
 }
