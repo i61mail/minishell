@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:55:00 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 16:25:50 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 18:24:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	copie_to_node(char **str, t_list **comm, t_vars *vars)
 		b++;
 		i--;
 	}
-	free(s);
 	last_be_first(str, &b, s, vars);
+	free(s);
 }
 
 void	add_to_temp(char **str_temp, int *i, t_vars *vars)
