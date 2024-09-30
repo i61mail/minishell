@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 14:36:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 13:35:36 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 11:55:41 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int	process_heredoc(t_vars *vars, t_env **envir)
 	t_heredoc	herdoc;
 
 	init_heredoc(&herdoc);
+	if (vars->heredoc_fd != 0)
+		close(vars->heredoc_fd);
 	if (gen_file_name(&herdoc) == -1)
 		return (-1);
 	herdoc.parrent_status = vars->exit_status;
