@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 20:12:41 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 20:22:52 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		else if (ft_issep(vars->read[i]))
 		{
 			if (ft_aresep(vars, &i, comm, envir) == -1)
-				return (-1);
+				return (close(vars->heredoc_fd), -1);
 			if (vars->exit_status == 130)
 				break ;
 		}
