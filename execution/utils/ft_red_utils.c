@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_red_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:10:30 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 02:06:27 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/30 11:07:30 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	ft_redheredoc(t_list *next_node, t_vars *vars)
 		vars->exit_status = errno;
 		return (-1);
 	}
+	close(vars->old_fd);
 	vars->old_fd = vars->heredoc_fd;
 	// close(vars->heredoc_fd);
 	return (vars->heredoc_fd);

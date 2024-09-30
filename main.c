@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 10:53:12 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 11:08:29 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,4 +243,3 @@ int	main(int ac, char **av, char **env)
 
 //env -i ./minishell
 //./minishell
-//cat << $""
