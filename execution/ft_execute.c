@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 10:35:34 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 11:02:51 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,14 @@ t_list	*ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	vars->cmd_num = 0;
 	if (!comm)
 		return (NULL);
+	if (vars->exit_status == 130 && vars->is_signal == 1)
+	{
+		vars->exit_status = 1;
+		close(vars->heredoc_fd);
+		ft_lstfree(&comm);
+		return (NULL);
+	}
 	comm = ft_dup_comm(comm);
 	ft_run(vars, comm, envir);
-	if (vars->exit_status == 130 && vars->is_signal == 1)
-		vars->exit_status = 1;
 	return (comm);
 }

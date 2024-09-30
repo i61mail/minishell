@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:34:57 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 13:54:35 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 11:00:09 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int	store_here(t_heredoc *herdoc, t_env **envir, t_vars *vars)
 	value = NULL;
 	if (herdoc->here_line)
 	{
+		if (!vars->token)
+			vars->token = ft_strdup("\0");
 		if (ft_strcmp(herdoc->here_line, vars->token) == 0)
 			exit(0);
 		value = expand_heredoc(herdoc, envir, vars->del_type);
