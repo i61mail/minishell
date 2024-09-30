@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 14:10:14 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 18:12:57 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 	new_comm = NULL;
 	while (temp)
 	{
-		if (ft_isred(temp->type))
+		if (ft_isred(temp->type)) //heap use after free
 		{
 			if (ft_handle_redir(temp, temp->next, vars) == -1)
 				return (NULL);

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 11:13:05 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 18:14:04 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ t_list	*ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 		ft_lstfree(&comm);
 		return (NULL);
 	}
+	if (vars->numofpipes == 0) //ls | cat . echo $_
+		old_search(vars, comm);
 	comm = ft_dup_comm(comm);
 	ft_run(vars, comm, envir);
 	return (comm);

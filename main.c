@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 13:45:19 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 17:57:03 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		if (quotes(vars, &i, comm, envir) == -1)
 			return (-1);
 	}
-	old_search(vars, *comm);
 	return (0);
 }
 
@@ -176,8 +175,8 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	add_history(vars->read);
 	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
-		if (comm)
-			comm = ft_execute(vars, comm, envir);
+		// if (comm)
+		comm = ft_execute(vars, comm, envir);
 		free(vars->read);
 	}
 	else
@@ -244,4 +243,4 @@ int	main(int ac, char **av, char **env)
 //env -i ./minishell
 //./minishell
 //two heredocs got a leak
-// ls > t > q > y > p
+//$''

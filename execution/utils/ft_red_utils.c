@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:10:30 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 11:52:49 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 18:13:36 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	ft_redout(t_list *next_node, t_vars *vars)
 {
 	int	fd;
 
-	if ((!strcmp(next_node->content, "stdout") && !strcmp(getcwd(NULL, PATH_MAX), "/dev")) || !strcmp(next_node->content, "/dev/stdout"))
+	if ((!strcmp(next_node->content, "stdout")
+			&& !strcmp(getcwd(NULL, PATH_MAX), "/dev"))
+		|| !strcmp(next_node->content, "/dev/stdout"))
 	{
 		//if (vars->cmd_num != 0 && vars->cmd_num == vars->numofpipes)
 		//	ft_putstr_fd("minishell: /dev/stdout: Permission denied\n", 2);

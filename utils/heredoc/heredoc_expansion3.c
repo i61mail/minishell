@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:37:25 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/26 13:57:05 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 18:11:48 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	heredoc_single(t_vars *vars, int *i, char **str_temp)
 	char	temp[2];
 
 	temp[1] = '\0';
-	if (vars->read[*i] == 39)
-		(*i)++;
 	while (vars->read[*i] && vars->read[*i] != 39)
 	{
 		temp[0] = vars->read[*i];
