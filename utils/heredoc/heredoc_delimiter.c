@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 13:33:21 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 18:09:04 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 18:18:50 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ int	heredoc_count_dollar(char *line, int *i, char **str_temp, int var)
 void	isquoted(t_vars *vars, char **str_temp, t_list **comm)
 {
 	vars->del_type = HEREDOC_DEL_Q;
-	printf("%s\n", *str_temp);
 	vars->token = ft_strdup(*str_temp);
-	printf("%s\n", vars->token);
 	replace_expand(*str_temp, comm, HEREDOC_DEL_Q);
 }
 
