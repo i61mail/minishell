@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:50:07 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 17:45:28 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 20:10:29 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,14 @@ long long	ft_atoi(char *str)
 	return (result * sign);
 }
 
-unsigned long long	ft_abs(long long num)
+int	ft_overflow(long long b)
 {
-	if (num < 0)
-		return (num * -1);
-	return (num);
+	static long long	a = LONG_MIN;
+
+	if (b - 1 < a)
+		return (1);
+	a = b;
+	return (0);
 }
 
 long long	ft_atoi_2(char *str, t_vars *vars)
@@ -79,8 +82,8 @@ long long	ft_atoi_2(char *str, t_vars *vars)
 			sign *= -1;
 	while (str[i] >= 48 && str[i] <= 57)
 	{
-		result = ft_abs(result * 10 + str[i++] - 48);
-		if ((ft_abs((unsigned long long)result) - (sign == -1)) > LLONG_MAX)
+		result = result * 10 + str[i++] - 48;
+		if (ft_overflow(result))
 			return (vars->atoifail = 1);
 	}
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))

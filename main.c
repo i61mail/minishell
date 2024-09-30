@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 17:57:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 20:12:41 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,5 +242,3 @@ int	main(int ac, char **av, char **env)
 
 //env -i ./minishell
 //./minishell
-//two heredocs got a leak
-//$''

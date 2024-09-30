@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:10:30 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 18:13:36 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 20:10:54 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	ft_redin(t_list *next_node, t_vars *vars)
 		vars->exit_status = 1;
 		return (-1);
 	}
+	if (vars->pfd[0] != 0)
+		close(vars->pfd[0]);
 	vars->old_fd = fd;
 	return (0);
 }
@@ -95,12 +97,11 @@ int	ft_redheredoc(t_list *next_node, t_vars *vars)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror(next_node->content);
-		vars->exit_status = errno;
+		vars->exit_status = 1;
 		return (-1);
 	}
-	// if (vars->old_fd != 0)
-	// 	close(vars->old_fd);
+	if (vars->pfd[0] != 0)
+		close(vars->pfd[0]);
 	vars->old_fd = vars->heredoc_fd;
-	// close(vars->heredoc_fd);
-	return (vars->heredoc_fd);
+	return (0);
 }
