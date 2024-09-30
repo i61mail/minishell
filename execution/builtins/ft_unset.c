@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 03:58:14 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 18:13:15 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 10:33:21 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ t_env	*ft_free_node(t_env *envir)
 {
 	t_env	*to_ret;
 
-	to_ret = envir->next;
-	free(envir->value);
-	free(envir->key);
+	to_ret = NULL;
+	if (envir)
+	{
+		to_ret = envir->next;
+		free(envir->value);
+		free(envir->key);
+	}
 	free(envir);
 	return (to_ret);
 }

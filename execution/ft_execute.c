@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:15:40 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 16:09:31 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 10:35:34 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	else
 		close(vars->old_fd);
 	free(binary);
-	//ft_free_2d_array(&_2denv);
-	//ft_free_2d_array(&_2dcomm);
 	exit(vars->exit_status);
 }
 
@@ -100,6 +98,7 @@ t_list	*ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	vars->old_fd = 0;
 	vars->pfd[1] = 1;
 	vars->atoifail = 0;
+	vars->cmd_num = 0;
 	if (!comm)
 		return (NULL);
 	comm = ft_dup_comm(comm);

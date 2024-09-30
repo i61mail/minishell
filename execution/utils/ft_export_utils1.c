@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 19:35:33 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 10:35:25 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_handle_default(t_list *comm, t_env **envir)
 
 	key = NULL;
 	value = NULL;
-	type = ft_var_type(comm->content);
+	type = ft_var_type(comm->content, *envir);
 	if (type == 0 || type == 3)
 		ft_split_2(comm->content, "=", &key, &value);
 	if (type == 1)

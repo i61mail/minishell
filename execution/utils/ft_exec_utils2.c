@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:38:21 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/29 16:16:18 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 10:34:26 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_free_2d_array(char ***array)
 	int	i;
 
 	i = 0;
+	if (!array)
+		return ;
 	while (array && *array && (*array)[i])
 	{
 		free((*array)[i]);

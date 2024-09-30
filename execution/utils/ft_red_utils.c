@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:10:30 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/26 11:13:55 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/30 02:06:27 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int	ft_redout(t_list *next_node, t_vars *vars)
 {
 	int	fd;
 
+	if ((!strcmp(next_node->content, "stdout") && !strcmp(getcwd(NULL, PATH_MAX), "/dev")) || !strcmp(next_node->content, "/dev/stdout"))
+	{
+		//if (vars->cmd_num != 0 && vars->cmd_num == vars->numofpipes)
+		//	ft_putstr_fd("minishell: /dev/stdout: Permission denied\n", 2);
+		return (0);
+	}
 	fd = open(next_node->content, O_CREAT | O_WRONLY | O_TRUNC, 0622);
 	if (fd == -1)
 	{
@@ -61,6 +67,14 @@ int	ft_redin(t_list *next_node, t_vars *vars)
 {
 	int	fd;
 
+	if ((!strcmp(next_node->content, "stdin")
+			&& !strcmp(getcwd(NULL, PATH_MAX), "/dev"))
+		|| !strcmp(next_node->content, "/dev/stdin"))
+	{
+		//if(vars->pipe)
+		//	ft_putstr_fd("minishell: /dev/stdin: Permission denied\n", 2);
+		return (0);
+	}
 	fd = open(next_node->content, O_RDONLY);
 	if (fd == -1)
 	{

@@ -6,7 +6,7 @@
 /*   By: mait-lah <mait-lah@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:27:29 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/27 17:29:33 by mait-lah         ###   ########.fr       */
+/*   Updated: 2024/09/29 12:50:54 by mait-lah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_invalid_char(char *kandv, t_vars *vars)
 	return (0);
 }
 
-int	ft_var_type(char *var)
+int	ft_var_type(char *var, t_env *envir)
 {
 	while (var && *var)
 	{
@@ -72,5 +72,7 @@ int	ft_var_type(char *var)
 			return (1);// append a+=b z
 		var++;
 	}
+	if (my_getenv(var, envir))
+		return (1);
 	return (4);//no value var export a
 }

@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 18:13:41 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 10:32:38 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,12 +268,13 @@ int			ft_non_builtin(t_list *comm, t_env **envir, t_vars *vars);
 void		ft_wait(int id, t_vars *vars);
 void		ft_child(t_vars *vars, t_list *comm, t_env *envir);
 int			unset_not_valid(char *err, t_vars *vars);
+t_env		*ft_free_node(t_env *envir);
 
 /*		export utils 	*/
 
 int			ft_strcmp_(char *s1, char *s2, char end);
 int			ft_invalid_char(char *kandv, t_vars *vars);
-int			ft_var_type(char *var);
+int			ft_var_type(char *var, t_env *envir);
 void		ft_handle_split(t_list *comm, t_env **envir, t_vars *vars);
 void		ft_handle_default(t_list *comm, t_env **envir);
 void		ft_add_env(char *key, char *value, t_env **envir, int type);
