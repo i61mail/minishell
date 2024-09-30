@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 10:34:41 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/09/30 14:10:14 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ void	ft_check4red_util(t_list **temp, t_vars *vars)
 	if (temp && *temp)
 	{
 		if ((*temp)->type != HEREDOC)
+		{
+			free(vars->last_arg);
 			vars->last_arg = ft_strdup((*temp)->content);
+		}
 		else
 		{
 			free(vars->last_arg);
