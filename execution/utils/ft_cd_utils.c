@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:39:54 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 21:22:29 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/10/01 22:29:03 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars, t_env **envir)
 {
 	int	var_chdir;
 
-	if (!*old_pwd)
-		check_env(envir, old_pwd);
+	check_env(envir, old_pwd);
 	var_chdir = chdir(*old_pwd);
 	if (var_chdir == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 16:13:09 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 21:22:43 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/10/01 22:30:18 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void	check_env(t_env **envir, char **old_pwd)
 		if (ft_strncmp(temp->key, "OLDPWD\0", 7) == 0)
 		{
 			if (temp->value)
+			{
+				free(*old_pwd);
 				*old_pwd = ft_strdup(temp->value);
+			}
 			return ;
 		}
 		temp = temp->next;
