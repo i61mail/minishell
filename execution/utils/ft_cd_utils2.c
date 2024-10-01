@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 16:13:09 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/29 16:15:05 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 21:22:43 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,21 @@ char	*update_old_pwd(t_env **envir)
 		env = env->next;
 	}
 	return (pwd);
+}
+
+void	check_env(t_env **envir, char **old_pwd)
+{
+	t_env	*temp;
+
+	temp = *envir;
+	while (temp)
+	{
+		if (ft_strncmp(temp->key, "OLDPWD\0", 7) == 0)
+		{
+			if (temp->value)
+				*old_pwd = ft_strdup(temp->value);
+			return ;
+		}
+		temp = temp->next;
+	}
 }

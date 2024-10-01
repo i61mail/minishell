@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/10/01 14:22:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 21:12:11 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	regul_dir(t_vars *vars, char **old_pwd, t_list *comm, t_env **envir)
 
 void	cd_oldpwd(t_list *comm, t_vars *vars, char **old_pwd, t_env **envir)
 {
-	to_oldpwd(comm, old_pwd, vars, &vars->old_pwd);
+	to_oldpwd(comm, old_pwd, vars, envir);
 	if (vars->old_pwd == 1)
 	{
 		vars->old_pwd = 0;

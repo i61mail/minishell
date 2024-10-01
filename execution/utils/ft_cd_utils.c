@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 15:39:54 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 10:33:39 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 21:22:29 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,12 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 	return (0);
 }
 
-void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars, int *first_time)
+void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars, t_env **envir)
 {
 	int	var_chdir;
 
+	if (!*old_pwd)
+		check_env(envir, old_pwd);
 	var_chdir = chdir(*old_pwd);
 	if (var_chdir == 0)
 	{
@@ -92,7 +94,7 @@ void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars, int *first_time)
 	}
 	else if (var_chdir == -1)
 	{
-		*first_time = 1;
+		vars->old_pwd = 1;
 		ft_put_error("minishell: ", comm->content, ": OLDPWD not set");
 		vars->exit_status = 1;
 	}
