@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 15:54:02 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 18:42:31 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,6 @@ int	main(int ac, char **av, char **env)
 //./minishell
 //cat <<a<<c<<d<<v<<k | cat
 //<< a | cat
-//export > $a''
-//export > $a' '
+//export OLDPWD=/tmp; 
+//export=_55 (leak)
+//touch 0 a

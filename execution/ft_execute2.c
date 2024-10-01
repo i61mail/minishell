@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 16:08:46 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 14:54:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 16:03:25 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 	if (!node || !next_node)
 		return (-1);
 	if (next_node->type == AMBIGUOUS)
-		return (ft_lstfree(&next_node), ft_ambiguos(next_node, vars));
+		return (ft_ambiguos(next_node, vars), ft_lstfree(&next_node), -1);
 	if (node->type != PIP && node->type != RED_IN)
 		vars->pipe = 0;
 	if (node->type == RED_OUT)
@@ -33,7 +33,11 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 	if (node->type == RED_IN)
 	{
 		if (ft_redin(next_node, vars) == -1)
+		{
+			if (vars->type == AMBIGUOUS)
+				return (-1);
 			return (ft_lstfree(&next_node), -1);
+		}
 	}
 	if (node->type == HEREDOC)
 		return (ft_redheredoc(next_node, vars));
