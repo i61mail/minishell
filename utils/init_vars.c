@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:08:14 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 15:08:34 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 15:40:02 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	main_init_vars2(t_vars *vars)
 	vars->bef_dollar = 0;
 	vars->old_pwd = 0;
 	vars->is_red = 0;
+	vars->type = 0;
 }
 
 void	main_init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)

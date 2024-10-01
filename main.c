@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 15:09:38 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 15:54:02 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 	vars->check_ambiguous = 0;
 	vars->is_signal = 0;
 	vars->is_red = 0;
+	vars->type = 0;
 	while (vars->read[i] != '\0')
 	{
 		if (!ft_issep(vars->read[i])

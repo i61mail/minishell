@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 13:37:47 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 15:40:40 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		check = dollar_quotes(vars, i, &str_temp, envir);
 		if (check == -1)
 			return (-1);
-		// if (vars->flag_splite == SPLITED)
-		// 	replace_expand(str_temp, comm, SPLITED);
-		// else
-		replace_expand(str_temp, comm, 0);
+		if (vars->type == AMBIGUOUS)
+			replace_expand(str_temp, comm, AMBIGUOUS);
+		else
+			replace_expand(str_temp, comm, 0);
 		if (check == 2)
 			break ;
 	}

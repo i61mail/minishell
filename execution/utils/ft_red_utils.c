@@ -6,19 +6,18 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:10:30 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/10/01 14:36:35 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 15:52:11 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_ambiguos(t_list *next_node, t_vars *vars)
+void	ft_ambiguos(t_list *next_node, t_vars *vars)
 {
+	(void)next_node;
 	ft_putstr_fd("minishell: ", 2);// fix for test (echo a | ls > /dev/stdin )
-	ft_putstr_fd(next_node->content, 2);
 	ft_putstr_fd(" ambiguous redirect\n", 2);
 	vars->exit_status = 1;
-	return (-1);
 }
 
 int	ft_redout(t_list *next_node, t_vars *vars)

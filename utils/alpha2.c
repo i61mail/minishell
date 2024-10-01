@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:55:00 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 18:24:27 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 15:45:31 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	copie_to_node(char **str, t_list **comm, t_vars *vars)
 	while (i - 1 > 0 && s[b])
 	{
 		token = ft_strdup(s[b]);
-		ft_lstadd_back(comm, ft_lstnew(token, COMM));
+		if (vars->is_red == 1)
+			ft_lstadd_back(comm, ft_lstnew(token, AMBIGUOUS));
+		else
+			ft_lstadd_back(comm, ft_lstnew(token, COMM));
 		free(s[b]);
 		b++;
 		i--;
@@ -76,6 +79,8 @@ void	check_splited(t_vars *vars, int *i, int *type)
 void	split_before_quotes(t_vars *vars, char **str_temp,
 		t_list **comm, int *i)
 {
+	if (sspace(*str_temp) == 0 && vars->check_ambiguous == 1)
+		vars->type = AMBIGUOUS;
 	if (check_space(*str_temp) == 1)
 	{
 		vars->befo_qu = *i;

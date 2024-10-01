@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 15:14:41 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 15:48:28 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_vars
 	char			*last_arg;
 	int				old_pwd;
 	int				is_red;
+	int				type;
 }		t_vars;
 
 typedef struct s_env
@@ -308,7 +309,7 @@ void		reg_dir(char **old_pwd, t_env **envir);
 
 /*   redirection utils   */
 
-int			ft_ambiguos(t_list *next_node, t_vars *vars);
+void		ft_ambiguos(t_list *next_node, t_vars *vars);
 int			ft_redout(t_list *next_node, t_vars *vars);
 int			ft_redappend(t_list *next_node, t_vars *vars);
 int			ft_redin(t_list *next_node, t_vars *vars);
