@@ -6,7 +6,7 @@
 /*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/10/01 21:23:27 by i61mail          ###   ########.fr       */
+/*   Updated: 2024/10/01 22:14:07 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,9 @@ void	ft_check4red_util(t_list **temp, t_vars *vars)
 	}
 }
 
-void	free_failure_red(t_list **new_comm, t_list *comm, t_list *temp, t_vars *vars)
+void	free_failure_red(t_list **new_comm, t_list *comm)
 {
-	(void)comm;
-	if (new_comm)
-	{
-		free(temp->content);
-		free(temp);
-	}
-	if (vars->type != AMBIGUOUS && !ft_isred(comm->type))
-	{
-		free(comm->content);
-		free(comm);
-	}
+	ft_lstfree(&comm);
 	ft_lstfree(new_comm);
 }
 
@@ -91,7 +81,7 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 		if (ft_isred(temp->type))
 		{
 			if (ft_handle_redir(temp, temp->next, vars) == -1)
-				return (free_failure_red(&new_comm, comm, temp, vars), NULL);
+				return (free_failure_red(&new_comm, comm), NULL);
 			temp = temp->next;
 			ft_check4red_util(&temp, vars);
 		}

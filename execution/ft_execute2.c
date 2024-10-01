@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 16:08:46 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 16:03:25 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 22:12:07 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 	if (!node || !next_node)
 		return (-1);
 	if (next_node->type == AMBIGUOUS)
-		return (ft_ambiguos(next_node, vars), ft_lstfree(&next_node), -1);
+		return (ft_ambiguos(next_node, vars), -1);
 	if (node->type != PIP && node->type != RED_IN)
 		vars->pipe = 0;
 	if (node->type == RED_OUT)
 	{
 		if (ft_redout(next_node, vars) == -1)
-			return (ft_lstfree(&next_node), -1);
+			return (-1);
 	}
 	if (node->type == RED_APPEND)
 	{
 		if (ft_redappend(next_node, vars) == -1)
-			return (ft_lstfree(&next_node), -1);
+			return (-1);
 	}
 	if (node->type == RED_IN)
 	{
@@ -36,7 +36,7 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 		{
 			if (vars->type == AMBIGUOUS)
 				return (-1);
-			return (ft_lstfree(&next_node), -1);
+			return (-1);
 		}
 	}
 	if (node->type == HEREDOC)
