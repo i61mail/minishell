@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: i61mail <i61mail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:12:31 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 10:35:25 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 21:30:31 by i61mail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_add_env(char *key, char *value, t_env **envir, int type)
 	while (temp)
 	{
 		if (ft_strncmp(key, "_\0", 2) == 0)
-			return ;
+			return (free(value));
 		if (!ft_strcmp(temp->key, key))
 		{
 			return (add_value(&temp, value, type));
