@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 16:49:09 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 13:36:40 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_vars
 	int				bef_dollar;
 	char			*last_arg;
 	int				old_pwd;
+	int				is_red;
 }		t_vars;
 
 typedef struct s_env

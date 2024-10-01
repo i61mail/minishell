@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:12:05 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 10:53:58 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 13:37:33 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int	ft_aresep(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	int	check;
 
 	type = 0;
+	vars->is_red = 1;
 	if (ft_check_type(vars->read, i, &type) == -1)
 		return (ft_error(comm, vars), -1);
 	if (type == PIP)

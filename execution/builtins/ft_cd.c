@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 17:34:46 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 17:52:18 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:22:27 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ void	regul_dir(t_vars *vars, char **old_pwd, t_list *comm, t_env **envir)
 {
 	if (*comm->content == '\0')
 	{
+		free(*old_pwd);
 		*old_pwd = update_old_pwd(envir);
 		update_pwd(envir, 0, old_pwd);
+		return ;
 	}
 	if (chdir(comm->content) != -1)
 		ft_remove_dir(old_pwd, envir, comm);

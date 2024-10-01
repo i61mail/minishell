@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 08:07:31 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 18:12:18 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 13:37:47 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_isempty(t_vars *vars, int *i)
 {
-	if (vars->read[*i] == '\0')
+	if (vars->read[*i] == '\0' && vars->is_red == 0)
 	{
 		vars->not_pass = 1;
 		return ;

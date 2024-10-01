@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 16:56:11 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 15:59:50 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 13:27:58 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,17 @@ int	handle_dollar(t_args *args, t_env **envir, t_list **comm)
 
 char	*check_last_arg(t_vars *vars, char **exp, char **comp)
 {
-	if (vars->numofpipes > 0 || !vars->last_arg)
+	if (vars->numofpipes > 0 && vars->last_arg)
+	{
+		free(vars->last_arg);
+		vars->last_arg = NULL;
 		return (free(*comp), *exp);
+	}
 	if (vars->last_arg)
 	{
+		free(*exp);
 		*exp = ft_strdup(vars->last_arg);
 		return (free(*comp), *exp);
 	}
-	return (NULL);
+	return (free(*comp), free(*exp), NULL);
 }

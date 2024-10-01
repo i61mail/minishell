@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:09:34 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/30 20:22:52 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:23:38 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 	i = 0;
 	vars->check_ambiguous = 0;
 	vars->is_signal = 0;
+	vars->is_red = 0;
 	while (vars->read[i] != '\0')
 	{
 		if (!ft_issep(vars->read[i])
@@ -46,7 +47,11 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 		else if (ft_issep(vars->read[i]))
 		{
 			if (ft_aresep(vars, &i, comm, envir) == -1)
-				return (close(vars->heredoc_fd), -1);
+			{
+				if (vars->is_signal == 1)
+					close(vars->heredoc_fd);
+				return (-1);
+			}
 			if (vars->exit_status == 130)
 				break ;
 		}
@@ -153,6 +158,7 @@ void	init_vars2(t_vars *vars)
 	vars->not_pass = 0;
 	vars->bef_dollar = 0;
 	vars->old_pwd = 0;
+	vars->is_red = 0;
 }
 
 void	init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
@@ -175,8 +181,13 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	add_history(vars->read);
 	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
-		// if (comm)
-		comm = ft_execute(vars, comm, envir);
+		// t_list *temp = comm;
+		// while (temp)
+		// {
+		// 	printf("%s      %d\n", temp->content, temp->type);
+		// 	temp = temp->next;
+		// }
+		ft_execute(vars, comm, envir);
 		free(vars->read);
 	}
 	else
@@ -242,3 +253,7 @@ int	main(int ac, char **av, char **env)
 
 //env -i ./minishell
 //./minishell
+//cat <<a<<c<<d<<v<<k | cat
+//<< a | cat
+//cat; ctrl c; ls > a; not workin; leaks
+//<< a | cat; ctrl c; ls | cat
