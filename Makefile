@@ -13,8 +13,8 @@ EXEC_MAN =	./execution/ft_execute.c ./execution/ft_execute2.c ./execution/builti
 	./execution/utils/ft_cd_utils1.c ./execution/utils/ft_cd_utils2.c
 
 SRC_MAN =  $(EXEC_MAN)  main.c utils/list_utils.c utils/libft/func.c utils/libft/func1.c utils/libft/func2.c\
-	utils/libft/func3.c utils/libft/func4.c utils/libft/func5.c \
-	utils/token.c utils/ft_iswhat.c utils/alpha.c utils/libft/func6.c \
+	utils/libft/func3.c utils/libft/func4.c utils/libft/func5.c main2.c utils/init_vars.c \
+	utils/token.c utils/ft_iswhat.c utils/alpha.c utils/libft/func6.c utils/shell_level.c \
 	utils/sep_syntax.c parsing/env.c utils/quotes.c parsing/env_utils.c utils/quote_utils.c \
 	utils/expanding.c utils/dollar.c utils/quote_utils2.c utils/alpha2.c utils/alpha3.c\
 	utils/separator.c utils/quote_utils3.c parsing/env_utils2.c \

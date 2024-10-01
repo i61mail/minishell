@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:54:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/28 17:11:03 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:47:45 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_error(t_list **comm, t_vars *vars)
 	return ;
 }
 
-int	ft_check_type(char *read, int *i, int *type)
+int	ft_check_type(char *read, int *i, int *type, t_vars *vars)
 {
 	int	c;
 
@@ -54,6 +54,7 @@ int	ft_check_type(char *read, int *i, int *type)
 		*type = RED_OUT;
 	else
 		return (-1);
+	vars->is_red = 1;
 	return (0);
 }
 

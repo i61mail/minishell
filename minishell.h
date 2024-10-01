@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 17:11:35 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/01 13:36:40 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 15:14:41 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,10 @@ int			ft_isprint(int c);
 int			add_to_node(char *key, char *value, t_env **envir);
 char		*ft_strstr(char *str, char *to_find, int *b);
 int			sspace(char *str_temp);
+void		old_search(t_vars *vars, t_list *comm);
+int			is_sep(t_vars *vars);
+void		warning_error(long long *increm);
+int			three_vars(t_env **envir);
 
 /*        utils       */
 
@@ -191,6 +195,10 @@ void		check_splited(t_vars *vars, int *i, int *type);
 void		split_before_quotes(t_vars *vars, char **str_temp,
 				t_list **comm, int *i);
 void		ft_isempty(t_vars *vars, int *i);
+void		main_init_vars(t_list **comm, t_vars *vars,
+				t_env **envir, char **env);
+int			shell_level(t_env **envir);
+void		warning_error(long long *increm);
 
 /*       heredoc          */
 
@@ -211,7 +219,7 @@ void		add_to_str_temp(t_vars *vars, int *i, char **str_temp, int check);
 int			even_odd(char *read);
 int			ft_redircmp(char *s1, char *s2, int *i);
 void		ft_error(t_list **comm, t_vars *vars);
-int			ft_check_type(char *read, int *i, int *type);
+int			ft_check_type(char *read, int *i, int *type, t_vars *vars);
 int			ft_pipe(t_vars *vars, int *i, t_list **comm);
 int			ft_append(t_vars *vars, int *i, t_list **comm);
 int			ft_heredoc(t_vars *vars, int *i, t_list **comm);

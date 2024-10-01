@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 17:53:12 by isrkik            #+#    #+#             */
-/*   Updated: 2024/09/25 17:53:46 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:58:29 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,32 @@ char	*ft_strstr(char *str, char *to_find, int *b)
 	free(to_find);
 	to_find = ft_substr(str, *b, j);
 	return (to_find);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
+	size_t	srclen;
+
+	if (!dst || !src)
+		return (-1);
+	srclen = ft_strlen((char *)src);
+	i = 0;
+	if (dstsize != 0)
+	{
+		while (src[i] && i < dstsize - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (srclen);
+}
+
+int	ft_isred(int t)
+{
+	if (t == RED_IN || t == RED_OUT || t == RED_APPEND || t == HEREDOC)
+		return (1);
+	return (0);
 }

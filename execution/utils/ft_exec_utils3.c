@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 19:56:18 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/10/01 13:08:46 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:58:22 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,6 @@ void	ft_builtin(t_list *comm, t_env **envir, t_vars *vars)
 		ft_unset(comm, envir, vars);
 }
 
-int	ft_isred(int t)
-{
-	if (t == RED_IN || t == RED_OUT || t == RED_APPEND || t == HEREDOC)
-		return (1);
-	return (0);
-}
-
 void	ft_check4red_util(t_list **temp, t_vars *vars)
 {
 	if (temp && *temp)
@@ -70,6 +63,18 @@ void	ft_check4red_util(t_list **temp, t_vars *vars)
 	}
 }
 
+void	free_failure_red(t_list **new_comm, t_list *comm, t_list *temp)
+{
+	if (new_comm)
+	{
+		free(temp->content);
+		free(temp);
+	}
+	free(comm->content);
+	free(comm);
+	ft_lstfree(new_comm);
+}
+
 t_list	*ft_check4red(t_list *comm, t_vars *vars)
 {
 	t_list	*temp;
@@ -82,14 +87,7 @@ t_list	*ft_check4red(t_list *comm, t_vars *vars)
 		if (ft_isred(temp->type))
 		{
 			if (ft_handle_redir(temp, temp->next, vars) == -1)
-			{
-				if (new_comm)
-				{
-					free(temp->content);
-					free(temp);
-				}
-				return (free(comm->content), free(comm), ft_lstfree(&new_comm), NULL);
-			}
+				return (free_failure_red(&new_comm, comm, temp), NULL);
 			temp = temp->next;
 			ft_check4red_util(&temp, vars);
 		}

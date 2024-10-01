@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:23:32 by mait-lah          #+#    #+#             */
-/*   Updated: 2024/09/30 10:34:20 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:57:38 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ t_list	*ft_split_pipe(t_list **new_comm, t_vars *vars)
 		vars->pipe = 1;
 		if (prev)
 			prev->next = NULL;
-		// free(temp->content);
-		// free(temp);
-		// return (temp->next);
 		return (ft_free_lst_node(temp));
 	}
 	else
@@ -123,25 +120,4 @@ char	*ft_strchr_2(const char *str, const char *sep)
 		i++;
 	}
 	return (NULL);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-	size_t	srclen;
-
-	if (!dst || !src)
-		return (-1);
-	srclen = ft_strlen((char *)src);
-	i = 0;
-	if (dstsize != 0)
-	{
-		while (src[i] && i < dstsize - 1)
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (srclen);
 }
