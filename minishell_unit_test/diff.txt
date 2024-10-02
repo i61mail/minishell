@@ -1,0 +1,1446 @@
+[33mecho cd ~(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< cd /Users/isrkik
+---
+> cd ~
+
+
+[33mexport TES\~T=123(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: export: `TES~T=123': not a valid identifier
+---
+> minishell: export: `TES\~T=123': not a valid identifier
+
+
+[33mexport =a | echo $a(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: export: `=a': not a valid identifier
+
+
+[33mexport /dont/export/this=hola | export | grep /dont/export/this(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: export: `/dont/export/this=hola': not a valid identifier
+
+
+[33munset ?(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> minishell: unset: `?': not a valid identifier
+
+
+[33munset TES\~T(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: unset: `TES~T': not a valid identifier
+---
+> minishell: unset: `TES\~T': not a valid identifier
+
+
+[33mcd ' /'| pwd(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+1d0
+< minishell: cd:  /: No such file or directory
+
+
+[33mcd dirwithoutpermissions(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: cd: dirwithoutpermissions: Permission denied
+---
+> minishell: cd:dirwithoutpermissions: Permission denied
+
+
+[33mexit 9223372036854775807(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit something somethingv2(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 0 0(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ""(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit "+100"(B[m
+[35m< bash       (exited with 100)(B[m
+[35m> minishell  (exited with 100)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit "-100"(B[m
+[35m< bash       (exited with 156)(B[m
+[35m> minishell  (exited with 156)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit -9223372036854775805(B[m
+[35m< bash       (exited with 3)(B[m
+[35m> minishell  (exited with 3)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 0(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 10(B[m
+[35m< bash       (exited with 10)(B[m
+[35m> minishell  (exited with 10)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 42(B[m
+[35m< bash       (exited with 42)(B[m
+[35m> minishell  (exited with 42)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 1(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit +++++(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ++++++(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit +1(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ++1(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ++12560(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit -----(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ------(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit -1(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit --1(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit -12560(B[m
+[35m< bash       (exited with 240)(B[m
+[35m> minishell  (exited with 240)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit --12560(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 255(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 1 2(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 1 2 3(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit A(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit A 2 3(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit "A"(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit "+++"(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ++++3193912939(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 01(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 001(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 0001(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit +++000(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ++++000(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ---000(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ----000(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit "something"(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit x(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit echo(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit cd ..(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit exit(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 42 42 42 42 42 (B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 42(B[m
+[35m< bash       (exited with 42)(B[m
+[35m> minishell  (exited with 42)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit -42(B[m
+[35m< bash       (exited with 214)(B[m
+[35m> minishell  (exited with 214)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 512(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 1407(B[m
+[35m< bash       (exited with 127)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 21 42(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit notanumber(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33menv -i ./minishell: cd -(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: cd: OLDPWD not set
+---
+> minishell: -: OLDPWD not set
+
+
+[33menv -i ./minishell: exit asd(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33menv -i ./minishell: exit 5(B[m
+[35m< bash       (exited with 5)(B[m
+[35m> minishell  (exited with 5)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33menv -i ./minishell: exit 5 asd(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33menv -i ./minishell: exit(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33menv -i ./minishell: |(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `|'
+---
+> minishell: syntax error
+
+
+[33m.(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: .: filename argument required
+< .: usage: . filename [arguments]
+---
+> minishell: .: command not found
+
+
+[33m|(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `|'
+---
+> minishell: syntax error
+
+
+[33m|(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `|'
+---
+> minishell: syntax error
+
+
+[33m|b(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `|b'
+---
+> minishell: syntax error
+
+
+[33ma|||b(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `a|||b'
+---
+> minishell: syntax error
+
+
+[33m> > a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `> > a'
+---
+> minishell: syntax error
+
+
+[33m< < a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `< < a'
+---
+> minishell: syntax error
+
+
+[33m< >> a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>>'
+< minishell: -c: `< >> a'
+---
+> minishell: syntax error
+
+
+[33m>>> a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `>>> a'
+---
+> minishell: syntax error
+
+
+[33m<<<< a(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `<<<< a'
+---
+> minishell: syntax error
+
+
+[33ma<<<<(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `a<<<<'
+---
+> minishell: syntax error
+
+
+[33mpwd >|(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `newline'
+< minishell: -c: `pwd >|'
+---
+> minishell: syntax error
+
+
+[33m|pwd(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `|pwd'
+---
+> minishell: syntax error
+
+
+[33mpwd ||(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: -c: line 1: syntax error: unexpected end of file
+---
+> minishell: syntax error
+
+
+[33mtouch a | < a(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m
+
+[33mtouch a b c| echo sorry > d| cat < a < b < c < d(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 0)
+(B[m
+
+[33mecho >(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `newline'
+< minishell: -c: `echo >'
+---
+> minishell: syntax error
+
+
+[33mecho bonjour >>> test(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo bonjour >>> test'
+---
+> minishell: syntax error
+
+
+[33mecho bonjour > > out(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo bonjour > > out'
+---
+> minishell: syntax error
+
+
+[33mecho bonjour > $test(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: $test: ambiguous redirect
+---
+> minishell: ambiguous redirect
+
+
+[33mecho bonjour > $test w t(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: $test: ambiguous redirect
+---
+> minishell: ambiguous redirect
+
+
+[33m exit (B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit -10(B[m
+[35m< bash       (exited with 246)(B[m
+[35m> minishell  (exited with 246)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit +10(B[m
+[35m< bash       (exited with 10)(B[m
+[35m> minishell  (exited with 10)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mecho hudifg d | | hugdfihd(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo hudifg d | | hugdfihd'
+---
+> minishell: syntax error
+
+
+[33mcd no_file(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: cd: no_file: No such file or directory
+---
+> minishell: cd:no_file: No such file or directory
+
+
+[33mcd a b c d(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: cd: a: No such file or directory
+---
+> minishell: cd:a: No such file or directory
+
+
+[33m| echo(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `| echo'
+---
+> minishell: syntax error
+
+
+[33mexit 1 | exit 0(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1,2
+> exit
+> minishell: exit: 0: numeric argument required
+
+
+[33mls | > out(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 141)
+(B[m
+
+[33mexit -21131313(B[m
+[35m< bash       (exited with 207)(B[m
+[35m> minishell  (exited with 207)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit -9223372036854775809(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 9223372036854775808(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit +100(B[m
+[35m< bash       (exited with 100)(B[m
+[35m> minishell  (exited with 100)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit 11111111111111111111111111111111111111111111(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mexit ""(B[m
+[35m< bash       (exited with 255)(B[m
+[35m> minishell  (exited with 255)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> exit
+
+
+[33mls | < dadd(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 141)
+(B[m
+
+[33m< lexer/ /bin | ///// | ok > /////(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 126)
+(B[m[94m----- STDERR -----(B[m
+2d1
+< minishell: /////: is a directory
+3a3
+> minishell: /////: is a directory
+
+
+[33m< lexer/ /bin | "" | ok > ""(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 127)
+(B[m[94m----- STDERR -----(B[m
+2c2
+< minishell: : No such file or directory
+---
+> minishell: No such file or directory
+
+
+[33mecho hi > $p(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+1c1
+< minishell: $p: ambiguous redirect
+---
+> minishell: ambiguous redirect
+
+
+[33mecho $*(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 0)
+(B[m[94m----- STDOUT -----(B[m
+1c1
+< 
+---
+> $*
+
+
+[33m<>(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `newline'
+< minishell: -c: `<>'
+---
+> minishell: syntax error
+
+
+[33mecho >          >           < "echo"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo >          >           < "echo"'
+---
+> minishell: syntax error
+
+
+[33mecho >          >         | echo kekw(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo >          >         | echo kekw'
+---
+> minishell: syntax error
+
+
+[33mecho >          >         | echo super valid(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo >          >         | echo super valid'
+---
+> minishell: syntax error
+
+
+[33mecho <          <         > echo(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo <          <         > echo'
+---
+> minishell: syntax error
+
+
+[33mecho <  < <         > ok(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo <  < <         > ok'
+---
+> minishell: syntax error
+
+
+[33mecho <  < | echo ok(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo <  < | echo ok'
+---
+> minishell: syntax error
+
+
+[33mecho <  < |    < ok(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo <  < |    < ok'
+---
+> minishell: syntax error
+
+
+[33mecho <      < |    > echo(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo <      < |    > echo'
+---
+> minishell: syntax error
+
+
+[33mecho >>| echo super valid(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo >>| echo super valid'
+---
+> minishell: syntax error
+
+
+[33mecho >>< "echo"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo >>< "echo"'
+---
+> minishell: syntax error
+
+
+[33mecho < < < echo seegf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo < < < echo seegf'
+---
+> minishell: syntax error
+
+
+[33mecho > > < "echo"(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo > > < "echo"'
+---
+> minishell: syntax error
+
+
+[33mecho > > | echo kekw(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo > > | echo kekw'
+---
+> minishell: syntax error
+
+
+[33mecho > > | echo super valid(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo > > | echo super valid'
+---
+> minishell: syntax error
+
+
+[33mecho < < > echo(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo < < > echo'
+---
+> minishell: syntax error
+
+
+[33mecho < < < > ok(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo < < < > ok'
+---
+> minishell: syntax error
+
+
+[33mecho >>| echo kekw(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo >>| echo kekw'
+---
+> minishell: syntax error
+
+
+[33mecho <<| echo ok(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo <<| echo ok'
+---
+> minishell: syntax error
+
+
+[33mecho <<|< ok(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo <<|< ok'
+---
+> minishell: syntax error
+
+
+[33mecho <<|> echo(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo <<|> echo'
+---
+> minishell: syntax error
+
+
+[33mecho <<> echo(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo <<> echo'
+---
+> minishell: syntax error
+
+
+[33mecho <<<> ok(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo <<<> ok'
+---
+> minishell: syntax error
+
+
+[33mecho segfault <"<<<"<<amazing(B[m
+[35m< bash       (exited with 1)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDOUT -----(B[m
+0a1,3
+> [?2004h> 
+> [?2004l[?2004h> amazing
+> [?2004l
+\ No newline at end of file
+
+
+[33mecho seg < > echo seg(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo seg < > echo seg'
+---
+> minishell: syntax error
+
+
+[33mecho seg > < echo segf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo seg > < echo segf'
+---
+> minishell: syntax error
+
+
+[33mecho seg < < > echo segf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo seg < < > echo segf'
+---
+> minishell: syntax error
+
+
+[33mecho seg < < < > echo segf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo seg < < < > echo segf'
+---
+> minishell: syntax error
+
+
+[33mecho segf > | echo is this invalid(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo segf > | echo is this invalid'
+---
+> minishell: syntax error
+
+
+[33mecho segf < | < echo super valid(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo segf < | < echo super valid'
+---
+> minishell: syntax error
+
+
+[33mecho < < | echo ok(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo < < | echo ok'
+---
+> minishell: syntax error
+
+
+[33mecho < < | < ok(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo < < | < ok'
+---
+> minishell: syntax error
+
+
+[33mecho < < | > echo(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo < < | > echo'
+---
+> minishell: syntax error
+
+
+[33mecho segfault < " < < < " < < amazing(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo segfault < " < < < " < < amazing'
+---
+> minishell: syntax error
+
+
+[33mecho seg <  > echo seg(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo seg <  > echo seg'
+---
+> minishell: syntax error
+
+
+[33mecho seg >  < echo segf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo seg >  < echo segf'
+---
+> minishell: syntax error
+
+
+[33mecho seg <      < > echo segf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo seg <      < > echo segf'
+---
+> minishell: syntax error
+
+
+[33mecho seg <      < <    > echo segf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo seg <      < <    > echo segf'
+---
+> minishell: syntax error
+
+
+[33mecho <      <     < echo seegf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo <      <     < echo seegf'
+---
+> minishell: syntax error
+
+
+[33mecho segf >     | echo is this invalid(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo segf >     | echo is this invalid'
+---
+> minishell: syntax error
+
+
+[33mecho segf <         |        < echo super valid(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo segf <         |        < echo super valid'
+---
+> minishell: syntax error
+
+
+[33mecho segfault <"    <   <   <"  <   <   amazing(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo segfault <"    <   <   <"  <   <   amazing'
+---
+> minishell: syntax error
+
+
+[33mecho seg >< echo segf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `<'
+< minishell: -c: `echo seg >< echo segf'
+---
+> minishell: syntax error
+
+
+[33mecho seg <<> echo segf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo seg <<> echo segf'
+---
+> minishell: syntax error
+
+
+[33mecho seg <<<> echo segf(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `>'
+< minishell: -c: `echo seg <<<> echo segf'
+---
+> minishell: syntax error
+
+
+[33mecho segf <|< echo super valid(B[m
+[35m< bash       (exited with 2)(B[m
+[35m> minishell  (exited with 2)
+(B[m[94m----- STDERR -----(B[m
+1,2c1
+< minishell: -c: syntax error near unexpected token `|'
+< minishell: -c: `echo segf <|< echo super valid'
+---
+> minishell: syntax error
+
+
+[33mls -la '|' '<<' '<' '>' '>>' '||'| echo hello(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 1)
+(B[m
+
+[33mls -la "|" "<<" "<" ">" ">>" "||"| echo hello(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 1)
+(B[m
+
+[33munset ?(B[m
+[35m< bash       (exited with 0)(B[m
+[35m> minishell  (exited with 1)
+(B[m[94m----- STDERR -----(B[m
+0a1
+> minishell: unset: `?': not a valid identifier
+
+
