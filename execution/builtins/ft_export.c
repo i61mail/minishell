@@ -92,7 +92,7 @@ int	ft_export(t_env *envir, t_vars *vars, t_list *command)
 		while (temp)
 		{
 			if (ft_invalid_char(temp->content, vars) == 0)
-				ft_handle_default(temp, &envir);
+				ft_handle_default(temp, &envir, vars);
 			temp = temp->next;
 		}
 	}

@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-char	**ft_2denv(t_env *envir)
+char	**ft_2denv(t_env *envir, t_vars *vars)
 {
 	char	**_2denv;
 	char	*temp;
@@ -25,7 +25,7 @@ char	**ft_2denv(t_env *envir)
 		return (NULL);
 	while (envir)
 	{
-		if (!envir->value)
+		if (!envir->value || (!ft_strcmp("PATH", envir->key) && vars->env_i))
 		{
 			envir = envir->next;
 			continue ;

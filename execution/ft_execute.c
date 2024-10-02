@@ -50,7 +50,7 @@ void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
 	if (!ft_invalid_bin(binary, comm, vars))
 	{
 		comm->content = binary;
-		_2denv = ft_2denv(envir);
+		_2denv = ft_2denv(envir, vars);
 		_2dcomm = ft_2dcomm(comm);
 		execve(binary, _2dcomm, (char *const *)_2denv);
 		perror(comm->content);

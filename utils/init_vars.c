@@ -38,6 +38,7 @@ void	main_init_vars2(t_vars *vars)
 	vars->old_pwd = 0;
 	vars->is_red = 0;
 	vars->type = 0;
+	vars->exprt_type = 0;
 }
 
 void	main_init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
@@ -50,7 +51,6 @@ void	main_init_vars(t_list **comm, t_vars *vars, t_env **envir, char **env)
 	vars->befor = NULL;
 	vars->last_arg = NULL;
 	strcpy_env(envir, env);
-	if (!*envir)
-		vars->env_i = three_vars(envir);
+	three_vars(envir, vars);
 	shell_level(envir);
 }

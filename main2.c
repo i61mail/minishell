@@ -36,18 +36,25 @@ int	is_sep(t_vars *vars)
 	return (-1);
 }
 
-int	three_vars(t_env **envir)
+int	three_vars(t_env **envir, t_vars *vars)
 {
-	add_to_node(ft_strdup("PWD"),
-		ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
-	add_to_node(ft_strdup("PATH"),
-		ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:\
-/usr/local/munki:/Library/Apple/usr/bin"), envir);
-	add_to_node(ft_strdup("SHLVL"),
-		ft_strdup("0"), envir);
-	add_to_node(ft_strdup("_"),
-		ft_strdup("/usr/bin/env"), envir);
-	add_to_node(ft_strdup("OLDPWD"), NULL, envir);
+	if (!my_getenv("PWD", *envir))
+		add_to_node(ft_strdup("PWD"),
+			ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
+	if (!my_getenv("PATH", *envir))
+	{
+		add_to_node(ft_strdup("PATH"),
+			ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin"), envir);
+		vars->env_i = 1;
+	}
+	if (!my_getenv("SHLVL", *envir))
+		add_to_node(ft_strdup("SHLVL"),
+			ft_strdup("0"), envir);
+	if (!my_getenv("_", *envir))
+		add_to_node(ft_strdup("_"),
+			ft_strdup("/usr/bin/env"), envir);
+	if (!my_getenv("OLDPWD", *envir))
+		add_to_node(ft_strdup("OLDPWD"), NULL, envir);
 	return (1);
 }
 

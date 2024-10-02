@@ -22,28 +22,30 @@ void	ft_handle_split(t_list *comm, t_env **envir, t_vars *vars)
 	while (splited && splited[i])
 	{
 		if (ft_invalid_char(splited[i], vars) == 0)
-			ft_add_env(splited[i], NULL, envir, 4);
+		{
+			vars->exprt_type = 4;
+			ft_add_env(splited[i], NULL, envir, vars);
+		}
 		i++;
 	}
 }
 
-void	ft_handle_default(t_list *comm, t_env **envir)
+void	ft_handle_default(t_list *comm, t_env **envir, t_vars *vars)
 {
 	char	*key;
 	char	*value;
-	int		type;
 
 	key = NULL;
 	value = NULL;
-	type = ft_var_type(comm->content, *envir);
-	if (type == 0 || type == 3)
+	vars->exprt_type = ft_var_type(comm->content, *envir);
+	if (vars->exprt_type == 0 || vars->exprt_type == 3)
 		ft_split_2(comm->content, "=", &key, &value);
-	if (type == 1)
+	if (vars->exprt_type == 1)
 		ft_split_2(comm->content, "+=", &key, &value);
-	if (type == 4)
+	if (vars->exprt_type == 4)
 		key = comm->content;
-	ft_add_env(key, value, envir, type);
-	if (type != 4)
+	ft_add_env(key, value, envir, vars);
+	if (vars->exprt_type != 4)
 		free(key);
 }
 
@@ -76,7 +78,7 @@ void	add_value(t_env **temp, char *value, int type)
 	}
 }
 
-void	ft_add_env(char *key, char *value, t_env **envir, int type)
+void	ft_add_env(char *key, char *value, t_env **envir, t_vars *vars)
 {
 	t_env	*new;
 	t_env	*temp;
@@ -88,14 +90,16 @@ void	ft_add_env(char *key, char *value, t_env **envir, int type)
 			return (free(value));
 		if (!ft_strcmp(temp->key, key))
 		{
-			return (add_value(&temp, value, type));
+			if(!ft_strcmp("PATH", temp->key))
+				vars->env_i = 0;
+			return (add_value(&temp, value, vars->exprt_type));
 		}
 		temp = temp->next;
 	}
 	new = malloc(sizeof(t_env));
 	new->key = ft_strdup(key);
 	new->value = value;
-	if (type == 3)
+	if (vars->exprt_type == 3)
 	{
 		free(new->value);
 		new->value = ft_strdup("");
