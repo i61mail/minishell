@@ -98,3 +98,5 @@ int	main(int ac, char **av, char **env)
 	ft_readline(&vars, comm, &envir, ac);
 	exit(vars.exit_status);
 }
+// export ""
+//exit 3 cv " "
