@@ -63,7 +63,10 @@ int	ft_exit(t_list *comm, t_vars *vars)
 	if (vars->numofpipes)
 	{
 		if (!vars->pipe)
-			vars->exit_status = ft_atoi_2(comm->content, vars);
+		{
+			if (comm && comm->content)
+				vars->exit_status = ft_atoi_2(comm->content, vars);
+		}
 		id = fork();
 		if (!id)
 			exit(status);
