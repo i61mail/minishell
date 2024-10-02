@@ -49,7 +49,7 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 		// t_list *temp = comm;
 		// while (temp)
 		// {
-		// 	printf("%s      %d\n", temp->content, temp->type);
+		// 	printf("c:%s,t:%d\n", temp->content, temp->type);
 		// 	temp = temp->next;
 		// }
 		ft_execute(vars, comm, envir);

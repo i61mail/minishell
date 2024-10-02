@@ -99,6 +99,7 @@ t_list	*ft_execute(t_vars *vars, t_list *comm, t_env **envir)
 	vars->pfd[1] = 1;
 	vars->atoifail = 0;
 	vars->cmd_num = 0;
+	vars->hdoc = 0;
 	if (!comm)
 		return (NULL);
 	if (vars->exit_status == 130 && vars->is_signal == 1)

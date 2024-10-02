@@ -43,8 +43,8 @@ void	dup_and_close(int oldfd, int newfd)
 	if (oldfd == newfd)
 		return ;
 	dup2(oldfd, newfd);
-	if (oldfd != 0 && oldfd != 1)
-		close(oldfd);
+	// if (oldfd != 0 && oldfd != 1)
+	// 	close(oldfd);
 }
 
 int	ft_isalldots(char *str)

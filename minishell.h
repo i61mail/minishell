@@ -77,6 +77,7 @@ typedef struct s_vars
 	int				old_pwd;
 	int				is_red;
 	int				type;
+	int				hdoc;
 	int				exprt_type;
 }		t_vars;
 

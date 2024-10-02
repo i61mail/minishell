@@ -84,14 +84,18 @@ int	ft_redin(t_list *next_node, t_vars *vars)
 		vars->exit_status = 1;
 		return (-1);
 	}
-	if (vars->pfd[0] != 0)
-		close(vars->pfd[0]);
+	// if (vars->pfd[0] != 0)
+	// 	close(vars->pfd[0]);
+	if (vars->old_fd != 0 && vars->old_fd !=1 )
+		close(vars->old_fd);
 	vars->old_fd = fd;
 	return (0);
 }
 
 int	ft_redheredoc(t_list *next_node, t_vars *vars)
 {
+	if(vars->hdoc)
+		return (0);
 	if (vars->heredoc_fd == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -99,8 +103,11 @@ int	ft_redheredoc(t_list *next_node, t_vars *vars)
 		vars->exit_status = 1;
 		return (-1);
 	}
-	if (vars->pfd[0] != 0)
-		close(vars->pfd[0]);
+	// if (vars->pfd[0] != 0)
+	// 	close(vars->pfd[0]);
+	if (vars->old_fd != 0 && vars->old_fd !=1 )
+		close(vars->old_fd);
 	vars->old_fd = vars->heredoc_fd;
+	vars->hdoc = 1;
 	return (0);
 }
