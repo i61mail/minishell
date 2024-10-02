@@ -80,6 +80,7 @@ typedef struct s_vars
 	int				type_ambig;
 	int				hdoc;
 	int				exprt_type;
+	int				override_es;
 }		t_vars;
 
 typedef struct s_env

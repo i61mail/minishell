@@ -63,10 +63,11 @@ void	ft_check4red_util(t_list **temp, t_vars *vars)
 	}
 }
 
-void	free_failure_red(t_list **new_comm, t_list *comm)
+t_list	*free_failure_red(t_list **new_comm, t_list *comm)
 {
 	ft_lstfree(&comm);
 	ft_lstfree(new_comm);
+	return (NULL);
 }
 
 t_list	*ft_check4red(t_list *comm, t_vars *vars)

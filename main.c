@@ -83,6 +83,20 @@ void	ft_readline(t_vars *vars, t_list *comm, t_env **envir, int ac)
 	}
 }
 
+void	ft_readline_test(t_vars *vars, t_list *comm, t_env **envir, int ac, char **av)
+{
+
+	if (ac == 3)
+	{
+		vars->read = ft_strdup(av[2]);
+		if (!vars->read)
+		{
+			return ;
+		}
+		pars_exec(vars, comm, envir);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_list	*comm;
@@ -96,6 +110,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
 	ft_readline(&vars, comm, &envir, ac);
+	//ft_readline_test(&vars, comm, &envir, ac, av);
 	exit(vars.exit_status);
 }
 //exit 3 cv " "

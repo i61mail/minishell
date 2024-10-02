@@ -18,6 +18,7 @@ void	ft_ambiguos(t_list *next_node, t_vars *vars)
 	ft_putstr_fd("minishell:", 2);// fix for test (echo a | ls > /dev/stdin )
 	ft_putstr_fd(" ambiguous redirect\n", 2);
 	vars->exit_status = 1;
+	vars->override_es = 1;
 }
 
 int	ft_redout(t_list *next_node, t_vars *vars)
@@ -38,6 +39,7 @@ int	ft_redout(t_list *next_node, t_vars *vars)
 		ft_putstr_fd("minishell: ", 2);
 		perror(next_node->content);
 		vars->exit_status = 1;
+		vars->override_es = 1;
 		return (-1);
 	}
 	if (vars->pfd[1] != 1)
@@ -56,6 +58,7 @@ int	ft_redappend(t_list *next_node, t_vars *vars)
 		ft_putstr_fd("minishell: ", 2);
 		perror(next_node->content);
 		vars->exit_status = 1;
+		vars->override_es = 1;
 		return (-1);
 	}
 	if (vars->pfd[1] != 1)
@@ -82,6 +85,7 @@ int	ft_redin(t_list *next_node, t_vars *vars)
 		ft_putstr_fd("minishell: ", 2);
 		perror(next_node->content);
 		vars->exit_status = 1;
+		vars->override_es = 1;
 		return (-1);
 	}
 	// if (vars->pfd[0] != 0)
@@ -101,6 +105,7 @@ int	ft_redheredoc(t_list *next_node, t_vars *vars)
 		ft_putstr_fd("minishell: ", 2);
 		perror(next_node->content);
 		vars->exit_status = 1;
+		vars->override_es = 1;
 		return (-1);
 	}
 	// if (vars->pfd[0] != 0)

@@ -49,7 +49,7 @@ void	ft_wait(int id, t_vars *vars)
 {
 	int		pid;
 
-	if (waitpid(id, &pid, 0) > 0)
+	if (waitpid(id, &pid, 0) > 0 && !vars->override_es)
 	{
 		if (vars->exit_status == 130 && vars->is_signal == 1)
 		{
