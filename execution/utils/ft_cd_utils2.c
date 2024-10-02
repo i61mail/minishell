@@ -59,6 +59,7 @@ void	check_env(t_env **envir, char **old_pwd)
 	{
 		if (ft_strncmp(temp->key, "OLDPWD\0", 7) == 0)
 		{
+			printf("%s\n", temp->value);
 			if (temp->value)
 			{
 				free(*old_pwd);

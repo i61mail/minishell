@@ -12,24 +12,6 @@
 
 #include "../../minishell.h"
 
-void	ft_handle_split(t_list *comm, t_env **envir, t_vars *vars)
-{
-	int		i;
-	char	**splited;
-
-	i = 0;
-	splited = ft_split_space(comm->content);
-	while (splited && splited[i])
-	{
-		if (ft_invalid_char(splited[i], vars) == 0)
-		{
-			vars->exprt_type = 4;
-			ft_add_env(splited[i], NULL, envir, vars);
-		}
-		i++;
-	}
-}
-
 void	ft_handle_default(t_list *comm, t_env **envir, t_vars *vars)
 {
 	char	*key;
@@ -49,13 +31,25 @@ void	ft_handle_default(t_list *comm, t_env **envir, t_vars *vars)
 		free(key);
 }
 
-void	add_value(t_env **temp, char *value, int type)
+void	add_value_util(t_env **temp, char **tmp, char *value)
+{
+	if ((*temp)->value && (*temp)->value[0] != '\0')
+	{
+		*tmp = (*temp)->value;
+		free(*tmp);
+	}
+	(*temp)->value = value;
+}
+
+void	add_value(t_env **temp, char *value, t_vars *vars)
 {
 	char	*tmp;
 
+	if (!ft_strcmp("PATH", (*temp)->key))
+		vars->env_i = 0;
 	if (temp)
 	{
-		if (type == 1)
+		if (vars->type == 1)
 		{
 			tmp = (*temp)->value;
 			free(tmp);
@@ -67,12 +61,7 @@ void	add_value(t_env **temp, char *value, int type)
 		{
 			if (!value)
 				return ;
-			if ((*temp)->value && (*temp)->value[0] != '\0')
-			{
-				tmp = (*temp)->value;
-				free(tmp);
-			}
-			(*temp)->value = value;
+			add_value_util(temp, &tmp, value);
 		}
 		return ;
 	}
@@ -89,11 +78,7 @@ void	ft_add_env(char *key, char *value, t_env **envir, t_vars *vars)
 		if (ft_strncmp(key, "_\0", 2) == 0)
 			return (free(value));
 		if (!ft_strcmp(temp->key, key))
-		{
-			if(!ft_strcmp("PATH", temp->key))
-				vars->env_i = 0;
-			return (add_value(&temp, value, vars->exprt_type));
-		}
+			return (add_value(&temp, value, vars));
 		temp = temp->next;
 	}
 	new = malloc(sizeof(t_env));

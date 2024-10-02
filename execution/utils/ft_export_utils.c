@@ -76,3 +76,21 @@ int	ft_var_type(char *var, t_env *envir)
 		return (1);
 	return (4);//no value var export a
 }
+
+void	ft_handle_split(t_list *comm, t_env **envir, t_vars *vars)
+{
+	int		i;
+	char	**splited;
+
+	i = 0;
+	splited = ft_split_space(comm->content);
+	while (splited && splited[i])
+	{
+		if (ft_invalid_char(splited[i], vars) == 0)
+		{
+			vars->exprt_type = 4;
+			ft_add_env(splited[i], NULL, envir, vars);
+		}
+		i++;
+	}
+}

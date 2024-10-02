@@ -33,11 +33,7 @@ int	ft_handle_redir(t_list *node, t_list *next_node, t_vars *vars)
 	if (node->type == RED_IN)
 	{
 		if (ft_redin(next_node, vars) == -1)
-		{
-			if (vars->type == AMBIGUOUS)
-				return (-1);
 			return (-1);
-		}
 	}
 	if (node->type == HEREDOC)
 		return (ft_redheredoc(next_node, vars));

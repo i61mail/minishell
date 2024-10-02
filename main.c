@@ -98,8 +98,3 @@ int	main(int ac, char **av, char **env)
 	ft_readline(&vars, comm, &envir, ac);
 	exit(vars.exit_status);
 }
-
-//env -i ./minishell
-//./minishell
-//cat <<a<<c<<d<<v<<k | cat
-//<< a | cat

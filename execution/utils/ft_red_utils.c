@@ -86,7 +86,7 @@ int	ft_redin(t_list *next_node, t_vars *vars)
 	}
 	// if (vars->pfd[0] != 0)
 	// 	close(vars->pfd[0]);
-	if (vars->old_fd != 0 && vars->old_fd !=1 )
+	if (vars->old_fd != 0 && vars->old_fd != 1)
 		close(vars->old_fd);
 	vars->old_fd = fd;
 	return (0);
@@ -94,7 +94,7 @@ int	ft_redin(t_list *next_node, t_vars *vars)
 
 int	ft_redheredoc(t_list *next_node, t_vars *vars)
 {
-	if(vars->hdoc)
+	if (vars->hdoc)
 		return (0);
 	if (vars->heredoc_fd == -1)
 	{
@@ -105,7 +105,7 @@ int	ft_redheredoc(t_list *next_node, t_vars *vars)
 	}
 	// if (vars->pfd[0] != 0)
 	// 	close(vars->pfd[0]);
-	if (vars->old_fd != 0 && vars->old_fd !=1 )
+	if (vars->old_fd != 0 && vars->old_fd != 1)
 		close(vars->old_fd);
 	vars->old_fd = vars->heredoc_fd;
 	vars->hdoc = 1;

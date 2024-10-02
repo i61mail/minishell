@@ -38,13 +38,19 @@ int	is_sep(t_vars *vars)
 
 int	three_vars(t_env **envir, t_vars *vars)
 {
+	char	*new_pwd;
+
+	new_pwd = NULL;
 	if (!my_getenv("PWD", *envir))
-		add_to_node(ft_strdup("PWD"),
-			ft_strdup("/Users/isrkik/Desktop/minishell"), envir);
+	{
+		new_pwd = getcwd(NULL, 0);
+		add_to_node(ft_strdup("PWD"), ft_strdup(new_pwd), envir);
+		free(new_pwd);
+	}
 	if (!my_getenv("PATH", *envir))
 	{
-		add_to_node(ft_strdup("PATH"),
-			ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin"), envir);
+		add_to_node(ft_strdup("PATH"), ft_strdup("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:\
+/usr/local/munki:/Library/Apple/usr/bin"), envir);
 		vars->env_i = 1;
 	}
 	if (!my_getenv("SHLVL", *envir))
