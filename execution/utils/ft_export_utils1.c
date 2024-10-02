@@ -38,6 +38,12 @@ void	add_value_util(t_env **temp, char **tmp, char *value)
 		*tmp = (*temp)->value;
 		free(*tmp);
 	}
+	else
+	{
+		free((*temp)->value);
+		(*temp)->value = value;
+		return ;
+	}
 	(*temp)->value = value;
 }
 

@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <sys/stat.h>
 # include <termios.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 

@@ -23,6 +23,8 @@ void	cd_noargs(t_env **envir, t_vars *vars)
 
 void	regul_dir(t_vars *vars, char **old_pwd, t_list *comm, t_env **envir)
 {
+	DIR	*f;
+
 	if (*comm->content == '\0')
 	{
 		free(*old_pwd);
@@ -30,8 +32,15 @@ void	regul_dir(t_vars *vars, char **old_pwd, t_list *comm, t_env **envir)
 		update_pwd(envir, 0, old_pwd);
 		return ;
 	}
-	if (chdir(comm->content) != -1)
-		ft_remove_dir(old_pwd, envir, comm);
+	f = opendir(comm->content);
+	if (f)
+	{
+		closedir(f);
+		if (chdir(comm->content) != -1)
+			ft_remove_dir(old_pwd, envir, comm);
+		else
+			check_permission(vars, comm);
+	}
 	else
 		check_permission(vars, comm);
 }

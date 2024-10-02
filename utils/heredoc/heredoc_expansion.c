@@ -32,6 +32,8 @@ int	here_dollar(t_heredoc *herdoc, int *i, t_env **envir, char **str_temp)
 		temp = ft_substr(herdoc->here_line, herdoc->start, herdoc->len - 1);
 	else
 		temp = ft_substr(herdoc->here_line, herdoc->start, herdoc->len);
+	if (!temp)
+		free(*str_temp);
 	*str_temp = ft_strjoin(*str_temp, temp);
 	free(temp);
 	return (0);
