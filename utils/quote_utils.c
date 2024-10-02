@@ -26,7 +26,7 @@ int	quotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	return (0);
 }
 
-int	after_skip(char *str, int i, char c)
+int	after_skip(char *str, int i, char c)//echo hudifg d | | hugdfihd 
 {
 	while (ft_isspace(str[i]))
 		i++;
@@ -37,7 +37,7 @@ int	after_skip(char *str, int i, char c)
 	}
 	else if (c == PIP)
 	{
-		if (str[i] == '\0')
+		if (str[i] == '\0' || str[i] == '|')
 			return (-1);
 	}
 	else if (c == RED_OUT || c == RED_IN)

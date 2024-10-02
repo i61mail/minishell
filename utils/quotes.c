@@ -14,15 +14,26 @@
 
 void	ft_isempty(t_vars *vars, int *i)
 {
+	int	k;
+
+	k = *i;
 	if (vars->read[*i] == '\0' && vars->is_red == 0)
 	{
 		vars->not_pass = 1;
 		return ;
 	}
-	else if (ft_isquotes(vars->read[*i]))
-		vars->not_pass = 0;
-	// else
-	// 	vars->not_pass = 1;
+	else if (vars->read[*i] && vars->read[*i] != '$'
+		&& !ft_isspace(vars->read[*i]))
+		vars->not_pass = 1;
+	else if (ft_isspace(vars->read[*i]) && vars->is_red == 0)
+	{
+		while (ft_isspace(vars->read[k]))
+			k++;
+		if (vars->read[k] == '\0')
+			vars->not_pass = 1;
+		else
+			vars->not_pass = 1;
+	}
 }
 
 void	init_v(int *check, char **temp)
