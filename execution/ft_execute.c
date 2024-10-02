@@ -31,8 +31,6 @@ void	ft_fd(t_vars *vars)
 {
 	dup_and_close(vars->pfd[1], 1);
 	dup_and_close(vars->old_fd, 0);
-	if (vars->pfd[0] != 0 && vars->pfd[0] != 1)
-		close(vars->pfd[0]);
 }
 
 void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
