@@ -76,7 +76,7 @@ typedef struct s_vars
 	char			*last_arg;
 	int				old_pwd;
 	int				is_red;
-	int				type;
+	int				type_ambig;
 	int				hdoc;
 	int				exprt_type;
 }		t_vars;
@@ -282,6 +282,8 @@ void		ft_wait(int id, t_vars *vars);
 void		ft_child(t_vars *vars, t_list *comm, t_env *envir);
 int			unset_not_valid(char *err, t_vars *vars);
 t_env		*ft_free_node(t_env *envir);
+void		up_pwd_util2(t_env *env, char **str, int *flag, t_env **envir);
+void		up_pwd_util(t_env *env, char **str, int *flag);
 
 /*		export utils 	*/
 

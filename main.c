@@ -20,7 +20,7 @@ int	ft_pars_comm(t_vars *vars, t_list **comm, t_env **envir)
 	vars->check_ambiguous = 0;
 	vars->is_signal = 0;
 	vars->is_red = 0;
-	vars->type = 0;
+	vars->type_ambig = 0;
 	while (vars->read[i] != '\0')
 	{
 		if (!ft_issep(vars->read[i])

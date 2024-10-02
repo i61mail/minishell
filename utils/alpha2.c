@@ -80,7 +80,7 @@ void	split_before_quotes(t_vars *vars, char **str_temp,
 		t_list **comm, int *i)
 {
 	if (sspace(*str_temp) == 0 && vars->check_ambiguous == 1)
-		vars->type = AMBIGUOUS;
+		vars->type_ambig = AMBIGUOUS;
 	if (check_space(*str_temp) == 1)
 	{
 		vars->befo_qu = *i;

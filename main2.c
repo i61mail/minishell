@@ -59,7 +59,7 @@ int	three_vars(t_env **envir, t_vars *vars)
 	if (!my_getenv("_", *envir))
 		add_to_node(ft_strdup("_"),
 			ft_strdup("/usr/bin/env"), envir);
-	if (!my_getenv("OLDPWD", *envir))
+	if (!my_getenv("OLDPWD", *envir) && vars->env_i == 1)
 		add_to_node(ft_strdup("OLDPWD"), NULL, envir);
 	return (1);
 }

@@ -80,3 +80,25 @@ void	check_permission(t_vars *vars, t_list *comm)
 	else
 		ft_put_error("minishell: cd:", comm->content, ": Not a directory");
 }
+
+void	update_pwd2(t_env *env, char **pwd, char *points)
+{
+	while (env)
+	{
+		if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
+		{
+			free(env->value);
+			env->value = ft_strdup(*pwd);
+			env->value = ft_strjoin(env->value, points);
+		}
+		else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
+		{
+			free(env->value);
+			env->value = ft_strdup(*pwd);
+			env->value = ft_strjoin(env->value, points);
+			free(*pwd);
+			*pwd = ft_strdup(env->value);
+		}
+		env = env->next;
+	}
+}

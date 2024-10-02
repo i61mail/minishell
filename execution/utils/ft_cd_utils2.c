@@ -59,7 +59,6 @@ void	check_env(t_env **envir, char **old_pwd)
 	{
 		if (ft_strncmp(temp->key, "OLDPWD\0", 7) == 0)
 		{
-			printf("%s\n", temp->value);
 			if (temp->value)
 			{
 				free(*old_pwd);
@@ -68,5 +67,32 @@ void	check_env(t_env **envir, char **old_pwd)
 			return ;
 		}
 		temp = temp->next;
+	}
+	if (!temp)
+	{
+		free(*old_pwd);
+		*old_pwd = NULL;
+	}
+}
+
+void	up_pwd_util(t_env *env, char **str, int *flag)
+{
+	char	*cwd;
+
+	cwd = NULL;
+	if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
+	{
+		free(env->value);
+		*str = getcwd(NULL, 0);
+		env->value = ft_strdup(*str);
+		free(*str);
+	}
+	else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
+	{
+		*flag = 1;
+		free(env->value);
+		*str = getcwd(NULL, 0);
+		env->value = ft_strdup(*str);
+		free(*str);
 	}
 }

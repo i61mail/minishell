@@ -77,7 +77,7 @@ int	ft_arequotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 		check = dollar_quotes(vars, i, &str_temp, envir);
 		if (check == -1)
 			return (-1);
-		if (vars->type == AMBIGUOUS)
+		if (vars->type_ambig == AMBIGUOUS)
 			replace_expand(str_temp, comm, AMBIGUOUS);
 		else
 			replace_expand(str_temp, comm, 0);

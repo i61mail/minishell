@@ -49,7 +49,7 @@ void	add_value(t_env **temp, char *value, t_vars *vars)
 		vars->env_i = 0;
 	if (temp)
 	{
-		if (vars->type == 1)
+		if (vars->exprt_type == 1)
 		{
 			tmp = (*temp)->value;
 			free(tmp);

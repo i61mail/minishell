@@ -37,7 +37,7 @@ void	main_init_vars2(t_vars *vars)
 	vars->bef_dollar = 0;
 	vars->old_pwd = 0;
 	vars->is_red = 0;
-	vars->type = 0;
+	vars->type_ambig = 0;
 	vars->exprt_type = 0;
 }
 

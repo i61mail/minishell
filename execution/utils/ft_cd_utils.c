@@ -12,43 +12,28 @@
 
 #include "../../minishell.h"
 
-void	update_pwd2(t_env *env, char **pwd, char *points)
+static void	init_vars(int *flag, char **str, char **points)
 {
-	while (env)
-	{
-		if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
-		{
-			free(env->value);
-			env->value = ft_strdup(*pwd);
-			env->value = ft_strjoin(env->value, points);
-		}
-		else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
-		{
-			free(env->value);
-			env->value = ft_strdup(*pwd);
-			env->value = ft_strjoin(env->value, points);
-			free(*pwd);
-			*pwd = ft_strdup(env->value);
-		}
-		env = env->next;
-	}
+	*flag = 0;
+	*str = NULL;
+	*points = NULL;
 }
 
-void	up_pwd_util(t_env *env, char **str)
+void	up_pwd_util2(t_env *env, char **str, int *flag, t_env **envir)
 {
-	if (ft_strncmp(env->key, "2PWD\0", 5) == 0)
+	char	*cwd;
+
+	cwd = NULL;
+	while (env)
 	{
-		free(env->value);
-		*str = getcwd(NULL, 0);
-		env->value = ft_strdup(*str);
-		free(*str);
+		up_pwd_util(env, str, flag);
+		env = env->next;
 	}
-	else if (ft_strncmp(env->key, "PWD\0", 4) == 0)
+	if (*flag == 0)
 	{
-		free(env->value);
-		*str = getcwd(NULL, 0);
-		env->value = ft_strdup(*str);
-		free(*str);
+		cwd = getcwd(NULL, 0);
+		add_to_node(ft_strdup("PWD"), ft_strdup(cwd), envir);
+		free(cwd);
 	}
 }
 
@@ -57,18 +42,12 @@ int	update_pwd(t_env **envir, int bool, char **pwd)
 	t_env		*env;
 	char		*points;
 	char		*str;
+	int			flag;
 
-	str = NULL;
-	points = NULL;
+	init_vars(&flag, &str, &points);
 	env = *envir;
 	if (bool == 0)
-	{
-		while (env)
-		{
-			up_pwd_util(env, &str);
-			env = env->next;
-		}
-	}
+		up_pwd_util2(env, &str, &flag, envir);
 	else if (bool == 2 || bool == 3)
 	{
 		if (bool == 2)
