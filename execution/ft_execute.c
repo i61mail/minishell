@@ -67,10 +67,8 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 
 	new_comm = NULL;
 	id = 0;
-
 	while (comm)
 	{
-		vars->override_es = 0;
 		comm = ft_setup(comm, &new_comm, vars);
 		if (comm)
 		{

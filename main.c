@@ -46,12 +46,6 @@ int	pars_exec(t_vars *vars, t_list *comm, t_env **envir)
 	add_history(vars->read);
 	if (ft_pars_comm(vars, &comm, envir) != -1)
 	{
-		// t_list *temp = comm;
-		// while (temp)
-		// {
-		// 	printf(" %s     %d\n", temp->content, temp->type);
-		// 	temp = temp->next;
-		// }
 		ft_execute(vars, comm, envir);
 		free(vars->read);
 	}
@@ -83,19 +77,19 @@ void	ft_readline(t_vars *vars, t_list *comm, t_env **envir, int ac)
 	}
 }
 
-void	ft_readline_test(t_vars *vars, t_list *comm, t_env **envir, int ac, char **av)
-{
+// void	ft_readline_test(t_vars *vars, t_list *comm, t_env **envir, int ac, char **av)
+// {
 
-	if (ac == 3)
-	{
-		vars->read = ft_strdup(av[2]);
-		if (!vars->read)
-		{
-			return ;
-		}
-		pars_exec(vars, comm, envir);
-	}
-}
+// 	if (ac == 3)
+// 	{
+// 		vars->read = ft_strdup(av[2]);
+// 		if (!vars->read)
+// 		{
+// 			return ;
+// 		}
+// 		pars_exec(vars, comm, envir);
+// 	}
+// }
 
 int	main(int ac, char **av, char **env)
 {
@@ -110,7 +104,6 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
 	ft_readline(&vars, comm, &envir, ac);
-	//ft_readline_test(&vars, comm, &envir, ac, av);
+	// ft_readline_test(&vars, comm, &envir, ac, av);
 	exit(vars.exit_status);
 }
-//exit 3 cv " "
