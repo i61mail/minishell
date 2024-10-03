@@ -45,6 +45,8 @@ int	heredoc_status(char *comp, char **str_temp, int *i, t_heredoc *herdoc)
 {
 	comp = ft_itoa(herdoc->parrent_status);
 	*str_temp = ft_strjoin(*str_temp, comp);
+	if (comp && comp[0] != '0')
+		free(comp);
 	(*i)++;
 	return (0);
 }
@@ -65,7 +67,7 @@ int	expanding_here(t_heredoc *herdoc, int *i, char **str_temp, t_env **envir)
 		(*i)++;
 	}
 	if (herdoc->here_line[*i] == '?')
-		heredoc_status(comp, str_temp, i, herdoc);
+		return (heredoc_status(comp, str_temp, i, herdoc), 0);
 	comp = ft_check_env_here(envir, comp, herdoc);
 	if (comp)
 		*str_temp = ft_strjoin(*str_temp, comp);
