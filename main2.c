@@ -31,7 +31,7 @@ void	old_search(t_vars *vars, t_list *comm)
 
 int	is_sep(t_vars *vars)
 {
-	if (vars->is_signal == 1)
+	if (vars->is_signal == 1 && vars->heredoc_fd != 0)
 		close(vars->heredoc_fd);
 	return (-1);
 }
