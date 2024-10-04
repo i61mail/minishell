@@ -14,7 +14,6 @@
 
 t_list	*ft_setup(t_list *comm, t_list **new_comm, t_vars *vars)
 {
-	vars->override_es = 0;
 	vars->pfd[0] = vars->old_fd;
 	vars->pfd[1] = 1;
 	*new_comm = ft_split_pipe(&comm, vars);

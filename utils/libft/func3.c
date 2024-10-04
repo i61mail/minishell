@@ -58,7 +58,7 @@ int	ft_overflow(long long b)
 {
 	static long long	a = LONG_MIN;
 
-	if (b - 1 < a)
+	if (b < a)
 		return (1);
 	a = b;
 	return (0);
