@@ -64,6 +64,7 @@ int	handle_dollar(t_args *args, t_env **envir, t_list **comm)
 	if (args->vars->not_pass == 0 || *(args->str_temp)[0] != '\0')
 	{
 		replace_expand(*(args->str_temp), comm, type);
+		return (0);
 	}
 	if (args->vars->bef_dollar == 0 && args->vars->not_pass == 1)
 	{
