@@ -12,72 +12,71 @@
 
 #include "../../minishell.h"
 
-int	ft_isalldegit(char *str)
+int	ft_numeric_arg(char *arg, t_vars *vars)
 {
-	while (str && *str)
-	{
-		if (!ft_isdigit(*str) && *str != '"' && *str != '+' && *str != '-')
-			return (0);
-		str++;
-	}
+	ft_put_error("minishell: exit: ", arg, ": numeric argument required");
+	vars->exit_status = 255;
+	return (0);
+}
+
+int	ft_too_many_args(t_vars *vars)
+{
+	ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+	vars->exit_status = 1;
+	return (0);
+}
+
+int	ft_isvalid_arg(char *arg, t_vars *vars)
+{
+	int i;
+	int stat;
+
+	i = 0;
+	if(arg && (arg[i] == '-' || arg[i] == '+'))
+		i++;
+	while(arg && ft_isdigit(arg[i]))
+		i++;
+	while(arg && ft_isspace(arg[i]))
+		i++;
+	if(arg && arg[i])
+		return (ft_numeric_arg(arg, vars));
+	stat = ft_atoi_2(arg, vars);
+	if(vars->atoifail)
+		return (ft_numeric_arg(arg, vars));
+	vars->exit_status = stat;
 	return (1);
 }
 
-int	ft_exit_err(t_list *comm, t_vars *vars)
+int	ft_exit_error(t_list *comm, t_vars *vars)
 {
-	unsigned int	status;
-
-	vars->atoifail = 0;
-	status = 0;
-	if (!comm)
-		return (vars->exit_status);
-	status = ft_atoi_2(comm->content, vars);
-	if (vars->atoifail)
-	{
-		ft_put_error("exit\nminishell: exit: ",
-			comm->content, ": numeric argument required");
-		vars->atoifail = 1;
-		exit(vars->exit_status = 255);
+	t_list *temp;
+	
+	temp = comm;
+	if (!comm || !(*comm->content))
 		return (-1);
-	}
-	if (comm->next)
-	{
-		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
-		vars->exit_status = 1;
-		vars->atoifail = 1;
-		return (1);
-	}
-	return (status);
+	if (!ft_isvalid_arg(comm->content, vars))
+		return (-1);
+	comm = comm->next;
+	if(comm && comm->content)
+		return(ft_too_many_args(vars), -2);
+	return (0);
 }
 
 int	ft_exit(t_list *comm, t_vars *vars)
 {
-	int	id;
-	int	status;
-
-	id = 0;
-	comm = comm->next;
-	status = ft_exit_err(comm, vars);
-	if (vars->atoifail)
+	if(!comm)
 		return (-1);
-	if (vars->numofpipes)
+	comm = comm->next;
+	if(!comm)
+		exit(vars->exit_status);
+	if(!(*comm->content))
 	{
-		if (!vars->pipe)
-		{
-			if (comm && comm->content)
-				vars->exit_status = ft_atoi_2(comm->content, vars);
-		}
-		id = fork();
-		if (!id)
-			exit(status);
-		else
-			wait(NULL);
-		return (0);
+		ft_numeric_arg(comm->content, vars);
+		exit(vars->exit_status);
 	}
-	else
-	{
-		ft_putstr_fd("exit\n", 2);
-		exit(status);
-	}
+	if (ft_exit_error(comm, vars) == -2)
+		return (-1);
+	if(!vars->numofpipes)
+		exit(vars->exit_status);
 	return (0);
 }

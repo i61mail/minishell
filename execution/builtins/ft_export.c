@@ -85,13 +85,11 @@ int	ft_export(t_env *envir, t_vars *vars, t_list *command)
 	if (!ft_strncmp(command->content, "export\0", 7)
 		&& !command->next)
 		ft_dump_env(envir, vars);
-	if (vars->numofpipes)
-		return (0);
 	else
 	{
 		while (temp)
 		{
-			if (ft_invalid_char(temp->content, vars) == 0)
+			if (ft_invalid_char(temp->content, vars) == 0 && !vars->numofpipes)
 				ft_handle_default(temp, &envir, vars);
 			temp = temp->next;
 		}

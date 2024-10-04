@@ -104,6 +104,6 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	rl_catch_signals = 0;
 	ft_readline(&vars, comm, &envir, ac);
-	// ft_readline_test(&vars, comm, &envir, ac, av);
+	//ft_readline_test(&vars, comm, &envir, ac, av);
 	exit(vars.exit_status);
 }

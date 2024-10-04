@@ -75,7 +75,6 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 		comm = ft_setup(comm, &new_comm, vars);
 		if (comm)
 		{
-			
 			if (!ft_is_builtin(comm->content))
 			{
 				vars->override_es = 0;
