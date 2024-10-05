@@ -15,7 +15,7 @@
 void	ft_ambiguos(t_list *next_node, t_vars *vars)
 {
 	(void)next_node;
-	ft_putstr_fd("minishell:", 2);// fix for test (echo a | ls > /dev/stdin )
+	ft_putstr_fd("minishell:", 2);
 	ft_putstr_fd(" ambiguous redirect\n", 2);
 	vars->exit_status = 1;
 }

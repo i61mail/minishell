@@ -67,14 +67,14 @@ int	ft_var_type(char *var, t_env *envir)
 		if (*var == '=' && *(var + 1))
 			return (0);
 		else if (*var == '=' && *(var + 1) == '\0')
-			return (3);// empty but with equal a=
+			return (3);
 		if (*var == '+' && *(var + 1) == '=')
-			return (1);// append a+=b z
+			return (1);
 		var++;
 	}
 	if (my_getenv(var, envir))
 		return (1);
-	return (4);//no value var export a
+	return (4);
 }
 
 void	ft_handle_split(t_list *comm, t_env **envir, t_vars *vars)

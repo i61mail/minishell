@@ -26,20 +26,6 @@ int	ft_too_many_args(t_vars *vars)
 	return (0);
 }
 
-int	isLongmin(char *num)
-{
-	int i;
-
-	i = 0;
-	if (!num)
-		return (0);
-	if (num[i] != '-')
-		return (0);
-	i++;
-	while (num[i] == '0')
-		i++;
-	return (strcmp(&num[i],"9223372036854775808\0") == 0);
-}
 int	ft_isvalid_arg(char *arg, t_vars *vars)
 {
 	int	i;

@@ -76,3 +76,18 @@ int	unset_not_valid(char *err, t_vars *vars)
 	vars->exit_status = 1;
 	return (1);
 }
+
+int	isLongmin(char *num)
+{
+	int	i;
+
+	i = 0;
+	if (!num)
+		return (0);
+	if (num[i] != '-')
+		return (0);
+	i++;
+	while (num[i] == '0')
+		i++;
+	return (strcmp(&num[i],"9223372036854775808\0") == 0);
+}
