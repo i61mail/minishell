@@ -91,11 +91,11 @@ int	append_dollar2_here(t_heredoc *herdoc, int *i, char **temp, t_env **envir)
 	if (herdoc->len % 2 != 0 && !ft_isdigit(herdoc->here_line[*i])
 		&& herdoc->here_line[*i] != '?' && !ft_isalpha(herdoc->here_line[*i])
 		&& herdoc->here_line[*i] != '_' && herdoc->len > 1)
-	{
 		*temp = ft_substr(herdoc->here_line, herdoc->start, herdoc->len);
-		if (!*temp)
-			return (-1);
-	}
+	else if (herdoc->len % 2 != 0 && !ft_isdigit(herdoc->here_line[*i])
+		&& herdoc->here_line[*i] != '?' && !ft_isalpha(herdoc->here_line[*i])
+		&& herdoc->here_line[*i] != '_')
+		*temp = ft_substr(herdoc->here_line, herdoc->start, herdoc->len);
 	else
 	{
 		*temp = ft_substr(herdoc->here_line, herdoc->start, herdoc->len - 1);
