@@ -26,6 +26,20 @@ int	ft_too_many_args(t_vars *vars)
 	return (0);
 }
 
+int	isLongmin(char *num)
+{
+	int i;
+
+	i = 0;
+	if (!num)
+		return (0);
+	if (num[i] != '-')
+		return (0);
+	i++;
+	while (num[i] == '0')
+		i++;
+	return (strcmp(&num[i],"9223372036854775808\0") == 0);
+}
 int	ft_isvalid_arg(char *arg, t_vars *vars)
 {
 	int	i;
@@ -40,6 +54,11 @@ int	ft_isvalid_arg(char *arg, t_vars *vars)
 		i++;
 	if (arg && arg[i])
 		return (ft_numeric_arg(arg, vars));
+	if(isLongmin(arg))
+	{
+		vars->exit_status = 0;
+		return (1);
+	}
 	stat = ft_atoi_2(arg, vars);
 	if (vars->atoifail)
 		return (ft_numeric_arg(arg, vars));
@@ -68,7 +87,10 @@ int	ft_exit(t_list *comm, t_vars *vars)
 		return (-1);
 	comm = comm->next;
 	if (!comm)
+	{
+		ft_putstr_fd("exit\n",2);
 		exit(vars->exit_status);
+	}
 	if (!(*comm->content))
 	{
 		ft_numeric_arg(comm->content, vars);
@@ -77,6 +99,9 @@ int	ft_exit(t_list *comm, t_vars *vars)
 	if (ft_exit_error(comm, vars) == -2)
 		return (-1);
 	if (!vars->numofpipes)
+	{
+		ft_putstr_fd("exit\n",2);
 		exit(vars->exit_status);
+	}
 	return (0);
 }
