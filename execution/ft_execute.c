@@ -31,6 +31,8 @@ void	ft_fd(t_vars *vars)
 {
 	dup_and_close(vars->pfd[1], 1);
 	dup_and_close(vars->old_fd, 0);
+	if(vars->pfd[0] != 0)
+		close(vars->pfd[0]);
 }
 
 void	ft_child(t_vars *vars, t_list *comm, t_env *envir)
@@ -69,11 +71,15 @@ void	ft_run(t_vars *vars, t_list *comm, t_env **envir)
 	id = 0;
 	while (comm)
 	{
+		vars->override_es = 1;
 		comm = ft_setup(comm, &new_comm, vars);
 		if (comm)
 		{
 			if (!ft_is_builtin(comm->content))
+			{
+				vars->override_es = 0;
 				id = ft_non_builtin(comm, envir, vars);
+			}
 			else
 				ft_builtin(comm, envir, vars);
 		}
