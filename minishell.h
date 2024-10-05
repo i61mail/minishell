@@ -204,6 +204,7 @@ void		main_init_vars(t_list **comm, t_vars *vars,
 				t_env **envir, char **env);
 int			shell_level(t_env **envir);
 void		warning_error(long long *increm);
+int			ft_overflow(long long *a, long long b);
 
 /*       heredoc          */
 

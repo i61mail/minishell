@@ -74,3 +74,11 @@ int	ft_isred(int t)
 		return (1);
 	return (0);
 }
+
+int	ft_overflow(long long *a, long long b)
+{
+	if (b < *a)
+		return (1);
+	*a = b;
+	return (0);
+}

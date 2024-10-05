@@ -14,6 +14,7 @@
 
 t_list	*ft_setup(t_list *comm, t_list **new_comm, t_vars *vars)
 {
+	vars->override_es = 1;
 	vars->pfd[0] = vars->old_fd;
 	vars->pfd[1] = 1;
 	*new_comm = ft_split_pipe(&comm, vars);
@@ -27,6 +28,7 @@ int	ft_non_builtin(t_list *comm, t_env **envir, t_vars *vars)
 {
 	int	id;
 
+	vars->override_es = 0;
 	id = fork();
 	if (ft_strncmp(comm->content, "./minishell\0", 12) == 0)
 		ft_catch(4, 5);

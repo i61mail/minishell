@@ -54,13 +54,12 @@ long long	ft_atoi(char *str)
 	return (result * sign);
 }
 
-int	ft_overflow(long long *a, long long b)
+static void	init_vars(long long *a, long long *result, int *i, int *sign)
 {
-
-	if (b < *a)
-		return (1);
-	*a = b;
-	return (0);
+	*a = LONG_MIN;
+	*result = 0;
+	*i = 0;
+	*sign = 1;
 }
 
 long long	ft_atoi_2(char *str, t_vars *vars)
@@ -70,10 +69,7 @@ long long	ft_atoi_2(char *str, t_vars *vars)
 	int			i;
 	int			sign;
 
-	a = LONG_MIN;
-	result = 0;
-	i = 0;
-	sign = 1;
+	init_vars(&a, &result, &i, &sign);
 	if (!str || !(*str))
 		return (vars->atoifail = 1);
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))

@@ -28,20 +28,20 @@ int	ft_too_many_args(t_vars *vars)
 
 int	ft_isvalid_arg(char *arg, t_vars *vars)
 {
-	int i;
-	int stat;
+	int	i;
+	int	stat;
 
 	i = 0;
-	if(arg && (arg[i] == '-' || arg[i] == '+'))
+	if (arg && (arg[i] == '-' || arg[i] == '+'))
 		i++;
-	while(arg && ft_isdigit(arg[i]))
+	while (arg && ft_isdigit(arg[i]))
 		i++;
-	while(arg && ft_isspace(arg[i]))
+	while (arg && ft_isspace(arg[i]))
 		i++;
-	if(arg && arg[i])
+	if (arg && arg[i])
 		return (ft_numeric_arg(arg, vars));
 	stat = ft_atoi_2(arg, vars);
-	if(vars->atoifail)
+	if (vars->atoifail)
 		return (ft_numeric_arg(arg, vars));
 	vars->exit_status = stat;
 	return (1);
@@ -49,34 +49,34 @@ int	ft_isvalid_arg(char *arg, t_vars *vars)
 
 int	ft_exit_error(t_list *comm, t_vars *vars)
 {
-	t_list *temp;
-	
+	t_list	*temp;
+
 	temp = comm;
 	if (!comm || !(*comm->content))
 		return (-1);
 	if (!ft_isvalid_arg(comm->content, vars))
 		return (-1);
 	comm = comm->next;
-	if(comm && comm->content)
-		return(ft_too_many_args(vars), -2);
+	if (comm && comm->content)
+		return (ft_too_many_args(vars), -2);
 	return (0);
 }
 
 int	ft_exit(t_list *comm, t_vars *vars)
 {
-	if(!comm)
+	if (!comm)
 		return (-1);
 	comm = comm->next;
-	if(!comm)
+	if (!comm)
 		exit(vars->exit_status);
-	if(!(*comm->content))
+	if (!(*comm->content))
 	{
 		ft_numeric_arg(comm->content, vars);
 		exit(vars->exit_status);
 	}
 	if (ft_exit_error(comm, vars) == -2)
 		return (-1);
-	if(!vars->numofpipes)
+	if (!vars->numofpipes)
 		exit(vars->exit_status);
 	return (0);
 }
