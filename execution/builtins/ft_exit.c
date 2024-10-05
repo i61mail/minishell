@@ -72,9 +72,10 @@ int	ft_exit(t_list *comm, t_vars *vars)
 	if (!comm)
 		return (-1);
 	comm = comm->next;
+	if(!vars->numofpipes)
+		ft_putstr_fd("exit\n",2);
 	if (!comm)
 	{
-		ft_putstr_fd("exit\n",2);
 		exit(vars->exit_status);
 	}
 	if (!(*comm->content))
@@ -85,9 +86,6 @@ int	ft_exit(t_list *comm, t_vars *vars)
 	if (ft_exit_error(comm, vars) == -2)
 		return (-1);
 	if (!vars->numofpipes)
-	{
-		ft_putstr_fd("exit\n",2);
 		exit(vars->exit_status);
-	}
 	return (0);
 }
