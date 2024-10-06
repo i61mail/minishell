@@ -19,6 +19,7 @@ void	ft_env(t_env *envir, t_vars *vars)
 	temp = envir;
 	while (temp)
 	{
+		vars->exit_status = 0;
 		if (temp->value
 			&& ft_strncmp(temp->key, "PATH\0", 5) == 0 && vars->env_i == 1)
 			temp = temp->next;

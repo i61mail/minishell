@@ -17,6 +17,7 @@ int	ft_unset_invalid_char(char *kandv, t_vars *vars)
 	int	i;
 
 	i = 0;
+	vars->exit_status = 0;
 	if (!kandv || !kandv[i])
 		return (unset_not_valid(kandv, vars));
 	if ((kandv && kandv[i]

@@ -64,7 +64,9 @@ void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars, t_env **envir)
 	int	var_chdir;
 
 	check_env(envir, old_pwd);
-	var_chdir = chdir(*old_pwd);
+	var_chdir = 0;
+	if (vars->numofpipes == 0)
+		var_chdir = chdir(*old_pwd);
 	if (var_chdir == 0)
 	{
 		ft_putstr_fd(*old_pwd, 1);
@@ -80,7 +82,7 @@ void	to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars, t_env **envir)
 
 void	to_home(t_vars *vars)
 {
-	if (chdir(getenv("HOME")))
+	if (!vars->numofpipes && chdir(getenv("HOME")))
 	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		vars->exit_status = 1;

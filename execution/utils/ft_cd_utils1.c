@@ -59,26 +59,28 @@ void	check_permission(t_vars *vars, t_list *comm)
 {
 	struct stat	path_stat;
 
-	vars->exit_status = 1;
 	if (access(comm->content, F_OK) == -1)
 	{
-		ft_put_error("minishell: cd:", comm->content,
-			": No such file or directory");
+		ft_put_error_cd("minishell: cd:", comm->content,
+			": No such file or directory", vars);
 		return ;
 	}
-	if (stat(comm->content, &path_stat) == -1)
+	else if (stat(comm->content, &path_stat) == -1)
 	{
-		ft_put_error("minishell: cd:", comm->content, ": stat error");
+		ft_put_error_cd("minishell: cd:", comm->content, ": stat error", vars);
 		return ;
 	}
-	if (S_ISDIR(path_stat.st_mode))
+	else if (S_ISDIR(path_stat.st_mode))
 	{
 		if (access(comm->content, X_OK) == -1)
-			ft_put_error("minishell: cd:", comm->content,
-				": Permission denied");
+		{
+			ft_put_error_cd("minishell: cd:", comm->content,
+				": Permission denied", vars);
+		}
 	}
 	else
-		ft_put_error("minishell: cd:", comm->content, ": Not a directory");
+		ft_put_error_cd("minishell: cd:", comm->content,
+			": Not a directory", vars);
 }
 
 void	update_pwd2(t_env *env, char **pwd, char *points)

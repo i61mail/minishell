@@ -74,11 +74,9 @@ int	ft_exit(t_list *comm, t_vars *vars)
 	comm = comm->next;
 	if (!vars->numofpipes)
 		ft_putstr_fd("exit\n", 2);
-	if (!comm)
-	{
+	if (!comm && vars->numofpipes == 0)
 		exit(vars->exit_status);
-	}
-	if (!(*comm->content))
+	if (comm && comm->content && comm->content[0] == '\0')
 	{
 		ft_numeric_arg(comm->content, vars);
 		exit(vars->exit_status);

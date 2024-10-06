@@ -93,3 +93,13 @@ void	up_pwd_util(t_env *env, char **str, int *flag)
 		free(*str);
 	}
 }
+
+int	ft_put_error_cd(char *before, char *sep, char *after, t_vars *vars)
+{
+	vars->exit_status = 1;
+	ft_putstr_fd(before, 2);
+	ft_putstr_fd(sep, 2);
+	ft_putstr_fd(after, 2);
+	ft_putstr_fd("\n", 2);
+	return (1);
+}

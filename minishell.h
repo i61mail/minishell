@@ -269,6 +269,7 @@ t_list		*ft_split_pipe(t_list **new_comm, t_vars *vars);
 int			ft_split_2(const char *str, const char *sep, char **k, char **v);
 int			ft_isred(int t);
 int			ft_put_error(char *before, char *sep, char *after);
+int			ft_put_error_cd(char *before, char *sep, char *after, t_vars *vars);
 char		*ft_strchr_2(const char *str, const char *sep);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void		ft_free_2d_array(char ***array);

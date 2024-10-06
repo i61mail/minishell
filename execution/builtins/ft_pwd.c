@@ -33,6 +33,7 @@ int	ft_pwd(t_vars *vars, t_env **envir)
 
 	pwd = NULL;
 	pwd = getcwd(pwd, PATH_MAX);
+	vars->exit_status = 0;
 	if (!pwd)
 	{
 		get_my_pwd(envir, &save_pwd);
