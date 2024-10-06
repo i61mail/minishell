@@ -57,8 +57,6 @@ void	skip_digit(t_vars *vars, int *i, int *check)
 		*check = 1;
 		(*i)++;
 	}
-	// if (*check == 1)
-	// 	vars->not_pass = 1;
 }
 
 int	sspace(char *str_temp)

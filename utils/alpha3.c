@@ -68,7 +68,7 @@ int	handle_dollar(t_args *args, t_env **envir, t_list **comm)
 	}
 	if (args->vars->bef_dollar == 0 && args->vars->not_pass == 1)
 	{
-		free(*(args->str_temp)); // double free
+		free(*(args->str_temp));
 	}
 	return (0);
 }

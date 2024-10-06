@@ -26,7 +26,7 @@ int	quotes(t_vars *vars, int *i, t_list **comm, t_env **envir)
 	return (0);
 }
 
-int	after_skip(char *str, int i, char c)//echo hudifg d | | hugdfihd 
+int	after_skip(char *str, int i, char c)
 {
 	while (ft_isspace(str[i]))
 		i++;
