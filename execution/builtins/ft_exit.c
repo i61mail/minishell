@@ -40,7 +40,7 @@ int	ft_isvalid_arg(char *arg, t_vars *vars)
 		i++;
 	if (arg && arg[i])
 		return (ft_numeric_arg(arg, vars));
-	if (isLongmin(arg))
+	if (is_longmin(arg))
 	{
 		vars->exit_status = 0;
 		return (1);

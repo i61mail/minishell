@@ -287,7 +287,7 @@ int			unset_not_valid(char *err, t_vars *vars);
 t_env		*ft_free_node(t_env *envir);
 void		up_pwd_util2(t_env *env, char **str, int *flag, t_env **envir);
 void		up_pwd_util(t_env *env, char **str, int *flag);
-int			isLongmin(char *num);
+int			is_longmin(char *num);
 
 /*		export utils 	*/
 
