@@ -34,13 +34,9 @@ void	regul_dir(t_vars *vars, char **old_pwd, t_list *comm, t_env **envir)
 	}
 	f = opendir(comm->content);
 	if (f)
-	{
 		closedir(f);
-		if (chdir(comm->content) != -1)
-			ft_remove_dir(old_pwd, envir, comm);
-		else
-			check_permission(vars, comm);
-	}
+	if (chdir(comm->content) != -1)
+		ft_remove_dir(old_pwd, envir, comm);
 	else
 		check_permission(vars, comm);
 }
