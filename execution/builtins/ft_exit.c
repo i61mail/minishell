@@ -40,7 +40,7 @@ int	ft_isvalid_arg(char *arg, t_vars *vars)
 		i++;
 	if (arg && arg[i])
 		return (ft_numeric_arg(arg, vars));
-	if(isLongmin(arg))
+	if (isLongmin(arg))
 	{
 		vars->exit_status = 0;
 		return (1);
@@ -72,8 +72,8 @@ int	ft_exit(t_list *comm, t_vars *vars)
 	if (!comm)
 		return (-1);
 	comm = comm->next;
-	if(!vars->numofpipes)
-		ft_putstr_fd("exit\n",2);
+	if (!vars->numofpipes)
+		ft_putstr_fd("exit\n", 2);
 	if (!comm)
 	{
 		exit(vars->exit_status);

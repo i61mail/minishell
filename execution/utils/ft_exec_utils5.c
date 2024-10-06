@@ -77,7 +77,7 @@ int	unset_not_valid(char *err, t_vars *vars)
 	return (1);
 }
 
-int	isLongmin(char *num)
+int	is_longmin(char *num)
 {
 	int	i;
 
@@ -89,5 +89,5 @@ int	isLongmin(char *num)
 	i++;
 	while (num[i] == '0')
 		i++;
-	return (strcmp(&num[i],"9223372036854775808\0") == 0);
+	return (ft_strcmp(&num[i], "9223372036854775808\0") == 0);
 }
