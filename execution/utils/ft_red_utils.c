@@ -24,10 +24,13 @@ int	ft_redout(t_list *next_node, t_vars *vars)
 {
 	int	fd;
 
-	if ((!strcmp(next_node->content, "stdout")
-			&& !strcmp(getcwd(NULL, PATH_MAX), "/dev"))
-		|| !strcmp(next_node->content, "/dev/stdout"))
+	if ((!ft_strcmp(next_node->content, "stdin")
+			&& !ft_strcmp(getcwd(NULL, PATH_MAX), "/dev"))
+		|| !ft_strcmp(next_node->content, "/dev/stdin"))
 	{
+		if (vars->numofpipes && vars->cmd_num)
+			return (ft_putstr_fd("minishell: /dev/stdin: \
+Permission denied\n", 2), -1);
 		return (0);
 	}
 	fd = open(next_node->content, O_CREAT | O_WRONLY | O_TRUNC, 0622);
@@ -66,15 +69,20 @@ int	ft_redin(t_list *next_node, t_vars *vars)
 {
 	int	fd;
 
-	if ((!strcmp(next_node->content, "stdin")
-			&& !strcmp(getcwd(NULL, PATH_MAX), "/dev"))
-		|| !strcmp(next_node->content, "/dev/stdin"))
+	if ((!ft_strcmp(next_node->content, "stdout")
+			&& !ft_strcmp(getcwd(NULL, PATH_MAX), "/dev"))
+		|| !ft_strcmp(next_node->content, "/dev/stdout"))
 	{
+		if (vars->numofpipes && vars->pipe)
+			return (ft_putstr_fd("minishell: /dev/stdout: \
+Permission denied\n", 2), -1);
 		return (0);
 	}
 	fd = open(next_node->content, O_RDONLY);
 	if (fd == -1)
 	{
+		if (vars->heredoc_fd != 0)
+			close(vars->heredoc_fd);
 		ft_putstr_fd("minishell: ", 2);
 		perror(next_node->content);
 		vars->exit_status = 1;
