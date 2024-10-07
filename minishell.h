@@ -23,7 +23,6 @@
 # include <signal.h>
 # include <sys/stat.h>
 # include <termios.h>
-# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -318,6 +317,7 @@ void		ft_remove_dir(char **old_pwd, t_env **envir, t_list *comm);
 void		reg_dir(char **old_pwd, t_env **envir);
 void		check_env(t_env **envir, char **old_pwd);
 void		up_oldpwd_util2(t_env *env, char *pwd, t_env **envir);
+void		ft_put_error_cd2(t_vars *vars, t_list *comm);
 
 /*   redirection utils   */
 

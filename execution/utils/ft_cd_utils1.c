@@ -61,8 +61,7 @@ void	check_permission(t_vars *vars, t_list *comm)
 
 	if (access(comm->content, F_OK) == -1)
 	{
-		ft_put_error_cd("minishell: cd:", comm->content,
-			": No such file or directory", vars);
+		ft_put_error_cd2(vars, comm);
 		return ;
 	}
 	else if (stat(comm->content, &path_stat) == -1)
@@ -77,6 +76,8 @@ void	check_permission(t_vars *vars, t_list *comm)
 			ft_put_error_cd("minishell: cd:", comm->content,
 				": Permission denied", vars);
 		}
+		else
+			ft_put_error_cd2(vars, comm);
 	}
 	else
 		ft_put_error_cd("minishell: cd:", comm->content,

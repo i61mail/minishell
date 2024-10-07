@@ -6,7 +6,7 @@
 /*   By: isrkik <isrkik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:05:03 by isrkik            #+#    #+#             */
-/*   Updated: 2024/10/07 12:05:20 by isrkik           ###   ########.fr       */
+/*   Updated: 2024/10/07 13:29:17 by isrkik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,10 @@ void	up_oldpwd_util2(t_env *env, char *pwd, t_env **envir)
 	}
 	if (flag == 0)
 		add_to_node("OLDPWD", ft_strdup(pwd), envir);
+}
+
+void	ft_put_error_cd2(t_vars *vars, t_list *comm)
+{
+	ft_put_error_cd("minishell: cd:", comm->content,
+		": No such file or directory", vars);
 }
