@@ -302,6 +302,7 @@ void		ft_dump_env(t_env *envir, t_vars *vars);
 char		**ft_sort_env(char **envir);
 void		ft_print_env(t_env *envir, t_vars *vars);
 char		**ft_2envkeys(t_env *envir);
+int			ft_condition(t_env *envir, t_vars *vars);
 
 /*      cd utils         */
 

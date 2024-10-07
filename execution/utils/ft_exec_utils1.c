@@ -25,7 +25,7 @@ char	**ft_2denv(t_env *envir, t_vars *vars)
 		return (NULL);
 	while (envir)
 	{
-		if (!envir->value || (!ft_strcmp("PATH", envir->key) && vars->env_i))
+		if (ft_condition(envir, vars))
 		{
 			envir = envir->next;
 			continue ;
