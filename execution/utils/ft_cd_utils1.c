@@ -76,7 +76,7 @@ void	check_permission(t_vars *vars, t_list *comm)
 			ft_put_error_cd("minishell: cd:", comm->content,
 				": Permission denied", vars);
 		}
-		else
+		else if (vars->numofpipes == 0)
 			ft_put_error_cd2(vars, comm);
 	}
 	else
