@@ -10,7 +10,7 @@ EXEC_MAN =	./execution/ft_execute.c ./execution/ft_execute2.c ./execution/builti
 	./execution/utils/ft_exec_utils1.c ./execution/utils/ft_exec_utils2.c ./execution/utils/ft_export_utils.c \
 	./execution/utils/ft_export_utils1.c ./execution/utils/ft_exec_utils3.c ./execution/utils/ft_exec_utils4.c \
 	./execution/utils/ft_cd_utils.c ./execution/utils/ft_red_utils.c ./execution/utils/ft_exec_utils5.c \
-	./execution/utils/ft_cd_utils1.c ./execution/utils/ft_cd_utils2.c
+	./execution/utils/ft_cd_utils1.c ./execution/utils/ft_cd_utils2.c ./execution/utils/ft_cd_utils3.c
 
 SRC_MAN =  $(EXEC_MAN)  main.c utils/list_utils.c utils/libft/func.c utils/libft/func1.c utils/libft/func2.c\
 	utils/libft/func3.c utils/libft/func4.c utils/libft/func5.c main2.c utils/init_vars.c \

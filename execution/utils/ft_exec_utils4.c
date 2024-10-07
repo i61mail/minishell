@@ -62,8 +62,9 @@ int	ft_is_builtin(char *command)
 
 int	ft_condition(t_env *envir, t_vars *vars)
 {
-	if ((!envir->value && (ft_strncmp("OLDPWD\0", envir->key, 7) == 0
-				&& vars->env_i == 1))
+	if ((ft_strncmp("OLDPWD\0", envir->key, 7) == 0
+			&& vars->env_i == 1) || (!envir->value
+			&& ft_strncmp("OLDPWD\0", envir->key, 7) != 0)
 		|| (!ft_strcmp("PATH", envir->key) && vars->env_i))
 		return (1);
 	return (0);

@@ -84,6 +84,11 @@ int	main(int ac, char **av, char **env)
 	t_env	*envir;
 
 	(void)av;
+	if (!isatty(0))
+	{
+		printf("invalid!\n");
+		exit(EXIT_FAILURE);
+	}
 	main_init_vars(&comm, &vars, &envir, env);
 	tcgetattr(0, &vars.reset);
 	signal(SIGINT, handle_ctrlc);

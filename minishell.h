@@ -317,6 +317,7 @@ void		check_permission(t_vars *vars, t_list *comm);
 void		ft_remove_dir(char **old_pwd, t_env **envir, t_list *comm);
 void		reg_dir(char **old_pwd, t_env **envir);
 void		check_env(t_env **envir, char **old_pwd);
+void		up_oldpwd_util2(t_env *env, char *pwd, t_env **envir);
 
 /*   redirection utils   */
 

@@ -12,15 +12,6 @@
 
 #include "../../minishell.h"
 
-void	up_oldpwd_util(t_env *env, char *pwd)
-{
-	if (ft_strncmp(env->key, "OLDPWD\0", 7) == 0)
-	{
-		free(env->value);
-		env->value = ft_strdup(pwd);
-	}
-}
-
 char	*update_old_pwd(t_env **envir)
 {
 	t_env		*env;
@@ -42,11 +33,7 @@ char	*update_old_pwd(t_env **envir)
 		}
 		env1 = env1->next;
 	}
-	while (env)
-	{
-		up_oldpwd_util(env, pwd);
-		env = env->next;
-	}
+	up_oldpwd_util2(env, pwd, envir);
 	return (pwd);
 }
 
