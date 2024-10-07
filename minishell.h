@@ -310,7 +310,7 @@ void		update_pwd2(t_env *env, char **pwd, char *points);
 int			update_pwd(t_env **envir, int bool, char **pwd);
 void		to_oldpwd(t_list *comm, char **old_pwd, t_vars *vars,
 				t_env **envir);
-void		to_home(t_vars *vars);
+void		to_home(t_vars *vars, t_env *envir);
 void		cd_error(void);
 void		check_permission(t_vars *vars, t_list *comm);
 void		ft_remove_dir(char **old_pwd, t_env **envir, t_list *comm);

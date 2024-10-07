@@ -60,7 +60,7 @@ void	cd_oldpwd(t_list *comm, t_vars *vars, char **old_pwd, t_env **envir)
 
 void	cd_home(t_vars *vars, char **old_pwd, t_env **envir)
 {
-	to_home(vars);
+	to_home(vars, *envir);
 	free(*old_pwd);
 	*old_pwd = update_old_pwd(envir);
 	update_pwd(envir, 0, old_pwd);
