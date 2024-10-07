@@ -85,12 +85,11 @@ void	ft_unset(t_list *command, t_env **envir, t_vars *vars)
 {
 	command = command->next;
 	vars->exit_status = 0;
-	if (vars->numofpipes)
-		return ;
 	while (command)
 	{
 		if (!((command->type == COMM)
-				&& ft_unset_invalid_char(command->content, vars)))
+				&& ft_unset_invalid_char(command->content, vars)
+				&& !vars->numofpipes))
 		{
 			ft_unset_vars(command, envir);
 		}
