@@ -13,7 +13,6 @@ A minimal Unix shell implemented in C. Minishell reproduces essential shell feat
 - [Operators & Redirections](#operators--redirections)
 - [Project Structure](#project-structure)
 - [Development Notes](#development-notes)
-- [Authors](#authors)
 
 ## Features
 
