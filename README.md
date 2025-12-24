@@ -142,10 +142,7 @@ minishell/
 
 ## Implementation Details
 
-
-## Architecture
-
-## Parsing Phase:
+Parsing Phase:
 
 - Tokenization - Input is split into tokens (commands, operators, arguments)
 - Quote Processing - Handle single/double quotes and escaping
@@ -153,7 +150,7 @@ minishell/
 - Heredoc Processing - Handle << operators with temporary files
 - Syntax Validation - Check for syntax errors
 
-## Execution Phase:
+Execution Phase:
 
 - Pipeline Setup - Create pipes for command chaining
 - Fork & Execute - Fork processes for external commands
