@@ -12,19 +12,21 @@ A minimal Unix shell implemented in C. Minishell reproduces essential shell feat
 - [Built-in Commands](#built-in-commands)
 - [Operators & Redirections](#operators--redirections)
 - [Project Structure](#project-structure)
-- [Development Notes](#development-notes)
+- [Implementation Details](#Implementation-Details)
+- [Acknowledgments](#Acknowledgments)
 
 ## Features
 
-- Interactive prompt with line editing and history (readline)
-- Execute binaries from PATH or by absolute/relative path
-- Pipes (|) and multiple chained commands
-- Input/output redirection (<, >, >>)
-- Here-documents (<<) with optional variable expansion
-- Environment variable expansion ($VAR) and special variables ($?, $$, $_)
-- Proper handling of single and double quotes
-- Built-in commands: cd, echo, pwd, export, unset, env, exit
-- Signal handling for interactive use (Ctrl-C, Ctrl-D, Ctrl-\)
+## Core Shell Functionality
+
+- Interactive prompt with readline support (command history, line editing)
+- Command execution from PATH or absolute/relative paths
+- Pipes (|) to chain multiple commands
+- Redirections for input/output management
+- Environment variable expansion with $ syntax
+- Quote handling (single ' and double " quotes)
+- Signal handling (Ctrl-C, Ctrl-D, Ctrl-'\')
+- Here-documents with variable expansion control
 
 ## Prerequisites & Build
 
@@ -138,9 +140,33 @@ minishell/
         └── heredoc_expansion.c
 ```
 
-## Development Notes
+## Implementation Details
 
-- Parsing pipeline: tokenization → quote handling → expansion → syntax check
-- Execution: build pipelines, fork/exec external commands, handle built-ins appropriately
-- Built-ins may be executed in the parent (when not in a pipeline) or in child processes when in a pipeline
-- Properly close file descriptors and free allocated memory to avoid leaks
+
+## Architecture
+
+## Parsing Phase:
+
+- Tokenization - Input is split into tokens (commands, operators, arguments)
+- Quote Processing - Handle single/double quotes and escaping
+- Variable Expansion - Expand $VAR and special variables
+- Heredoc Processing - Handle << operators with temporary files
+- Syntax Validation - Check for syntax errors
+
+## Execution Phase:
+
+- Pipeline Setup - Create pipes for command chaining
+- Fork & Execute - Fork processes for external commands
+- Built-in Handling - Execute built-ins in the parent process (single command) or child (pipes)
+- Redirection Setup - Handle file descriptors for <, >, >>, <<
+- Wait & Status - Collect exit statuses from child processes
+
+## Acknowledgments
+
+- This project it provides hands-on experience with:
+
+- Process management (fork, exec, wait)
+- File descriptor manipulation
+- Signal handling
+- Parsing and lexical analysis
+- Memory management in C
